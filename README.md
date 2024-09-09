@@ -1,5 +1,5 @@
-### fall2024-webtech-101
+# fall2024-webtech-101
 
-# Groupe Member :
+## Groupe Member :
 Nathan DEPRAT @Macbucheron1
 Ibrahim DIALLO @Xeroxx75
