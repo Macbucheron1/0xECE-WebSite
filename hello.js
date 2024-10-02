@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
   if (name === 'Nathan'){
     return res.send('Hello, I am Nathan, an engineering student interested in cybersecurity.');
   }
-  else if (name === 'ibrahim') {
+  else if (name === 'Ibrahim') {
     return res.send('Hello, I am Ibrahim, an engineering student interested in cybersecurity');
   }
   else{
