@@ -1,4 +1,4 @@
-# ECE Devops Lab
+# ECE webtech 101
 
 ## Table des matières
 
@@ -47,8 +47,6 @@ Follow those step to install the project localy:
       ```bash
       npm start
       ```
-
-## Group Member 
 
 ## Groupe Member :
  - Nathan DEPRAT [@Macbucheron1](https://github.com/Macbucheron1)
