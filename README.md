@@ -49,6 +49,14 @@ Follow those step to install the project localy:
       npm start
       ```
 
+## To contribute 
+When making changes use the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
+When you are done with your changes you can use :
+      ```bash
+      npm run release
+      ```
+This command will automaticli do the versioning in the change log file and will commit your changes.
+
 ## Groupe Member :
  - Nathan DEPRAT [@Macbucheron1](https://github.com/Macbucheron1)
  - Ibrahim DIALLO [@Xeroxx75](https://github.com/Xeroxx75)
