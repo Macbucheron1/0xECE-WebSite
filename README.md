@@ -5,6 +5,8 @@
 - [Description](#description)
 - [Prerequisites](#prerequisites)
 - [Install](#install)
+- [To contribute](#to-contribute)
+- [Group Member](#groupe-member)
 
 ## Description
 
@@ -64,6 +66,6 @@ Here are step you need to follow when contributing to the project:
 
 5. Push modification if it was not done automatically
 
-## Groupe Member :
+## Groupe Member
  - Nathan DEPRAT [@Macbucheron1](https://github.com/Macbucheron1)
  - Ibrahim DIALLO [@Xeroxx75](https://github.com/Xeroxx75)
