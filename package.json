@@ -1,12 +1,12 @@
 {
   "name": "fall2024-webtech-101",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Repository for the Web Technologies Web course Teacher : Mr. Paul Farault",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "develop": "nodemon index.js",
-    "release": "standard-version"
+    "release": "standard-version -t @lab@"
   },
   "author": "Macbucheron1",
   "contributors": [
@@ -18,11 +18,11 @@
   },
   "homepage": "https://github.com/Macbucheron1/fall2024-webtech-101#readme",
   "devDependencies": {
-    "nodemon": "^3.1.4"
+    "nodemon": "^3.1.4",
+    "standard-version": "^9.5.0"
   },
   "dependencies": {
-    "express": "^4.21.0",
-    "standard-version": "^9.5.0"
+    "express": "^4.21.0"
   },
   "standard-version": {
     "skip": {
