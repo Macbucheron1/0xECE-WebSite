@@ -1,6 +1,6 @@
 {
   "name": "fall2024-webtech-101",
-  "version": "1.1.8",
+  "version": "1.0.0",
   "description": "Repository for the Web Technologies Web course Teacher : Mr. Paul Farault",
   "main": "index.js",
   "scripts": {
