@@ -15,6 +15,7 @@ This is the repository for the Web tech course at ECE Paris
 Before trying to install the project make sur to install those technologie:
 
 - **[npm]** (v8.5.1 +)
+- **[Node.js]** (v12.22.9 +)
 
 ## Install
 
