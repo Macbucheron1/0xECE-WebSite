@@ -1,21 +1,26 @@
-const express = require('express');
+import express from 'express';
 const app = express();
 const port = 8080;
 
 // Import des routes
-const homeRoutes = require('./home');
-const helloRoutes = require('./hello');
+import homeRoutes from './home.js';
+import helloRoutes from './hello.js';
+import articlesRoutes from './articles.js';
 
-// Middleware pour les routes
+// Middleware to parse request body
+app.use(express.json());
+
+// Middleware for the routes
 app.use('/', homeRoutes);
 app.use('/hello', helloRoutes);
+app.use('/articles', articlesRoutes);
 
-// Gestion des erreurs 404
+// 404 error handling
 app.use((req, res) => {
   res.status(404).send('404 Not Found');
 });
 
-// Démarrer le serveur
+// Start the server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

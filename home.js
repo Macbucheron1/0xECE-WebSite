@@ -1,12 +1,12 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
 
-// Route principale expliquant le fonctionnement de /hello
+// Main route wich is the home page
 router.get('/', (req, res) => {
-  res.send(`
+  res.status(200).send(`
     <h1>Welcome to the Home Page</h1>
     <p>Visit <a href="/hello?name=yourname">/hello</a> and add a name query parameter to get a response.</p>
   `);
 });
 
-module.exports = router;
+export default router;

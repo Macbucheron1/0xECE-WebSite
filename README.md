@@ -57,14 +57,11 @@ Here are step you need to follow when contributing to the project:
 
 1. Modify the file 
 
-2. Verify the modification with `git status`
+2. Add and commit your modification using the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 
-3. Add and commit your modification using the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
+3. If it the end of a lab or a new version, use `git tag`
 
-4. Execute `npm run release`
-> This command will automatically do the versioning in the change log file and will commit your changes. It uses the standard-version dependencies
-
-5. Push modification if it was not done automatically
+4. Push modification if it was not done automatically
 
 ## Groupe Member
  - Nathan DEPRAT [@Macbucheron1](https://github.com/Macbucheron1)
