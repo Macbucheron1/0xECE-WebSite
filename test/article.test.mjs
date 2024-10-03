@@ -1,7 +1,7 @@
 import * as chai from 'chai';
 import supertest from 'supertest';
 import express from 'express';
-import router from '../articles.js'; // Assurez-vous que l'extension .js est incluse
+import router from '../API/articles.js'; // Assurez-vous que l'extension .js est incluse
 
 const { expect } = chai;
 

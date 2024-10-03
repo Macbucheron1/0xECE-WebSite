@@ -16,8 +16,8 @@ This is the repository for the Web tech course at ECE Paris
 
 Before trying to install the project make sur to install those technologie:
 
-- **[npm]** (v8.5.1 +)
-- **[Node.js]** (v12.22.9 +)
+- **[npm](https://docs.npmjs.com/cli/v10/commands/npm-install)** (v8.5.1 +)
+- **[Node.js](https://nodejs.org/en/download/package-manager)** (v12.22.9 +)
 
 ## Install
 
@@ -55,13 +55,16 @@ Follow those step to install the project localy:
 
 Here are step you need to follow when contributing to the project:
 
-1. Modify the file 
+1. Modify the file
 
-2. Add and commit your modification using the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
+2. Use `npm test` to test your application
+    >This will use [Mocha](https://mochajs.org/#installation) and [SuperTest](https://www.npmjs.com/package/supertest)
 
-3. If it the end of a lab or a new version, use `git tag`
+3. Add and commit your modification using the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 
-4. Push modification if it was not done automatically
+4. If it the end of a lab or a new version, use `git tag`
+
+5. Push modification 
 
 ## Groupe Member
  - Nathan DEPRAT [@Macbucheron1](https://github.com/Macbucheron1)
