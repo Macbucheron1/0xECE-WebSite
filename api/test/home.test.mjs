@@ -2,7 +2,7 @@
 import * as chai from 'chai';
 import supertest from 'supertest';
 import express from 'express';
-import homeRouter from '../API/home.js'; // Modifie le chemin vers ton fichier de route
+import homeRouter from '../lib/home.js'; // Modifie le chemin vers ton fichier de route
 
 const { expect } = chai;
 

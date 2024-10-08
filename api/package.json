@@ -5,17 +5,18 @@
   "description": "Repository for the Web Technologies Web course Teacher : Mr. Paul Farault",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "develop": "nodemon index.js",
+    "start": "node lib/index.js",
+    "develop": "nodemon lib/index.js",
     "test": "mocha"
   },
-  "author": "Macbucheron1",
+  "author": "Nathan Deprat <nathan.deprat@edu.ece.fr>",
   "contributors": [
-    "Xeroxx"
+    "Ibrahim Diallo <ibrahim.diallo@edu.ece.fr"
   ],
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Macbucheron1/fall2024-webtech-101/issues"
+    "url": "https://github.com/Macbucheron1/fall2024-webtech-101/issues",
+    "email": "nathan.deprat@edu.ece.fr"
   },
   "homepage": "https://github.com/Macbucheron1/fall2024-webtech-101#readme",
   "devDependencies": {

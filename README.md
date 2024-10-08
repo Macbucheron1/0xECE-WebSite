@@ -1,13 +1,5 @@
 # ECE webtech 101
 
-## Table des matières
-
-- [Description](#description)
-- [Prerequisites](#prerequisites)
-- [Install](#install)
-- [To contribute](#to-contribute)
-- [Group Member](#groupe-member)
-
 ## Description
 
 This is the repository for the Web tech course at ECE Paris
@@ -16,8 +8,8 @@ This is the repository for the Web tech course at ECE Paris
 
 Before trying to install the project make sur to install those technologie:
 
-- **[npm](https://docs.npmjs.com/cli/v10/commands/npm-install)** (v8.5.1 +)
-- **[Node.js](https://nodejs.org/en/download/package-manager)** (v12.22.9 +)
+- **[npm](https://docs.npmjs.com/cli/v10/commands/npm-install)** (v10.8.2 +)
+- **[Node.js](https://nodejs.org/en/download/package-manager)** (v20.17.0 +)
 
 ## Install
 
@@ -50,6 +42,50 @@ Follow those step to install the project localy:
       ```bash
       npm start
       ```
+
+
+## Usage
+
+There is 3 pages :
+1. Home
+
+    On this page you will be able to choose to be redirected to either **_hello_** or **_articles_** page
+
+2. Hello
+
+    This page will allow you be granted with a meaningful and personnal message. Simply change the url with your name. If you want a brief presentation about us you can have it using our names : **Ibrahim** and **Nathan**
+
+3. Articles
+
+    On this page you will see a list of all the articles.
+    To add an article you may use the following **curl** command :
+
+    ```bash
+    curl -X POST http://localhost:8080/articles \
+    -H "Content-Type: application/json" \
+    -d '{
+        "id": "1",
+        "title": "Mon premier article",
+        "content": "Ceci est le contenu de mon article.",
+        "author": "Nathan Deprat"
+    }'
+    ```
+
+    When you click on an article you can see the content and of the article. If you want to see the comment section click on the *comments*
+    
+
+    ```bash
+    curl -X POST http://localhost:8080/articles/1/comments \
+    -H "Content-Type: application/json" \
+    -d '{
+        "id": "1",
+        "content": "Ceci est un commentaire.",
+        "author": "Nathan Deprat"
+    }'
+
+    ```
+
+
 
 ## To contribute 
 
