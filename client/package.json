@@ -1,13 +1,13 @@
 {
-  "name": "fall2024-webtech-101",
+  "name": "client",
   "version": "1.0.0",
-  "type": "module",
-  "description": "Api folder for the Web Technologies Web course Teacher : Mr. Paul Farault",
+  "description": "Client folder for the Web Technologies Web course Teacher : Mr. Paul Farault",
   "main": "index.js",
   "scripts": {
-    "start": "node lib/index.js",
-    "develop": "nodemon lib/index.js",
-    "test": "mocha"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "author": "Nathan Deprat <nathan.deprat@edu.ece.fr>",
   "contributors": [
@@ -19,13 +19,14 @@
     "email": "nathan.deprat@edu.ece.fr"
   },
   "homepage": "https://github.com/Macbucheron1/fall2024-webtech-101#readme",
-  "devDependencies": {
-    "chai": "^5.1.1",
-    "mocha": "^10.7.3",
-    "nodemon": "^3.1.4",
-    "supertest": "^7.0.0"
-  },
   "dependencies": {
-    "express": "^4.21.0"
+    "next": "^14.2.15",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "22.7.5",
+    "@types/react": "18.3.11",
+    "typescript": "5.6.3"
   }
 }
