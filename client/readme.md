@@ -1,5 +1,3 @@
-Here is the README for your client-side project following the same format as the API:
-
 # Web Tech Client - ECE webtech 101
 
 ## Description
