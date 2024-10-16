@@ -4,13 +4,19 @@ module.exports = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
- 
-    // Or if using `src` directory:
-    //"./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        // Add Inter font family to your Tailwind theme
+        sans: ['Inter', 'sans-serif'],
+      },
+    },
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss-font-inter'),
+    require('@tailwindcss/typography'), 
+    require('@tailwindcss/forms'), 
+  ],
 }
 

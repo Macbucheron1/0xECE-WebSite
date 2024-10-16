@@ -1,8 +1,9 @@
+import "../../styles/globals.css"
+
 export default function Footer() {
-    return (
-      <footer>
-        <p>© 2024 My Blog. All rights reserved.</p>
-      </footer>
-    );
-  }
-  
+  return (
+    <footer className="bg-gray-800 p-4 text-center">
+      <p className="text-white text-sm">&copy; 2024 WebTech-101. All rights reserved.</p>
+    </footer>
+  );
+}
