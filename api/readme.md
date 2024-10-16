@@ -1,7 +1,5 @@
 # Web Tech API - ECE webtech 101
 
-## Description
-
 This is the API for the Web tech course at ECE Paris. It allows users to manage articles and comments programmatically.
 
 ## Prerequisites
