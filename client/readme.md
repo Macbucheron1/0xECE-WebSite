@@ -36,6 +36,7 @@ Follow these steps to install the client locally:
 4. Start the project:
 
     ```bash
+    npm build
     npm start
     ```
 
