@@ -8,8 +8,8 @@ export default function Articles() {
   ];
 
   return (
-    <div className="p-6 bg-blue-100 min-h-full">
-      <h2 className="text-2xl font-bold mb-4">Articles</h2>
+    <div className="p-6 min-h-full">
+      <h2 className="wt-title mb-6">Articles</h2>
       <ul className="space-y-2">
         {articles.map((article) => (
           <li key={article.id} className="bg-white p-4 rounded shadow">
