@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
         char.textContent = String.fromCharCode(33 + Math.random() * 94); // Random ASCII character
         char.style.left = Math.random() * 100 + 'vw';
         char.style.animationDelay = Math.random() * 5 + 's';
-        char.style.setProperty('--i', Math.random());
+        char.style.setProperty('--i', Math.random().toString());
         container.appendChild(char);
       }
     }
