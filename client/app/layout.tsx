@@ -16,11 +16,11 @@ export default function RootLayout({ children }) {
       />
       <body className="flex flex-col min-h-100vh">
         <Header
-          userName="Mac"
+          userName="NathanDeprat"
           profilePictureUrl={generateGravatarUrl("nathan.deprat@edu.ece.fr")}
         />
         <div className="hacker-background flex-grow">
-          <main className="bg-yellow-100 mt-170px sm:mt-120px md:mt-120px lg:mt-108px xl:mt-108px">
+          <main className="bg-yellow-100 mt-193px sm:mt-156px md:mt-156px  between_ipad_laptop:mt-156x laptop:mt-124px">
             {children}
           </main>
         </div>
