@@ -10,15 +10,19 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover"
+      />
       <body className="flex flex-col min-h-100vh">
         <Header
           userName="Mac"
           profilePictureUrl={generateGravatarUrl("nathan.deprat@edu.ece.fr")}
         />
         <div className="hacker-background flex-grow">
-            <main className="bg-yellow-100 mt-170px sm:mt-120px md:mt-120px lg:mt-108px xl:mt-108px"> 
-            {children} 
-            </main>
+          <main className="bg-yellow-100 mt-170px sm:mt-120px md:mt-120px lg:mt-108px xl:mt-108px">
+            {children}
+          </main>
         </div>
         <Footer />
       </body>

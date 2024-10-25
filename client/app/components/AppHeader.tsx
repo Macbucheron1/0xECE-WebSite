@@ -1,4 +1,3 @@
-import { userAgent } from "next/server";
 import { useState } from "react";
 
 interface HeaderProps {
@@ -53,7 +52,10 @@ const Header = ({ userName, profilePictureUrl }: HeaderProps) => {
                 placeholder="Search..."
                 type="text"
                 value={searchText}
-                onChange={(e) => setSearchText(e.target.value)}
+                onChange={(e) => {
+                  setSearchText(e.target.value);
+                  console.log(e.target.value);
+                }}
               />
               {searchText && (
                 <span
@@ -82,11 +84,12 @@ const Header = ({ userName, profilePictureUrl }: HeaderProps) => {
             <div className="relative lg:hidden flex items-center sm:ml-2 ml-auto">
               <button
                 className="flex items-center justify-center w-12 h-12 text-base font-medium leading-normal text-center align-middle transition-colors duration-150 ease-in-out bg-transparent border border-solid shadow-none cursor-pointer rounded-2xl text-stone-500 border-stone-200 hover:text-primary"
-                onClick={() =>
+                onClick={() => {
                   document
                     .querySelector(".group\\/sidebar")
-                    ?.classList.toggle("-translate-x-full")
-                }
+                    ?.classList.toggle("-translate-x-full");
+                  console.log("Menu");
+                }}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -107,7 +110,10 @@ const Header = ({ userName, profilePictureUrl }: HeaderProps) => {
 
             {/* Icons */}
             <div className="relative flex items-center ml-2 lg:ml-4">
-              <button className="flex items-center justify-center w-12 h-12 text-base font-medium leading-normal text-center transition-colors duration-150 ease-in-out bg-transparent border border-solid rounded-2xl text-stone-500 border-stone-200 hover:text-primary">
+              <button
+                className="flex items-center justify-center w-12 h-12 text-base font-medium leading-normal text-center transition-colors duration-150 ease-in-out bg-transparent border border-solid rounded-2xl text-stone-500 border-stone-200 hover:text-primary"
+                onClick={() => console.log("Reglage")}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -131,7 +137,10 @@ const Header = ({ userName, profilePictureUrl }: HeaderProps) => {
             </div>
 
             <div className="relative flex items-center ml-2 lg:ml-4">
-              <button className="flex items-center justify-center w-12 h-12 text-base font-medium leading-normal text-center transition-colors duration-150 ease-in-out bg-transparent border border-solid rounded-2xl text-stone-500 border-stone-200 hover:text-primary">
+              <button
+                className="flex items-center justify-center w-12 h-12 text-base font-medium leading-normal text-center transition-colors duration-150 ease-in-out bg-transparent border border-solid rounded-2xl text-stone-500 border-stone-200 hover:text-primary"
+                onClick={() => console.log("Notification")}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -150,9 +159,8 @@ const Header = ({ userName, profilePictureUrl }: HeaderProps) => {
             </div>
 
             <div className="relative flex items-center ml-2 lg:ml-4">
-              <button 
+              <button
                 className="flex items-center justify-center w-12 h-12 text-base font-semibold leading-normal text-center text-white align-middle transition-colors duration-150 ease-in-out shadow-none cursor-pointer rounded-2xl bg-primary hover:bg-primary-dark"
-                onClick={()=>console.log("1")}
               >
                 <span className="text-[1.15rem]">6</span>
               </button>
