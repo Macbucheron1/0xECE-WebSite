@@ -10,7 +10,7 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <body className="flex flex-col min-h-screen">
+      <body className="flex flex-col min-h-100vh">
         <Header
           userName="Mac"
           profilePictureUrl={generateGravatarUrl("nathan.deprat@edu.ece.fr")}

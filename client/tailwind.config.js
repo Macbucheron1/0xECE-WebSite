@@ -23,6 +23,9 @@ module.exports = {
         '16vh': '16vh',
         '20vh': '23vh',
       },
+      minHeight: {
+        '100vh': '100vh',
+      },
     },
   },
   plugins: [
