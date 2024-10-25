@@ -3,8 +3,27 @@ import '../../styles/globals.css';
 
 export default function Articles() {
   const articles = [
-    { id: '1', title: 'My First Blog Post' },
-    { id: '2', title: 'Understanding Next.js' },
+    { id: "1", title: "My First Blog Post" },
+    { id: "2", title: "Understanding Next.js" },
+    { id: "2", title: "Understanding Next.js" },
+    { id: "2", title: "Understanding Next.js" },
+    { id: "2", title: "Understanding Next.js" },
+    { id: "2", title: "Understanding Next.js" },
+    { id: "2", title: "Understanding Next.js" },
+    { id: "2", title: "Understanding Next.js" },
+    { id: "2", title: "Understanding Next.js" },
+    { id: "2", title: "Understanding Next.js" },
+    { id: "2", title: "Understanding Next.js" },
+    { id: "2", title: "Understanding Next.js" },
+    { id: "2", title: "Understanding Next.js" },
+    { id: "2", title: "Understanding Next.js" },
+    { id: "2", title: "Understanding Next.js" },
+    { id: "2", title: "Understanding Next.js" },
+    { id: "2", title: "Understanding Next.js" },
+    { id: "2", title: "Understanding Next.js" },
+    { id: "2", title: "Understanding Next.js" },
+    { id: "2", title: "Understanding Next.js" },
+    { id: "2", title: "Understanding Next.js" },
   ];
 
   return (
