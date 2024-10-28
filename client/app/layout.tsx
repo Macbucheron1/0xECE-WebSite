@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
           profilePictureUrl={generateGravatarUrl("nathan.deprat@edu.ece.fr")}
         />
         <div className="hacker-background flex-grow">
-          <main className="bg-yellow-100 mt-193px sm:mt-156px md:mt-156px  between_ipad_laptop:mt-156x laptop:mt-124px">
+          <main className="bg-yellow-100 mt-154px searchBar_invert:mt-100px">
             {children}
           </main>
         </div>
