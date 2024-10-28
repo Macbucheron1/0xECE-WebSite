@@ -10,7 +10,6 @@ interface HeaderProps {
 
 const Header = ({ userName, profilePictureUrl }: HeaderProps) => {
   const userNameRef = useRef(null);
-  const [isOverflowing, setIsOverflowing] = useState(false);
   const [searchText, setSearchText] = useState("");
   const isBigScreen = useMediaQuery({ query: "(min-width: 640px)" });
   const [isClient, setIsClient] = useState(false);
@@ -19,51 +18,36 @@ const Header = ({ userName, profilePictureUrl }: HeaderProps) => {
     setSearchText("");
   };
 
-  // Function to check if the component is overflowing
-  const checkOverflow = () => {
-    const element = userNameRef.current;
-    if (element) {
-      const isOverflow = element.scrollWidth > element.clientWidth;
-      setIsOverflowing(isOverflow);
-      if (isOverflow) {
-        console.log("overflow");
-      }
-    }
-  };
 
   useEffect(() => {
-    // Check overflow on component mount
-    checkOverflow();
 
     setIsClient(true);
 
-    // Optionally, you could listen for window resize to check overflow again
-    window.addEventListener("resize", checkOverflow);
-
-    return () => {
-      window.removeEventListener("resize", checkOverflow);
-    };
   }, []);
 
   return (
-    <div className="flex flex-wrap -mx-3 mb-5 rounded-lg fixed top-5 left-2 right-2 z-10">
-      <div className="px-3 mb-6 mx-auto w-11/12 bg-white rounded-xl">
-        <div className="bg-gray-100 sm:flex items-stretch justify-between grow lg:mb-0 py-5 px-5 ">
+    <div className="flex flex-wrap -mx-3 mb-5 rounded-lg fixed top-3 left-2 right-2 z-10">
+      <div className="px-2 mb-6 mx-auto w-11/12 bg-gray-100 rounded-xl">
+        <div
+          className={`bg-transparent sm:flex items-stretch justify-between grow lg:mb-0 py-4 px-5 ${
+            isClient && isBigScreen ? "" : "space-y-3"
+          }`}
+        >
           {isClient && isBigScreen ? (
             <>
               {/* Profile Info */}
               <button
-                className="bg-white flex items-center mb-5 mr-3 lg:mb-0 shadow-md rounded-full p-2 mt-5 laptop:mt-2 hover:shadow-xl"
+                className="bg-white flex items-center mr-3shadow-md rounded-2xl p-2 hover:shadow-xl"
                 onClick={() => console.log("Profile")}
               >
                 <img
                   src={profilePictureUrl}
                   alt={`${userName}'s profile`}
-                  className="w-10 h-10 rounded-full mr-0 md:mr-2"
+                  className="w-10 h-10 rounded-full mr-0 lg:mr-2"
                 />
                 <span
                   ref={userNameRef}
-                  className={`my-0  text-dark font-semibold text-[1.35rem]/[1.2] justify-center hidden md:block mr-2 max-w-[150px]`}
+                  className={`my-0  text-dark font-semibold text-[1.35rem]/[1.2] justify-center hidden lg:block mr-1 overflow-hidden`}
                 >
                   {userName}
                 </span>
@@ -202,6 +186,8 @@ const Header = ({ userName, profilePictureUrl }: HeaderProps) => {
             </>
           ) : (
             <>
+              {/* Search Bar top profile info bottom */}
+              {/* Search */}
               <div className="relative flex items-center lg:ml-4 sm:mr-0 mr-2">
                 <span className="absolute ml-4 leading-none -translate-y-1/2 top-1/2 text-muted">
                   <svg
@@ -251,17 +237,16 @@ const Header = ({ userName, profilePictureUrl }: HeaderProps) => {
                   </span>
                 )}
               </div>
-              {/* Search Bar top profile info bottom */}
-              <div className="flex items-center lg:shrink-0 lg:flex-nowrap">
+              <div className="flex items-center lg:shrink-0 lg:flex-nowrap justify-between w-full ">
                 {/* Profile Info */}
                 <button
-                  className="bg-white relative flex items-center mb-5 ml-auto lg:mb-0 shadow-md rounded-full p-2 mt-5 laptop:mt-2 hover:shadow-xl"
+                  className="bg-white relative flex items-center lg:mb-0 shadow-md w-12 h-12 rounded-2xl p-2 laptop:mt-2 hover:shadow-xl flex-shrink-0"
                   onClick={() => console.log("Profile")}
                 >
                   <img
                     src={profilePictureUrl}
                     alt={`${userName}'s profile`}
-                    className="w-10 h-10 rounded-full mr-0 md:mr-2"
+                    className="w-8 h-8 rounded-full mr-0 md:mr-2 object-cover object-center"
                   />
                   <span
                     ref={userNameRef}
