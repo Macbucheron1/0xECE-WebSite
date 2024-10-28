@@ -1,4 +1,3 @@
-import '../../../styles/globals.css';
 
 export default function Article({ params }) {
   const { id } = params;
