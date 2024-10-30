@@ -26,7 +26,7 @@ const SearchInput = () => {
         </svg>
       </span>
       <input
-        className="block w-full min-w-[70px] py-3 pl-12 pr-4 text-base font-medium leading-normal bg-white border border-solid outline-none appearance-none placeholder:text-secondary-dark peer text-stone-500 border-stone-200 bg-clip-padding rounded-2xl shadow hover:shadow-xl"
+        className="block w-full min-w-[70px] py-3 pl-12 pr-4 text-base font-medium leading-normal bg-white border border-solid outline-none appearance-none placeholder:text-secondary-dark peer text-stone-500 border-stone-200 bg-clip-padding rounded-2xl shadow hover:shadow-lg"
         placeholder="Search..."
         type="text"
         value={searchText}

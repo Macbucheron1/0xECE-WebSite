@@ -16,7 +16,7 @@ const NotificationButton = () => {
         </>
       ) : null}
       <button
-        className="flex items-center justify-center w-12 h-12 text-base font-medium leading-normal text-center transition-colors duration-150 ease-in-out bg-white shadow border border-solid rounded-2xl text-stone-500 border-stone-200 hover:shadow-xl"
+        className="flex items-center justify-center w-12 h-12 text-base font-medium leading-normal text-center transition-colors duration-150 ease-in-out bg-white shadow border border-solid rounded-2xl text-stone-500 border-stone-200 hover:shadow-lg"
         onClick={() => {
           console.log("Notification");
           router.push("/notification");

@@ -8,7 +8,7 @@ const ProfileButton = () => {
 
   return (
     <button
-      className="bg-white flex items-center mr-3 shadow-md rounded-2xl p-2 hover:shadow-xl"
+      className="bg-white flex items-center mr-3 shadow-md rounded-2xl p-2 hover:shadow-lg"
       onClick={() => {
         console.log("Profil");
         router.push(`/profil/${userName}`);

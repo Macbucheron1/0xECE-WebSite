@@ -7,6 +7,18 @@ module.exports = {
   ],
   theme: {
     extend: {
+      keyframes: {
+        slideIn: {
+          "0%": { opacity: 0, transform: "translateY(-20px)" },
+          "100%": { opacity: 1, transform: "translateY(0)" },
+        },
+      },
+      animation: {
+        slideIn: "slideIn 0.3s ease-out",
+      },
+      colors: {
+        customStone: "rgb(120, 113, 108)",
+      },
       fontFamily: {
         // Add Inter font family to your Tailwind theme
         sans: ["Inter", "sans-serif"],
@@ -19,10 +31,10 @@ module.exports = {
         "100vh": "100vh",
       },
       screens: {
-        "searchBar_invert": "640px", // Custom breakpoint starting at 640px
-        "between_ipad_laptop": "840px", // Custom breakpoint starting at 840px
+        searchBar_invert: "640px", // Custom breakpoint starting at 640px
+        between_ipad_laptop: "840px", // Custom breakpoint starting at 840px
         "between_ipad_laptop-max": { max: "1023px" }, // Custom breakpoint ending at 1023px
-        "laptop": "1024px", // Custom breakpoint starting at 1024px
+        laptop: "1024px", // Custom breakpoint starting at 1024px
       },
     },
   },
@@ -32,4 +44,3 @@ module.exports = {
     require("@tailwindcss/forms"),
   ],
 };
-
