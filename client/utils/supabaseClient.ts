@@ -1,0 +1,14 @@
+
+
+/**
+ * Supabase client
+ * 
+ * This module exports a Supabase client instance that can be used to interact with the Supabase API.
+ */
+
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
