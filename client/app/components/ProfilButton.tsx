@@ -1,43 +1,105 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "../../utils/supabaseClient";
 import { generateGravatarUrl } from "../../utils/gravatar";
 import LoginModal from "./LoginModal";
+import { DISCORD_CONFIG } from "../../config/discord";
 
 /**
  * ProfileButton component renders a button that displays the user's profile picture and name if the user is logged in.
  * If the user is not logged in, it displays a sign-in button.
- * 
+ *
  * The component uses Supabase for authentication and listens for authentication state changes.
- * 
- * 
+ *
+ *
  * @returns {JSX.Element} A button element that either shows the user's profile or a sign-in button.
- * 
+ *
  * @dependencies
  * - `useRouter` from 'next/router'
  * - `useState` and `useEffect` from 'react'
  * - `supabase` for authentication
  * - `LoginModal` component
- * 
+ *
  */
 const ProfileButton = () => {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const discordTokenRef = useRef(null);
+  const discordToken = 'qfT4h8FP2rvouRGcvJFuoZdg07tsKE';
+
+  useEffect(() => {
+    const fetchDiscordToken = async () => {
+      const response = await fetch("/api/auth/discord/cookie");
+      const data = await response.json();
+      console.log(data.response);
+      discordTokenRef.current = data.response;
+    };
+
+    fetchDiscordToken();
+  }, []);
 
   /**
    * Fetches the user information when the component mounts and listens for authentication state changes.
    */
   useEffect(() => {
     const fetchUser = async () => {
+      // First try to get existing Supabase session
       const {
         data: { user },
+        error,
       } = await supabase.auth.getUser();
-      setUser(user);
+
+      if (user) {
+        setUser(user);
+        return;
+      }
+
+      if (error) {
+        console.error("Error fetching user:", error.message);
+      }
+
+      // If no Supabase user, check for Discord token
+      console.log("Discord token:", discordToken);
+      if (discordToken) {
+        try {
+          // Get Discord user info
+          const discordResponse = await fetch(
+            "https://discord.com/api/users/@me",
+            {
+              headers: { Authorization: `Bearer ${discordToken}` },
+            }
+          );
+          const discordUser = await discordResponse.json();
+
+          // Sign in to Supabase with Discord credentials
+          const { data, error: signInError } =
+            await supabase.auth.signInWithOAuth({
+              provider: "discord",
+              options: {
+                token: discordToken,
+                user_metadata: {
+                  discord_user_id: discordUser.id,
+                  discord_username: discordUser.username,
+                },
+              },
+            });
+
+          if (signInError) {
+            console.error(
+              "Error signing in with Discord:",
+              signInError.message
+            );
+          } else if (data.user) {
+            setUser(data.user);
+          }
+        } catch (err) {
+          console.error("Error processing Discord token:", err);
+        }
+      }
     };
 
     fetchUser();
-
     /**
      * Subscribes to authentication state changes and updates the user state accordingly.
      */
@@ -52,16 +114,12 @@ const ProfileButton = () => {
     };
   }, []);
 
-  
   if (!user) {
     return (
       <>
         <button
           className="flex items-center justify-center w-12 h-12 text-base font-medium leading-normal text-center align-middle transition-colors duration-150 ease-in-out bg-white border border-solid shadow cursor-pointer rounded-2xl text-stone-500 border-stone-200 hover:shadow-lg"
-          onClick={() => {
-            console.log("Sign In");
-            setIsModalOpen(true);
-          }}
+          onClick={() => (window.location.href = DISCORD_CONFIG.AUTH_URL())}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
