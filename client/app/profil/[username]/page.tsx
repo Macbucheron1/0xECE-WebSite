@@ -5,9 +5,20 @@ import { supabase } from "../../../utils/supabaseClient";
 import { useRouter } from "next/navigation";
 
 const roleNames = {
-  "1227192380118138901" : "Membre",
-  "1225487330228310126" : "Bureau",
-  "1227564151946084363" : "President",
+  "1227192380118138901": "Membre",
+  "1225487330228310126": "Bureau",
+  "1227564151946084363": "President",
+};
+
+const promoNames = {
+  "1296446288614789162": "ing1",
+  "1296446375768096768": "ing2",
+  "1296446419556630619": "ing3",
+  "1296446455485304853": "ing4",
+  "1296446491119849603": "ing5",
+  "1296806777983205470": "Bachelor1",
+  "1296807354834223205": "Bachelor2",
+  "1296807400501673994": "Bachelor3",
 };
 
 /**
@@ -18,9 +29,11 @@ const roleNames = {
  */
 export default function UserProfile({ params }) {
   const { username } = params;
+  1296446491119849603;
   const [user, setUser] = useState(null);
   const router = useRouter();
   const [role, setRole] = useState(null);
+  const [promo, setPromo] = useState(null);
 
   /**
    * Fetches the user data from Supabase on component mount.
@@ -61,7 +74,7 @@ export default function UserProfile({ params }) {
 
         const data = await response.json();
         if (data.code == 10004) {
-          // User is not part of the guild
+          setRole("Non membre");
         } else {
           // User is part of the guild
           const userRole = data.roles;
@@ -69,18 +82,21 @@ export default function UserProfile({ params }) {
             if (roleNames[userRole[i]] !== undefined) {
               setRole(roleNames[userRole[i]]);
             }
+            if (promoNames[userRole[i]] !== undefined) {
+              setPromo(promoNames[userRole[i]]);
+            }
           }
         }
       } catch (error) {
         console.error("Error fetching role from discord:", error.message);
       }
-    }
+    };
 
-    if (window.localStorage.getItem("provider") === "discord") { // If the provider is not Discord we cannot fetch the role
+    if (window.localStorage.getItem("provider") === "discord") {
+      // If the provider is not Discord we cannot fetch the role
       fetchRole();
-    } 
+    }
   }, []);
-
 
   /**
    * Handles the logout functionality.
@@ -106,6 +122,7 @@ export default function UserProfile({ params }) {
           <p className="text-lg text-gray-700">Email: {user.email}</p>
           <p className="text-lg text-gray-700">Username: {username}</p>
           <p className="text-lg text-gray-700">Role: {role}</p>
+          <p className="text-lg text-gray-700">Promo: {promo}</p>
           <button
             className="mt-4 bg-red-500 text-white px-4 py-2 rounded"
             onClick={handleLogout}
