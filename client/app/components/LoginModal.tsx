@@ -1,7 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDiscord, faGithub } from "@fortawesome/free-brands-svg-icons";
-import { DISCORD_CONFIG } from "../../config/discord";
 import { supabase } from "../../utils/supabaseClient"; 
 
 interface LoginModalProps {

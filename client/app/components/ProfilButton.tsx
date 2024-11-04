@@ -3,7 +3,6 @@ import { useRouter } from "next/navigation";
 import { supabase } from "../../utils/supabaseClient";
 import { generateGravatarUrl } from "../../utils/gravatar";
 import LoginModal from "./LoginModal";
-import { DISCORD_CONFIG } from "../../config/discord";
 
 /**
  * ProfileButton component renders a button that displays the user's profile picture and name if the user is logged in.
