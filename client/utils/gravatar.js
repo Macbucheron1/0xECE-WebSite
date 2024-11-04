@@ -11,6 +11,4 @@ const email = "nathan.deprat@edu.ece.fr";
 const size = 200; // Optional size parameter
 const gravatarUrl = generateGravatarUrl(email, size);
 
-console.log("Gravatar URL:", gravatarUrl);
-
 export { generateGravatarUrl };

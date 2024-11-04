@@ -19,7 +19,7 @@ import LoginModal from "./LoginModal";
  * - `supabase` for authentication
  * - `LoginModal` component
  *
- */
+ */ 
 const ProfileButton = () => {
   const router = useRouter();
   const [user, setUser] = useState(null);
@@ -35,6 +35,8 @@ const ProfileButton = () => {
         data: { user },
       } = await supabase.auth.getUser();
       setUser(user);
+      if (user)
+        window.localStorage.setItem("provider", user.app_metadata.provider);      
     };
 
     fetchUser();
@@ -60,6 +62,7 @@ const ProfileButton = () => {
             "oauth_provider_refresh_token",
             session.provider_refresh_token
           );
+            
         }
         if (event === "SIGNED_OUT") {
           window.localStorage.removeItem("oauth_provider_token");

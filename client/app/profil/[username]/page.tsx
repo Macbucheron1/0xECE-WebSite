@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { supabase } from "../../../utils/supabaseClient";
 import { useRouter } from "next/navigation";
 
@@ -35,6 +35,16 @@ export default function UserProfile({ params }) {
     };
 
     fetchUser();
+  }, []);
+
+  useEffect(() => {
+    const fetchRole = async () => {
+      const token = window.localStorage.getItem("oauth_provider_token");
+    }
+
+    if (window.localStorage.getItem("provider") === "discord") { // If the provider is not Discord we cannot fetch the role
+      fetchRole();
+    } 
   }, []);
 
 
