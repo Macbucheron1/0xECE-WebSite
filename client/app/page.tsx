@@ -11,7 +11,7 @@ export default function Home() {
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
-    autoplay: true,
+    autop : true,
     autoplaySpeed: 3000,
     responsive: [
       {
@@ -100,39 +100,39 @@ export default function Home() {
           <Slider {...settings}>
             <div className="px-4">
               <div className="bg-gray-800 p-6 rounded-lg shadow">
-                <img src="/img/inconnu.png" alt="Témoignage 1" className="w-full h-48 object-cover rounded-lg mb-4" />
+                <img src="/img/inconnu.png" alt="Témoignage 1" className="w-32 h-32 mx-auto rounded-lg mb-4 object-cover" />
                 <p className="text-lg italic text-gray-300">"Une expérience incroyable en cybersécurité!"</p>
                 <p className="text-gray-400 mt-4 font-bold">Alice - Promo 2023</p>
               </div>
             </div>
             <div className="px-4">
               <div className="bg-gray-800 p-6 rounded-lg shadow">
-                <img src="/img/inconnu.png" alt="Témoignage 2" className="w-full h-48 object-cover rounded-lg mb-4" />
+                <img src="/img/inconnu.png" alt="Témoignage 2" className="w-32 h-32 mx-auto rounded-lg mb-4 object-cover" />
                 <p className="text-lg italic text-gray-300">"L'association m'a permis de progresser rapidement."</p>
                 <p className="text-gray-400 mt-4 font-bold">Bob - Promo 2022</p>
               </div>
             </div>
             <div className="px-4">
               <div className="bg-gray-800 p-6 rounded-lg shadow">
-                <img src="/img/inconnu.png" alt="Témoignage 3" className="w-full h-48 object-cover rounded-lg mb-4" />
+                <img src="/img/inconnu.png" alt="Témoignage 3" className="w-32 h-32 mx-auto rounded-lg mb-4 object-cover" />
                 <p className="text-lg italic text-gray-300">"Les CTFs en équipe, c'est le top pour apprendre!"</p>
                 <p className="text-gray-400 mt-4 font-bold">Charlie - Promo 2024</p>
               </div>
             </div>
             <div className="px-4">
               <div className="bg-gray-800 p-6 rounded-lg shadow">
-                <img src="/img/inconnu.png" alt="Témoignage 4" className="w-full h-48 object-cover rounded-lg mb-4" />
+                <img src="/img/inconnu.png" alt="Témoignage 4" className="w-32 h-32 mx-auto rounded-lg mb-4 object-cover" />
                 <p className="text-lg italic text-gray-300">"J'ai découvert ma passion pour la sécurité informatique ici!"</p>
                 <p className="text-gray-400 mt-4 font-bold">David - Promo 2023</p>
               </div>
             </div>
             <div className="px-4">
               <div className="bg-gray-800 p-6 rounded-lg shadow">
-                <img src="/img/inconnu.png" alt="Témoignage 5" className="w-full h-48 object-cover rounded-lg mb-4" />
+                <img src="/img/inconnu.png" alt="Témoignage 5" className="w-32 h-32 mx-auto rounded-lg mb-4 object-cover" />
                 <p className="text-lg italic text-gray-300">"Une communauté exceptionnelle et des projets passionnants!"</p>
                 <p className="text-gray-400 mt-4 font-bold">Eve - Promo 2024</p>
               </div>
-            </div>
+            </div> 
           </Slider>
         </div>
       </section>
