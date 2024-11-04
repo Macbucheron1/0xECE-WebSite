@@ -1,7 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDiscord, faGithub } from "@fortawesome/free-brands-svg-icons";
-import { supabase } from "../../utils/supabaseClient"; // Adjust the import path as needed
+import { supabase } from "../../utils/supabaseClient";
 
 interface LoginModalProps {
   onClose: () => void;
@@ -20,23 +20,30 @@ interface LoginModalProps {
  * @returns {JSX.Element} The rendered LoginModal component.
  */
 const LoginModal = ({ onClose }) => {
-
-
-/**
- * Handles the login process using OAuth with the specified provider.
- *
- * @param provider - The OAuth provider to use for login. Can be either "discord" or "github".
- * @returns A promise that resolves when the login process is complete.
- * @throws Will log an error message if the login process fails.
- */
+  /**
+   * Handles the login process using OAuth with the specified provider.
+   *
+   * @param provider - The OAuth provider to use for login. Can be either "discord" or "github".
+   * @returns A promise that resolves when the login process is complete.
+   * @throws Will log an error message if the login process fails.
+   */
   const handleLogin = async (provider: "discord" | "github") => {
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({ provider });
-      if (error) {
-        console.error(`Error logging in with ${provider}:`, error.message);
+    if (provider === "discord") {
+      await supabase.auth.signInWithOAuth({
+        provider: provider,
+        options: {
+          scopes: "identify email guilds guilds.members.read",
+        },
+      });
+    } else if (provider === "github") {
+      try {
+        const { error } = await supabase.auth.signInWithOAuth({ provider });
+        if (error) {
+          console.error(`Error logging in with ${provider}:`, error.message);
+        }
+      } catch (err) {
+        console.error("OAuth login error:", err);
       }
-    } catch (err) {
-      console.error("OAuth login error:", err);
     }
   };
 
