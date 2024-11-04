@@ -1,4 +1,4 @@
-import { use, useEffect, useRef, useState } from "react";
+import { memo, useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "../../utils/supabaseClient";
 import { generateGravatarUrl } from "../../utils/gravatar";
@@ -19,12 +19,20 @@ import LoginModal from "./LoginModal";
  * - `supabase` for authentication
  * - `LoginModal` component
  *
- */ 
-const ProfileButton = () => {
+ */
+const ProfileButton = memo(() => {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const handleButtonClick = useCallback(() => {
+    setIsModalOpen(true);
+  }, []);
+
+  const handleModalClose = useCallback(() => {
+    setIsModalOpen(false);
+  }, []);
+  
   /**
    * Fetches the user information when the component mounts and listens for authentication state changes.
    */
@@ -36,7 +44,7 @@ const ProfileButton = () => {
       } = await supabase.auth.getUser();
       setUser(user);
       if (user)
-        window.localStorage.setItem("provider", user.app_metadata.provider);      
+        window.localStorage.setItem("provider", user.app_metadata.provider);
     };
 
     fetchUser();
@@ -62,7 +70,6 @@ const ProfileButton = () => {
             "oauth_provider_refresh_token",
             session.provider_refresh_token
           );
-            
         }
         if (event === "SIGNED_OUT") {
           window.localStorage.removeItem("oauth_provider_token");
@@ -82,7 +89,7 @@ const ProfileButton = () => {
       <>
         <button
           className="flex items-center justify-center w-12 h-12 text-base font-medium leading-normal text-center align-middle transition-colors duration-150 ease-in-out bg-white border border-solid shadow cursor-pointer rounded-2xl text-stone-500 border-stone-200 hover:shadow-lg"
-          onClick={() => setIsModalOpen(true)}
+          onClick={handleButtonClick}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -99,7 +106,7 @@ const ProfileButton = () => {
             />
           </svg>
         </button>
-        {isModalOpen && <LoginModal onClose={() => setIsModalOpen(false)} />}
+        {isModalOpen && <LoginModal onClose={handleModalClose} />}
       </>
     );
   }
@@ -125,6 +132,6 @@ const ProfileButton = () => {
       </span>
     </button>
   );
-};
+});
 
 export default ProfileButton;

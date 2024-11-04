@@ -66,7 +66,6 @@ const Header = () => {
       window.removeEventListener("resize", updateNavMenuPosition);
     };
   }, []);
-  
 
   if (!isClient) {
     return null;
