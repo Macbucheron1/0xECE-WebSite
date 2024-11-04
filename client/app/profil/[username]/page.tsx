@@ -43,7 +43,6 @@ export default function UserProfile({ params }) {
    * Calls the signOut method from the Supabase auth object.
    * Redirects the user to the home page after logout.
    * If there is an error logging out, an error message will be logged to the console.
-   * If the user logged in using Discord, the current cookie will be erased.
    */
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
