@@ -8,3 +8,6 @@ package-lock.json
 .branches
 .temp
 .env
+
+#vscode 
+.vscode
