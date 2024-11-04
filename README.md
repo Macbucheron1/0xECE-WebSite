@@ -15,3 +15,4 @@ Here are the steps to contribute to the project:
 
 - Nathan DEPRAT [@Macbucheron1](https://github.com/Macbucheron1)
 - Ibrahim DIALLO [@Xeroxx75](https://github.com/Xeroxx75)
+
