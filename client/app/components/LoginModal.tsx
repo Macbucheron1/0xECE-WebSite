@@ -1,7 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDiscord, faGithub } from "@fortawesome/free-brands-svg-icons";
-import { supabase } from "../../utils/supabaseClient"; 
+import { supabase } from "../../utils/supabaseClient"; // Adjust the import path as needed
 
 interface LoginModalProps {
   onClose: () => void;
@@ -30,23 +30,13 @@ const LoginModal = ({ onClose }) => {
  * @throws Will log an error message if the login process fails.
  */
   const handleLogin = async (provider: "discord" | "github") => {
-    if (provider === "discord") {
-      await supabase.auth.signInWithOAuth({
-        provider: provider,
-        options: {
-          scopes: 'identify email guilds guilds.members.read',
-        },
-      });
-    } 
-    else if (provider === "github") {
-     try {
-       const { error } = await supabase.auth.signInWithOAuth({ provider });
-       if (error) {
-         console.error(`Error logging in with ${provider}:`, error.message);
-       }
-     } catch (err) {
-       console.error("OAuth login error:", err);
-     }
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({ provider });
+      if (error) {
+        console.error(`Error logging in with ${provider}:`, error.message);
+      }
+    } catch (err) {
+      console.error("OAuth login error:", err);
     }
   };
 
