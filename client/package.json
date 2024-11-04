@@ -26,11 +26,14 @@
     "@supabase/supabase-js": "^2.46.1",
     "@tailwindcss/forms": "^0.5.9",
     "@tailwindcss/typography": "^0.5.15",
+    "@types/react-slick": "^0.23.13",
     "crypto": "^1.0.1",
     "next": "^14.2.15",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-responsive": "^10.0.0",
+    "react-slick": "^0.30.2",
+    "slick-carousel": "^1.8.1",
     "tailwindcss-font-inter": "^3.1.0"
   },
   "devDependencies": {
