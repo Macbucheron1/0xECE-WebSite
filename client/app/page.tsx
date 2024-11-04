@@ -2,21 +2,23 @@
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useEffect, useState } from "react";
+import { supabase } from "../utils/supabaseClient";
 
 export default function Home() {
   {/* Configuration du carrousel de témoignages */}
   const settings = {  
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    autop : true,
+    dots: true,         /* Affiche les points de navigation */
+    infinite: true,     /* Boucle infinie */
+    speed: 500,         /* Vitesse de transition */ 
+    slidesToShow: 3,    /* Nombre de témoignages affichés */
+    slidesToScroll: 1,  /* Nombre de témoignages à faire défiler */
+    autoplay: true,       /* Lecture automatique */
     autoplaySpeed: 3000,
-    responsive: [
+    responsive: [       
       {
         breakpoint: 1024,
-        settings: {
+        settings: {       /* Configuration pour les écrans de taille 1024px et inférieure */
           slidesToShow: 2,
           slidesToScroll: 1
         }
@@ -30,6 +32,21 @@ export default function Home() {
       }
     ]
   };
+
+  {/* Récupération des témoignages depuis la base de données */}
+  const [testimonials, setTestimonials] = useState([]);
+  useEffect(() => {
+    const fetchTestimonials = async () => {
+      const { data, error } = await supabase.from('testimonials').select('*');
+      if (error) {
+        console.error(error);
+      } else {
+        setTestimonials(data);
+      }
+    };
+
+    fetchTestimonials();
+  }, []);
 
   return (
     <div className="p-6 bg-gray-900 text-white">
@@ -95,44 +112,26 @@ export default function Home() {
 
       {/* Témoignages */}
       <section className="my-32">
-        <h2 className="text-3xl font-bold text-center mb-6 text-blue-400">Témoignages</h2>
+        <h2 className="text-3xl font-bold mb-6 text-blue-400 text-center">Témoignages</h2>
         <div className="max-w-6xl mx-auto px-4">
           <Slider {...settings}>
-            <div className="px-4">
-              <div className="bg-gray-800 p-6 rounded-lg shadow">
-                <img src="/img/inconnu.png" alt="Témoignage 1" className="w-32 h-32 mx-auto rounded-lg mb-4 object-cover" />
-                <p className="text-lg italic text-gray-300">"Une expérience incroyable en cybersécurité!"</p>
-                <p className="text-gray-400 mt-4 font-bold">Alice - Promo 2023</p>
+            {testimonials.map((testimonial) => (
+              <div key={testimonial.id} className="px-4">
+                <div className="bg-gray-800 p-6 rounded-lg shadow h-96 flex flex-col">
+                  <img
+                    src={testimonial.image_url}
+                    alt="Témoignage"
+                    className="w-32 h-32 mx-auto rounded-lg mb-4 object-cover"
+                  />
+                  <p className="text-lg italic text-gray-300 flex-grow">
+                    "{testimonial.message}"
+                  </p>
+                  <p className="text-right mt-4 text-blue-400 font-bold">
+                    {testimonial.name} - {testimonial.promo}
+                  </p>
+                </div>
               </div>
-            </div>
-            <div className="px-4">
-              <div className="bg-gray-800 p-6 rounded-lg shadow">
-                <img src="/img/inconnu.png" alt="Témoignage 2" className="w-32 h-32 mx-auto rounded-lg mb-4 object-cover" />
-                <p className="text-lg italic text-gray-300">"L'association m'a permis de progresser rapidement."</p>
-                <p className="text-gray-400 mt-4 font-bold">Bob - Promo 2022</p>
-              </div>
-            </div>
-            <div className="px-4">
-              <div className="bg-gray-800 p-6 rounded-lg shadow">
-                <img src="/img/inconnu.png" alt="Témoignage 3" className="w-32 h-32 mx-auto rounded-lg mb-4 object-cover" />
-                <p className="text-lg italic text-gray-300">"Les CTFs en équipe, c'est le top pour apprendre!"</p>
-                <p className="text-gray-400 mt-4 font-bold">Charlie - Promo 2024</p>
-              </div>
-            </div>
-            <div className="px-4">
-              <div className="bg-gray-800 p-6 rounded-lg shadow">
-                <img src="/img/inconnu.png" alt="Témoignage 4" className="w-32 h-32 mx-auto rounded-lg mb-4 object-cover" />
-                <p className="text-lg italic text-gray-300">"J'ai découvert ma passion pour la sécurité informatique ici!"</p>
-                <p className="text-gray-400 mt-4 font-bold">David - Promo 2023</p>
-              </div>
-            </div>
-            <div className="px-4">
-              <div className="bg-gray-800 p-6 rounded-lg shadow">
-                <img src="/img/inconnu.png" alt="Témoignage 5" className="w-32 h-32 mx-auto rounded-lg mb-4 object-cover" />
-                <p className="text-lg italic text-gray-300">"Une communauté exceptionnelle et des projets passionnants!"</p>
-                <p className="text-gray-400 mt-4 font-bold">Eve - Promo 2024</p>
-              </div>
-            </div> 
+            ))}
           </Slider>
         </div>
       </section>
