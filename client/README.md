@@ -1,6 +1,6 @@
 # Web Tech Client - ECE webtech 101
 
-This is the client-side of the Web Tech course project at ECE Paris, designed for blogging purposes. The website is built using React and Next.js, and allows users to navigate through multiple pages such as Home, About, Contacts, and Articles
+This is the client-side of the Web Tech course project at ECE Paris, designed for blogging purposes. The website is built using React and Next.js, and allows users to navigate through multiple pages such as Home, About, Contacts, and Articles.
 
 ## Prerequisites
 
