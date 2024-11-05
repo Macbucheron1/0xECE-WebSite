@@ -6,46 +6,17 @@ import { useEffect, useState } from "react";
 import { supabase } from "../utils/supabaseClient";
 
 export default function Home() {
-  {/* Configuration du carrousel de témoignages */}
-  const settings = {  
-    dots: true,         /* Affiche les points de navigation */
-    infinite: true,     /* Boucle infinie */
-    speed: 500,         /* Vitesse de transition */ 
-    slidesToShow: 3,    /* Nombre de témoignages affichés */
-    slidesToScroll: 1,  /* Nombre de témoignages à faire défiler */
-    autoplay: true,       /* Lecture automatique */
-    autoplaySpeed: 3000,
-    responsive: [       
-      {
-        breakpoint: 1024,
-        settings: {       /* Configuration pour les écrans de taille 1024px et inférieure */
-          slidesToShow: 2,
-          slidesToScroll: 1
-        }
-      },
-      {
-        breakpoint: 640,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1
-        }
-      }
-    ]
-  };
-
-
   {/* Récupération des témoignages depuis la base de données */}
   const [testimonials, setTestimonials] = useState([]);
+  const fetchTestimonials = async () => {
+    const { data, error } = await supabase.from('testimonials').select('*');
+    if (error) {
+      console.error(error);
+    } else {
+      setTestimonials(data);
+    }
+  };
   useEffect(() => {
-    const fetchTestimonials = async () => {
-      const { data, error } = await supabase.from('testimonials').select('*');
-      if (error) {
-        console.error(error);
-      } else {
-        setTestimonials(data);
-      }
-    };
-
     fetchTestimonials();
   }, []);
 
@@ -59,8 +30,52 @@ export default function Home() {
       } = await supabase.auth.getUser();
       setUser(user);
     };
+    fetchUser();
   });
-  console.log(user);
+  
+  {/* Création d'un témoignage */}
+  const createTestimonial = async () => {
+    const { error } = await supabase.from('testimonials').insert([
+      {
+        username: user.user_metadata.name,    //Discord username
+        message: 'Votre message ici',
+        image_url: user.user_metadata.avatar_url,
+        name: 'Votre nom',
+      },
+    ]);
+    if (error) {
+      console.error(error);
+    } else {
+      fetchTestimonials();
+    }
+  };
+
+  // Modifier la configuration du slider
+  const settings = {  
+    dots: true,
+    infinite: testimonials.length > 3,  // Désactive le défilement infini s'il y a moins de 3 témoignages
+    speed: 500,
+    slidesToShow: Math.min(3, testimonials.length), // Limite le nombre de slides au nombre de témoignages disponibles
+    slidesToScroll: 1,
+    autoplay: testimonials.length > 3,  // Désactive l'autoplay s'il y a moins de 3 témoignages
+    autoplaySpeed: 3000,
+    responsive: [       
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: Math.min(2, testimonials.length),
+          slidesToScroll: 1
+        }
+      },
+      {
+        breakpoint: 640,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
+  };
 
   return (
     <div className="p-6 bg-gray-900 text-white">
@@ -128,27 +143,61 @@ export default function Home() {
       <section className="my-32">
         <h2 className="text-3xl font-bold mb-6 text-blue-400 text-center">Témoignages</h2>
         <div className="max-w-6xl mx-auto px-4">
-          <Slider {...settings}>
-            {testimonials.map((testimonial) => (
-              <div key={testimonial.username} className="px-4">
-                <div className="bg-gray-800 p-6 rounded-lg shadow h-96 flex flex-col">
-                  <img
-                    src={testimonial.image_url} 
-                    alt="Témoignage"
-                    className="w-32 h-32 mx-auto rounded-lg mb-4 object-cover"
-                  />
-                  <p className="text-lg italic text-gray-300 flex-grow">
-                    "{testimonial.message}"
-                  </p>
-                  <p className="text-right mt-4 text-blue-400 font-bold">
-                    {testimonial.name} - {testimonial.promo}   
-                  </p>
+          {testimonials.length > 0 ? (
+            <Slider {...settings}>
+              {testimonials.map((testimonial) => (
+                <div key={testimonial.username} className="px-4">
+                  <div className="bg-gray-800 p-6 rounded-lg shadow h-96 flex flex-col max-w-sm mx-auto">
+                    <img
+                      src={testimonial.image_url} 
+                      alt="Témoignage"
+                      className="w-32 h-32 mx-auto rounded-lg mb-4 object-cover"
+                    />
+                    <p className="text-lg italic text-gray-300 flex-grow">
+                      "{testimonial.message}"
+                    </p>
+                    <p className="text-right mt-4 text-blue-400 font-bold">
+                      {testimonial.name}- Promo 
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </Slider>
+              ))}
+            </Slider>
+          ) : (
+            <p className="text-center text-gray-400">Aucun témoignage disponible pour le moment.</p>
+          )}
+          
         </div>
+        {user && (
+          <button
+            className="mt-4 bg-green-500 text-white px-4 py-2 rounded"
+            onClick={createTestimonial}
+          >
+            Ajouter un témoignage
+          </button>
+        )}
       </section>
     </div>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
