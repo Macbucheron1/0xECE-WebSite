@@ -29,11 +29,11 @@ const promoNames = {
  */
 export default function UserProfile({ params }) {
   const { username } = params;
-  1296446491119849603;
   const [user, setUser] = useState(null);
   const router = useRouter();
   const [role, setRole] = useState(null);
   const [promo, setPromo] = useState(null);
+  const [number_of_providers, setNumber_of_providers] = useState(null);
 
   /**
    * Fetches the user data from Supabase on component mount.
@@ -51,6 +51,7 @@ export default function UserProfile({ params }) {
         console.error("Error fetching user:", error.message);
       } else {
         setUser(user);
+        const response = window.localStorage.getItem("provider");
       }
     };
 
@@ -92,10 +93,8 @@ export default function UserProfile({ params }) {
       }
     };
 
-    if (window.localStorage.getItem("provider") === "discord") {
-      // If the provider is not Discord we cannot fetch the role
-      fetchRole();
-    }
+
+    fetchRole();
   }, []);
 
   /**
@@ -113,6 +112,33 @@ export default function UserProfile({ params }) {
     }
   };
 
+  const handleLink = async () => {
+    const currentProvider = window.localStorage.getItem("provider");
+    if (currentProvider === "discord") {
+      const { data, error } = await supabase.auth.linkIdentity({
+        provider: "github",
+      });
+      if (error) {
+        console.error("Error linking account with github:", error.message);
+      }
+    } else if (currentProvider === "github") {
+      const { data, error } = await supabase.auth.linkIdentity({
+        provider: "discord",
+        options: {
+          scopes: "identify email guilds guilds.members.read",
+        },
+      });
+      if (error) {
+        console.error("Error linking account with discord:", error.message);
+      }
+    }
+  };
+
+  useEffect(() => {
+    setNumber_of_providers(window.localStorage.getItem("number_of_providers"));
+    console.log(number_of_providers);
+  });
+
   return (
     <div className="p-6">
       <h1 className="text-3xl font-bold mb-4">User Profile</h1>
@@ -129,6 +155,14 @@ export default function UserProfile({ params }) {
           >
             Logout
           </button>
+            {number_of_providers < 2 && (
+            <button
+              className="mt-4 bg-green-500 text-white px-4 py-2 rounded"
+              onClick={handleLink}
+            >
+              Link {window.localStorage.getItem("provider") === "discord" ? "Github" : "Discord"}
+            </button>
+            )}
         </div>
       ) : (
         <p className="text-lg text-gray-700 mb-2">

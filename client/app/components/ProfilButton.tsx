@@ -32,7 +32,7 @@ const ProfileButton = memo(() => {
   const handleModalClose = useCallback(() => {
     setIsModalOpen(false);
   }, []);
-  
+
   /**
    * Fetches the user information when the component mounts and listens for authentication state changes.
    */
@@ -43,8 +43,9 @@ const ProfileButton = memo(() => {
         data: { user },
       } = await supabase.auth.getUser();
       setUser(user);
-      if (user)
+      if (user) {
         window.localStorage.setItem("provider", user.app_metadata.provider);
+      }
     };
 
     fetchUser();
@@ -52,32 +53,45 @@ const ProfileButton = memo(() => {
     // Set up auth state listener to update user state on changes
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, session) => {
+        const initial_provider = window.localStorage.getItem("provider");
+        const number_of_providers =
+          session?.user?.app_metadata.providers.length;
+        window.localStorage.setItem("number_of_providers", number_of_providers);
+        var writing_local_storage = false;
+        if (
+          (number_of_providers === 1 && initial_provider === "discord") ||
+          (number_of_providers === 2 && initial_provider === "github")
+        ) {
+          writing_local_storage = true;
+        }
+
         if (session?.user) {
           setUser(session.user); // Update user state when logged in
         } else {
           setUser(null); // Clear user state when logged out
         }
 
-        // Store tokens or remove them based on auth state
-        if (session?.provider_token) {
-          window.localStorage.setItem(
-            "oauth_provider_token",
-            session.provider_token
-          );
-        }
-        if (session?.provider_refresh_token) {
-          window.localStorage.setItem(
-            "oauth_provider_refresh_token",
-            session.provider_refresh_token
-          );
-        }
-        if (event === "SIGNED_OUT") {
-          window.localStorage.removeItem("oauth_provider_token");
-          window.localStorage.removeItem("oauth_provider_refresh_token");
+        if (writing_local_storage) {
+          // Store tokens or remove them based on auth state
+          if (session?.provider_token) {
+            window.localStorage.setItem(
+              "oauth_provider_token",
+              session.provider_token
+            );
+          }
+          if (session?.provider_refresh_token) {
+            window.localStorage.setItem(
+              "oauth_provider_refresh_token",
+              session.provider_refresh_token
+            );
+          }
+          if (event === "SIGNED_OUT") {
+            window.localStorage.removeItem("oauth_provider_token");
+            window.localStorage.removeItem("oauth_provider_refresh_token");
+          }
         }
       }
     );
-
     // Clean up listener on component unmount
     return () => {
       authListener?.subscription.unsubscribe();
@@ -111,7 +125,7 @@ const ProfileButton = memo(() => {
     );
   }
 
-  const userName = user.user_metadata.full_name || user.email;
+  const userName = user.user_metadata.full_name || user.user_metadata.user_name;
   const profilePictureUrl = generateGravatarUrl(user.email);
 
   return (
