@@ -33,6 +33,7 @@ export default function Home() {
     ]
   };
 
+
   {/* Récupération des témoignages depuis la base de données */}
   const [testimonials, setTestimonials] = useState([]);
   useEffect(() => {
@@ -47,6 +48,19 @@ export default function Home() {
 
     fetchTestimonials();
   }, []);
+
+  {/* Récupération de l'utilisateur connecté */}
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    // Fetch the initial user state
+    const fetchUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      setUser(user);
+    };
+  });
+  console.log(user);
 
   return (
     <div className="p-6 bg-gray-900 text-white">
@@ -116,10 +130,10 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-4">
           <Slider {...settings}>
             {testimonials.map((testimonial) => (
-              <div key={testimonial.id} className="px-4">
+              <div key={testimonial.username} className="px-4">
                 <div className="bg-gray-800 p-6 rounded-lg shadow h-96 flex flex-col">
                   <img
-                    src={testimonial.image_url}
+                    src={testimonial.image_url} 
                     alt="Témoignage"
                     className="w-32 h-32 mx-auto rounded-lg mb-4 object-cover"
                   />
@@ -127,7 +141,7 @@ export default function Home() {
                     "{testimonial.message}"
                   </p>
                   <p className="text-right mt-4 text-blue-400 font-bold">
-                    {testimonial.name} - {testimonial.promo}
+                    {testimonial.name} - {testimonial.promo}   
                   </p>
                 </div>
               </div>
