@@ -7,46 +7,84 @@ import { supabase } from "../utils/supabaseClient";
 
 export default function Home() {
   {/* Récupération des témoignages depuis la base de données */}
-  const [testimonials, setTestimonials] = useState([]);
+  const [testimonials, setTestimonials] = useState([]); //variable d'état pour stocker les témoignages
   const fetchTestimonials = async () => {
-    const { data, error } = await supabase.from('testimonials').select('*');
+    const { data, error } = await supabase.from('testimonials').select('*'); //SELECT * FROM testimonials
     if (error) {
       console.error(error);
     } else {
-      setTestimonials(data);
+      setTestimonials(data); //stocker les témoignages dans la variable d'état
     }
   };
   useEffect(() => {
-    fetchTestimonials();
+    fetchTestimonials();  //appel de la fonction fetchTestimonials lors du montage du composant
   }, []);
 
   {/* Récupération de l'utilisateur connecté */}
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null); //variable d'état pour stocker l'utilisateur connecté
   useEffect(() => {
-    // Fetch the initial user state
     const fetchUser = async () => {
       const {
         data: { user },
-      } = await supabase.auth.getUser();
-      setUser(user);
+      } = await supabase.auth.getUser();  //récupérer l'utilisateur connecté depuis Supabase
+      setUser(user);  //stocker l'utilisateur dans la variable d'état
     };
-    fetchUser();
-  });
-  
+    fetchUser();  
+  }, []); //pour exécuter le code une seule fois lors du montage du composant
+
+  const [isFormOpen, setIsFormOpen] = useState(false);  //variable d'état pour afficher ou masquer le formulaire
+  const [name, setName] = useState(''); //variable d'état pour stocker le nom de l'utilisateur
+  const [message, setMessage] = useState(''); //variable d'état pour stocker le message du témoignage
+
+  const [hasSubmitted, setHasSubmitted] = useState(false); //variable d'état pour vérifier si l'utilisateur a déjà soumis un témoignage
+
+  {/* Vérifier si l'utilisateur a déjà soumis un témoignage */}
+  useEffect(() => {
+    const checkUserTestimonial = async () => { 
+      if (user) {
+        const { data, error } = await supabase  //SELECT username FROM testimonials WHERE username = user.user_metadata.name
+          .from('testimonials')
+          .select('username')
+          .eq('username', user.user_metadata.name)
+          .single();
+        if (error && error.code !== 'PGRST116') {
+          console.error(error);
+        } else if (data) {
+          setHasSubmitted(true);  //si l'utilisateur a déjà soumis un témoignage, mettre à jour la variable d'état
+        }
+      }
+    };
+    checkUserTestimonial();
+  }, [user]);
+
   {/* Création d'un témoignage */}
   const createTestimonial = async () => {
-    const { error } = await supabase.from('testimonials').insert([
+    if(message.length < 10) { 
+      alert("Votre témoignage doit contenir au moins 10 caractères.");
+      return;
+    }
+    if(name.length < 3) {
+      alert("Votre nom doit contenir au moins 3 caractères.");
+      return;
+    }
+    const { error } = await supabase.from('testimonials').insert([  //INSERT INTO testimonials (username, message, image_url, name) VALUES (user.user_metadata.name, message, user.user_metadata.avatar_url (changer), name)
       {
-        username: user.user_metadata.name,    //Discord username
-        message: 'Votre message ici',
+        username: user.user_metadata.name,    //Discord username (changer)
+        message: message,
         image_url: user.user_metadata.avatar_url,
-        name: 'Votre nom',
+        name: name,
       },
     ]);
     if (error) {
       console.error(error);
+      alert("Échec lors de l'ajout du témoignage.");
     } else {
-      fetchTestimonials();
+      setHasSubmitted(true); //mettre à jour la variable d'état pour indiquer que l'utilisateur a soumis un témoignage
+      fetchTestimonials(); //mettre à jour la liste des témoignages
+      alert('Témoignage ajouté avec succès.');
+      setIsFormOpen(false); //masquer le formulaire
+      setName('');
+      setMessage('');
     }
   };
 
@@ -89,14 +127,14 @@ export default function Home() {
       </header>
 
       {/* Présentation de l'Association */}
-      <section className="my-32 flex flex-col md:flex-row lg:mx-32">
-        <div className="md:w-1/2 lg:w-2/5 p-4">
+      <section className="my-32 flex flex-col lg:flex-row mx-4 md:mx-8 lg:mx-16">
+        <div className="w-full lg:w-2/5 p-4">
           <h2 className="text-3xl font-bold mb-4 text-center text-blue-400">Présentation de l'association</h2>
           <p className="text-gray-300 text-justify">
           L'association 0xECE de l'école ECE Paris regroupe une communauté de passionnés de cybersécurité désireux de développer leurs compétences et d'explorer les multiples facettes de la sécurité informatique. Notre mission principale est de promouvoir l'apprentissage continu, la collaboration entre étudiants, et l'innovation en matière de cybersécurité. À travers la participation régulière à des compétitions de type Capture The Flag (CTF), nous mettons en pratique des techniques de défense et d'attaque, apprenons à identifier et exploiter des vulnérabilités, et développons une expertise qui nous prépare aux défis de demain.
           </p>
         </div>
-        <div className="md:w-1/2 lg:w-3/5 p-4">
+        <div className="w-full lg:w-3/5 p-4">
           <img src="/img/ctf.png" alt="Image de l'association" className="rounded-lg shadow-lg w-full h-auto" />
         </div>
       </section>
@@ -153,11 +191,11 @@ export default function Home() {
                       alt="Témoignage"
                       className="w-32 h-32 mx-auto rounded-lg mb-4 object-cover"
                     />
-                    <p className="text-lg italic text-gray-300 flex-grow">
+                    <p className="text-lg italic text-gray-300 flex-grow overflow-y-auto break-words">
                       "{testimonial.message}"
                     </p>
-                    <p className="text-right mt-4 text-blue-400 font-bold">
-                      {testimonial.name}- Promo 
+                    <p className="text-right mt-4 text-blue-400 font-bold break-words">
+                      {testimonial.name} 
                     </p>
                   </div>
                 </div>
@@ -167,22 +205,72 @@ export default function Home() {
             <p className="text-center text-gray-400">Aucun témoignage disponible pour le moment.</p>
           )}
           
+          {user && !hasSubmitted && (
+            <div className="flex justify-center mt-6">
+              {!isFormOpen ? (
+                <button
+                  className="bg-blue-500 text-white px-4 py-2 rounded"
+                  onClick={() => setIsFormOpen(true)}
+                >
+                  Ajouter un témoignage
+                </button>
+              ) : (
+                <div className="mt-4 bg-gray-800 p-6 rounded-lg shadow max-w-md mx-auto">
+                  <h3 className="text-2xl font-bold mb-4 text-blue-400">Ajouter un témoignage</h3>
+                  <form>
+                    <div className="mb-4">
+                      <label className="block text-gray-400 mb-2">Nom</label>
+                      <input
+                        type="text"
+                        className="w-full p-2 rounded bg-gray-700 text-white"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        maxLength={20}
+                        required
+                      />
+                      {name.length === 20 && (
+                        <p className="text-red-500 text-sm">La limite de 20 caractères est atteinte.</p>
+                      )}
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-gray-400 mb-2">Témoignage</label>
+                      <textarea
+                        className="w-full p-2 rounded bg-gray-700 text-white"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        maxLength={150}
+                        required
+                      ></textarea>
+                      {message.length === 150 && (
+                        <p className="text-red-500 text-sm">La limite de 150 caractères est atteinte.</p>
+                      )}
+                    </div>
+                    <div className="flex justify-end">
+                      <button
+                        type="button"
+                        className="mr-2 bg-red-500 text-white px-4 py-2 rounded"
+                        onClick={() => setIsFormOpen(false)}
+                      >
+                        Annuler
+                      </button>
+                      <button
+                        type="button"
+                        className="bg-green-500 text-white px-4 py-2 rounded"
+                        onClick={createTestimonial}
+                      >
+                        Soumettre
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              )}
+            </div>
+          )}
         </div>
-        {user && (
-          <button
-            className="mt-4 bg-green-500 text-white px-4 py-2 rounded"
-            onClick={createTestimonial}
-          >
-            Ajouter un témoignage
-          </button>
-        )}
       </section>
     </div>
   );
 }
-
-
-
 
 
 
