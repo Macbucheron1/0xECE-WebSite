@@ -93,7 +93,6 @@ export default function UserProfile({ params }) {
       }
     };
 
-
     fetchRole();
   }, []);
 
@@ -134,9 +133,12 @@ export default function UserProfile({ params }) {
     }
   };
 
+  const defineProfilPicture = async (pictureProvider: string) => {
+    console.log("pictureProvider: ", pictureProvider);
+  };
+
   useEffect(() => {
     setNumber_of_providers(window.localStorage.getItem("number_of_providers"));
-    console.log(number_of_providers);
   });
 
   return (
@@ -155,14 +157,38 @@ export default function UserProfile({ params }) {
           >
             Logout
           </button>
-            {number_of_providers < 2 && (
+          {number_of_providers < 2 ? (
             <button
               className="mt-4 bg-green-500 text-white px-4 py-2 rounded"
               onClick={handleLink}
             >
-              Link {window.localStorage.getItem("provider") === "discord" ? "Github" : "Discord"}
+              Link{" "}
+              {window.localStorage.getItem("provider") === "discord"
+                ? "Github"
+                : "Discord"}
             </button>
-            )}
+          ) : (
+            <>
+              <button
+                className="mt-4 bg-purple-500 text-white px-4 py-2 rounded"
+                onClick={() => defineProfilPicture("gravatar")}
+              >
+                Use gravatar profile picture
+              </button>
+              <button
+                className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
+                onClick={() => defineProfilPicture("discord")}
+              >
+                Use Discord profile picture
+              </button>
+              <button
+                className="mt-4 bg-cyan-500 text-white px-4 py-2 rounded"
+                onClick={() => defineProfilPicture("github")}
+              >
+                Use Github profile picture
+              </button>
+            </>
+          )}
         </div>
       ) : (
         <p className="text-lg text-gray-700 mb-2">

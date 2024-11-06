@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { supabase } from "../../utils/supabaseClient";
 import { generateGravatarUrl } from "../../utils/gravatar";
 import LoginModal from "./LoginModal";
-
+import getFavPpProvider from "../../utils/getFavPpProvider";
 /**
  * ProfileButton component renders a button that displays the user's profile picture and name if the user is logged in.
  * If the user is not logged in, it displays a sign-in button.
@@ -126,7 +126,8 @@ const ProfileButton = memo(() => {
   }
 
   const userName = user.user_metadata.full_name || user.user_metadata.user_name;
-  const profilePictureUrl = generateGravatarUrl(user.email);
+  const profilePictureUrl = generateGravatarUrl(user.email);  
+  
 
   return (
     <button
