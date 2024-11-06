@@ -14,8 +14,8 @@ export default function RootLayout({ children }) {
       />
       <body className="flex flex-col min-h-100vh">
         <Header/>
-        <div className="hacker-background flex-grow">
-          <main className="bg-yellow-100 mt-154px searchBar_invert:mt-100px">
+        <div className="page">
+          <main className="mt-154px searchBar_invert:mt-100px">
             {children}
           </main>
         </div>

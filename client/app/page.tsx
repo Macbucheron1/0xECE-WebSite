@@ -116,20 +116,20 @@ export default function Home() {
   };
 
   return (
-    <div className="p-6 bg-gray-900 text-white">
+    <div className="p-6">
       {/* Logo et Titre */}
-      <header className="flex flex-col items-center my-0 md:flex-row md:justify-between">
-        <img src="/img/logo_0xECE.png" alt="Logo" className="h-16 w-16 md:h-24 md:w-24 lg:h-32 lg:w-32 mb-4 md:mb-0" />
-        <div className="text-center md:flex-1">
-          <h1 className="text-6xl font-bold">Bienvenue chez 0xECE</h1>
-          <p className="text-gray-400">Association de cybersécurité de l'ECE Paris</p>
+      <header className="flex flex-col items-center my-0 md:flex-row md:justify-between relative">
+        <img src="/img/logo_0xECE.png" alt="Logo" className="h-16 w-16 md:h-24 md:w-24 lg:h-32 lg:w-32 mb-4 md:mb-0 z-10" />
+        <div className="text-center md:absolute md:left-1/2 md:-translate-x-1/2 md:w-full">
+          <h1 className="text-5xl font-bold">Bienvenue chez 0xECE</h1>
+          <p className="text-xl p-gray">Association de cybersécurité de l'ECE Paris</p>
         </div>
       </header>
 
       {/* Présentation de l'Association */}
       <section className="my-32 flex flex-col lg:flex-row mx-4 md:mx-8 lg:mx-16">
         <div className="w-full lg:w-2/5 p-4">
-          <h2 className="text-3xl font-bold mb-4 text-center text-blue-400">Présentation de l'association</h2>
+          <h2 className="text-3xl font-bold mb-4 text-center p-blue">Présentation de l'association</h2>
           <p className="text-gray-300 text-justify">
           L'association 0xECE de l'école ECE Paris regroupe une communauté de passionnés de cybersécurité désireux de développer leurs compétences et d'explorer les multiples facettes de la sécurité informatique. Notre mission principale est de promouvoir l'apprentissage continu, la collaboration entre étudiants, et l'innovation en matière de cybersécurité. À travers la participation régulière à des compétitions de type Capture The Flag (CTF), nous mettons en pratique des techniques de défense et d'attaque, apprenons à identifier et exploiter des vulnérabilités, et développons une expertise qui nous prépare aux défis de demain.
           </p>
@@ -143,43 +143,43 @@ export default function Home() {
       <section className="my-32 grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="text-center">
           <img src="/img/bouclier_cyber.png" alt="Cybersécurité" className="mx-auto h-32 w-32 mb-4" />
-          <h3 className="text-2xl font-bold text-blue-400">Cybersécurité</h3>
-          <p className="text-gray-400">Protection et défense informatique</p>
+          <h3 className="text-2xl font-bold p-blue">Cybersécurité</h3>
+          <p className="p-gray">Protection et défense informatique</p>
         </div>
         <div className="text-center">
           <img src="/img/cerveau.png" alt="Apprentissage" className="mx-auto h-32 w-32 mb-4" />
-          <h3 className="text-2xl font-bold text-blue-400">Apprentissage</h3>
-          <p className="text-gray-400">Formation continue en cybersécurité</p>
+          <h3 className="text-2xl font-bold p-blue">Apprentissage</h3>
+          <p className="p-gray">Formation continue en cybersécurité</p>
         </div>
         <div className="text-center">
           <img src="/img/serrage_main.png" alt="Collaboration" className="mx-auto h-32 w-32 mb-4" />
-          <h3 className="text-2xl font-bold text-blue-400">Collaboration</h3>
-          <p className="text-gray-400">Travail d'équipe et partage de connaissances</p>
+          <h3 className="text-2xl font-bold p-blue">Collaboration</h3>
+          <p className="p-gray">Travail d'équipe et partage de connaissances</p>
         </div>
       </section>
 
       {/* En Chiffres */}
       <section className="my-32 text-center">
-        <h2 className="text-3xl font-bold mb-4 text-blue-400">En Chiffres</h2>
+        <h2 className="text-3xl font-bold mb-4 p-blue">En Chiffres</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-gray-800 p-6 rounded-lg shadow">
-            <p className="text-3xl font-bold text-blue-400">50+</p>
-            <p className="text-gray-400">CTFs</p>
+          <div className="card">
+            <p className="text-3xl font-bold p-blue">50+</p>
+            <p className="p-gray">CTFs</p>
           </div>
-          <div className="bg-gray-800 p-6 rounded-lg shadow">
-            <p className="text-3xl font-bold text-blue-400">80+</p>
-            <p className="text-gray-400">Membres Actifs</p>
+          <div className="card">
+            <p className="text-3xl font-bold p-blue">80+</p>
+            <p className="p-gray">Membres Actifs</p>
           </div>
-          <div className="bg-gray-800 p-6 rounded-lg shadow">
-            <p className="text-3xl font-bold text-blue-400">150+</p>
-            <p className="text-gray-400">Write-ups</p>
+          <div className="card">
+            <p className="text-3xl font-bold p-blue">150+</p>
+            <p className="p-gray">Write-ups</p>
           </div>
         </div>
       </section>
 
       {/* Témoignages */}
       <section className="my-32">
-        <h2 className="text-3xl font-bold mb-6 text-blue-400 text-center">Témoignages</h2>
+        <h2 className="text-3xl font-bold mb-6 p-blue text-center">Témoignages</h2>
         <div className="max-w-6xl mx-auto px-4">
           {testimonials.length > 0 ? (
             <Slider {...settings}>
@@ -194,7 +194,7 @@ export default function Home() {
                     <p className="text-lg italic text-gray-300 flex-grow overflow-y-auto break-words">
                       "{testimonial.message}"
                     </p>
-                    <p className="text-right mt-4 text-blue-400 font-bold break-words">
+                    <p className="text-right mt-4 p-blue font-bold break-words">
                       {testimonial.name} 
                     </p>
                   </div>
@@ -202,7 +202,7 @@ export default function Home() {
               ))}
             </Slider>
           ) : (
-            <p className="text-center text-gray-400">Aucun témoignage disponible pour le moment.</p>
+            <p className="text-center p-gray">Aucun témoignage disponible pour le moment.</p>
           )}
           
           {user && !hasSubmitted && (
@@ -216,10 +216,10 @@ export default function Home() {
                 </button>
               ) : (
                 <div className="mt-4 bg-gray-800 p-6 rounded-lg shadow max-w-md mx-auto">
-                  <h3 className="text-2xl font-bold mb-4 text-blue-400">Ajouter un témoignage</h3>
+                  <h3 className="text-2xl font-bold mb-4 p-blue">Ajouter un témoignage</h3>
                   <form>
                     <div className="mb-4">
-                      <label className="block text-gray-400 mb-2">Nom</label>
+                      <label className="block p-gray mb-2">Nom</label>
                       <input
                         type="text"
                         className="w-full p-2 rounded bg-gray-700 text-white"
@@ -233,7 +233,7 @@ export default function Home() {
                       )}
                     </div>
                     <div className="mb-4">
-                      <label className="block text-gray-400 mb-2">Témoignage</label>
+                      <label className="block p-gray mb-2">Témoignage</label>
                       <textarea
                         className="w-full p-2 rounded bg-gray-700 text-white"
                         value={message}

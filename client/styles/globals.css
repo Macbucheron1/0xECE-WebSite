@@ -6,7 +6,23 @@
     @apply text-4xl font-bold text-white;
 }
 
-@keyframes fall {
+.page{
+    @apply bg-gray-900 text-white flex-grow; /*fond bleu et texte blanc*/
+}
+
+.card{
+    @apply bg-gray-800 p-6 rounded-lg shadow; /*fond gris, padding 6, bord arrondi, ombre*/
+}
+
+.p-blue{
+    @apply text-blue-400; /*titre en bleu*/
+}
+
+.p-gray{
+    @apply text-gray-400; /*texte gris*/
+}
+
+/*@keyframes fall {
     0% {
       transform: translateY(-100%);
       opacity: 1;
@@ -15,27 +31,9 @@
       transform: translateY(100vh);
       opacity: 0;
     }
-  }
+  }*/
   
-  .hacker-background {
-    position: relative;
-    z-index: 0;
-    overflow: hidden;
-    background-color: black; /* Hacker-style background */
-  }
-  
-  .hacker-background::before {
-    content: '';
-    position: absolute;
-    top: 0%;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    background: black;
-    opacity: 0.7;
-  }
-  
+/*  
   .hacker-background .character {
     position: absolute;
     z-index: -1;
@@ -44,7 +42,7 @@
     transform: translateX(-50%);
     font-family: monospace;
     font-size: 20px;
-    color: #0f0; /* Matrix-style green */
+    color: #0f0; //Matrix-style green 
     animation: fall linear infinite;
     animation-duration: calc(3s + 2s * var(--i));
   }
@@ -59,4 +57,4 @@
     color: rgba(0, 255, 0, 0.37); 
   }
   
-  
+*/
