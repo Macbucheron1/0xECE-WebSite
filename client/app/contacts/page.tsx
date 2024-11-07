@@ -1,11 +1,10 @@
-
 export default function Contacts() {
   return (
     <div className="p-6 flex flex-col items-center">
       <h2 className="wt-title mb-4">Contact Us</h2>
       <form className="w-full max-w-lg">
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
+          <label className="block text-gray-700 text-sm font-bold mb-2 p-blue" htmlFor="name">
             Name
           </label>
           <input
@@ -16,7 +15,7 @@ export default function Contacts() {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+          <label className="block text-gray-700 text-sm font-bold mb-2 p-blue" htmlFor="email">
             Email
           </label>
           <input
@@ -27,7 +26,7 @@ export default function Contacts() {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="message">
+          <label className="block text-gray-700 text-sm font-bold mb-2 p-blue" htmlFor="message">
             Message
           </label>
           <textarea
