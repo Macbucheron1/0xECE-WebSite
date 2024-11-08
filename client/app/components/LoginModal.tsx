@@ -2,6 +2,8 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDiscord, faGithub } from "@fortawesome/free-brands-svg-icons";
 import { supabase } from "../../utils/supabaseClient";
+import ContextUser from "./UserContext";
+import { useContext } from "react";
 
 interface LoginModalProps {
   onClose: () => void;
@@ -20,6 +22,7 @@ interface LoginModalProps {
  * @returns {JSX.Element} The rendered LoginModal component.
  */
 const LoginModal = ({ onClose }) => {
+  const { user } = useContext(ContextUser);
   /**
    * Handles the login process using OAuth with the specified provider.
    *
@@ -29,12 +32,15 @@ const LoginModal = ({ onClose }) => {
    */
   const handleLogin = async (provider: "discord" | "github") => {
     if (provider === "discord") {
-      await supabase.auth.signInWithOAuth({
+      const { error } = await supabase.auth.signInWithOAuth({
         provider: provider,
         options: {
           scopes: "identify email guilds guilds.members.read",
         },
       });
+      if (error) {
+        console.error(`Error logging in with ${provider}:`, error.message);
+      } 
     } else if (provider === "github") {
       try {
         const { error } = await supabase.auth.signInWithOAuth({ provider });
