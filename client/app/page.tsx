@@ -119,7 +119,7 @@ export default function Home() {
     <div className="p-6">
       {/* Logo et Titre */}
       <header className="flex flex-col items-center my-0 md:flex-row md:justify-between relative">
-        <img src="/img/logo_0xECE.png" alt="Logo" className="h-16 w-16 md:h-24 md:w-24 lg:h-32 lg:w-32 mb-4 md:mb-0 z-10" />
+        <img src="/img/logo_0xECE.png" alt="Logo" className="h-16 w-16 md:h-24 md:w-24 lg:h-32 lg:w-32 mb-4 md:mb-0" />
         <div className="text-center md:absolute md:left-1/2 md:-translate-x-1/2 md:w-full">
           <h1 className="text-5xl font-bold">Bienvenue chez 0xECE</h1>
           <p className="text-xl p-gray">Association de cybersécurité de l'ECE Paris</p>
@@ -209,7 +209,7 @@ export default function Home() {
             <div className="flex justify-center mt-6">
               {!isFormOpen ? (
                 <button
-                  className="bg-blue-500 font-bold text-white px-4 py-2 rounded"
+                  className="button"
                   onClick={() => setIsFormOpen(true)}
                 >
                   Ajouter un témoignage
