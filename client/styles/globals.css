@@ -15,16 +15,22 @@
 }
 
 .p-blue{
-    @apply text-blue-400; /*titre en bleu*/
+    @apply text-blue-400; 
 }
 
 .p-gray{
-    @apply text-gray-400; /*texte gris*/
+    @apply text-gray-400; 
 }
 
 .button{
     @apply bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-700; /*bouton bleu, texte blanc, padding 4, bord arrondi*/
 }
+
+.markdown > * { /* Tailwind takes out all default styles applied to html elements.*/
+  all: revert;
+  white-space: pre-wrap; /* Allow code to wrap */
+  word-wrap: break-word;  
+} 
 
 /*@keyframes fall {
     0% {

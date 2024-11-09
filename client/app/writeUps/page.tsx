@@ -40,7 +40,7 @@ export default function writeUps() {
           >
             <h3 className="p-blue text-xl font-bold">{writeUp.title}</h3>
             <p className="text-lg p-gray">{writeUp.type}</p>
-            <p className="card-text text-right">
+            <p className="text-right">
               {writeUp.username} - {formatDate(writeUp.date)}
             </p>
           </Link>
