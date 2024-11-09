@@ -1,37 +1,20 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { supabase } from "../../../utils/supabaseClient";
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
+import ContextTest from "../../components/UserContext";
 
 export default function WriteUp({ params }) {
   const { writeUpsId } = params;
   const [writeUp, setWriteUp] = useState(null);
   const [notFound, setNotFound] = useState(false);
-  const [comments, setComments] = useState([
-    "Commentaire 1",
-    "Commentaire 2",
-    "Commentaire 3",
-    "Commentaire 4"
-  ]);
+  const [comments, setComments] = useState([]); // Initialise les commentaires
   const [currentPage, setCurrentPage] = useState(1);
   const commentsPerPage = 3;
-
-  const indexOfLastComment = currentPage * commentsPerPage;
-  const indexOfFirstComment = indexOfLastComment - commentsPerPage;
-  const currentComments = comments.slice(indexOfFirstComment, indexOfLastComment);
-
-  const nextPage = () => {
-    if (indexOfLastComment < comments.length) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const prevPage = () => {
-    if (indexOfFirstComment > 0) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
+  const [commentContent, setCommentContent] = useState('');
+  const { user } = useContext(ContextTest);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const fetchWriteUp = async () => {
     const { data, error } = await supabase
@@ -49,9 +32,29 @@ export default function WriteUp({ params }) {
     }
   };
 
+  const fetchComments = async () => {
+    const start = (currentPage - 1) * commentsPerPage;
+    const end = start + commentsPerPage - 1;
+    const { data, error } = await supabase
+      .from('comments')
+      .select('*')
+      .eq('writeup_id', writeUpsId)
+      .order('date', { ascending: false })
+      .range(start, end);
+    if (error) {
+      console.log(error);
+    } else {
+      setComments(data);
+    }
+  };
+
   useEffect(() => {
     fetchWriteUp();
   }, [writeUpsId]); //permets de recharger le write-up si l'id change
+
+  useEffect(() => {
+    fetchComments();
+  }, [writeUpsId, currentPage]); // Recharge les commentaires lorsque l'ID ou la page change
 
   if (notFound) {
     return (
@@ -79,6 +82,37 @@ export default function WriteUp({ params }) {
     return `${day}/${month}/${year}`;
   };
 
+  const nextPage = () => {
+    if (comments.length === commentsPerPage) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handlePublish = async () => {
+    if (user && user.id) {
+      const { error } = await supabase.from('comments').insert({
+        content: commentContent,
+        username: user.username,
+        date: new Date().toISOString(),
+        writeup_id: writeUpsId,
+      });
+      if (error) {
+        console.log(error);
+      } else {
+        setCommentContent('');
+        fetchComments(); // Met à jour la liste des commentaires
+      }
+    } else {
+      setErrorMessage('Veuillez vous connecter pour publier un commentaire');
+    }
+  };
+
   return (
     <div className="p-6 overflow-x-hidden">
       <div className="max-w-3xl mx-auto">
@@ -98,27 +132,42 @@ export default function WriteUp({ params }) {
           </ReactMarkdown>
         </div>
         <div className="mt-8">
-          <h3 className="text-left">Commentaires</h3>
+          <h1 className="text-2xl font-bold p-blue text-left my-4">Commentaires</h1>
           <textarea
-            className="w-full p-2 mt-2 border rounded"
+            className="w-full p-2 rounded bg-gray-700 text-white"
             placeholder="Saisissez votre commentaire..."
+            value={commentContent}
+            onChange={(e) => setCommentContent(e.target.value)}
+            maxLength={200}
           ></textarea>
-          <button className="button mt-2 float-right">Publier</button>
+          {commentContent.length >= 200 && (
+            <p className="text-red-500">Vous avez atteint la taille maximale de commentaire.</p>
+          )}
+          <p className="p-gray">{200 - commentContent.length} caractères restants.</p>
+          <button className="button float-right" onClick={handlePublish}>Publier</button>
+          {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         </div>
         <div className="mt-8">
-          {currentComments.map((comment, index) => (
-            <div key={index} className="p-2 border-b">
-              {comment}
+          {comments.map((comment) => (
+            <div key={comment.id} className="p-2 border-b">
+              <p><strong>{comment.username}</strong> - {formatDate(comment.date)}</p>
+              <p>{comment.content}</p>
             </div>
           ))}
-          <div className="flex justify-between mt-4">
-            <button onClick={prevPage} disabled={currentPage === 1}>
-              &larr; Précédent
-            </button>
-            <button onClick={nextPage} disabled={indexOfLastComment >= comments.length}>
-              Suivant &rarr;
-            </button>
-          </div>
+          {comments.length === 0 && (
+            <p className="font-bold p-gray text-center mt-16">Aucun commentaire pour le moment.</p>
+          )}
+          {comments.length > 0 && (
+            <div className="flex justify-between mt-4">
+              <button onClick={prevPage} disabled={currentPage === 1}>
+                &larr; Précédent
+              </button>
+              <span>Page {currentPage}</span>
+              <button onClick={nextPage} disabled={comments.length < commentsPerPage}>
+                Suivant &rarr;
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -52,9 +52,7 @@ export default function Home() {
     checkUserTestimonial();
   }, [user]);
 
-  {
     /* Création d'un témoignage */
-  }
   const createTestimonial = async () => {
     if (message.length < 10) {
       alert("Votre témoignage doit contenir au moins 10 caractères.");
@@ -252,7 +250,7 @@ export default function Home() {
             </p>
           )}
 
-          {user.id && !hasSubmitted && (
+          {user && user.id && !hasSubmitted && (
             <div className="flex justify-center mt-6">
               {!isFormOpen ? (
                 <button className="button" onClick={() => setIsFormOpen(true)}>
@@ -275,10 +273,11 @@ export default function Home() {
                         required
                       />
                       {name.length === 20 && (
-                        <p className="text-red-500 text-sm">
+                        <p className="text-red-500">
                           La limite de 20 caractères est atteinte.
                         </p>
                       )}
+                      <p className="p-gray">{200 - name.length} caractères restants.</p>
                     </div>
                     <div className="mb-4">
                       <label className="block p-gray mb-2">Témoignage</label>

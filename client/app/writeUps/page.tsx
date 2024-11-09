@@ -12,7 +12,7 @@ export default function writeUps() {
   const fetchWriteUps = async () => {
     const start = (currentPage - 1) * writeUpsPerPage;
     const end = start + writeUpsPerPage - 1;
-    const { data, error } = await supabase.from('writeups').select('*').order('date', {ascending: false}).range(start, end); // Fetch only the required write-ups
+    const { data, error } = await supabase.from('writeups').select('*').order('date', {ascending: false}).range(start, end); // SELECT * FROM writeups ORDER BY date DESC LIMIT 15 OFFSET 0
     if(error)
       console.log(error);
     else
