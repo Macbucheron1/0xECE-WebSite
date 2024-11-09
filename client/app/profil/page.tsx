@@ -5,23 +5,6 @@ import ContextTest from "../components/UserContext";
 import { supabase } from "../../utils/supabaseClient";
 import { useRouter } from "next/navigation";
 
-const roleNames = {
-  "1227192380118138901": "Membre",
-  "1225487330228310126": "Bureau",
-  "1227564151946084363": "President",
-};
-
-const promoNames = {
-  "1296446288614789162": "ing1",
-  "1296446375768096768": "ing2",
-  "1296446419556630619": "ing3",
-  "1296446455485304853": "ing4",
-  "1296446491119849603": "ing5",
-  "1296806777983205470": "Bachelor1",
-  "1296807354834223205": "Bachelor2",
-  "1296807400501673994": "Bachelor3",
-};
-
 export default function UserProfile() {
   const { user, logout, updateFavPPProvider } = useContext(ContextTest);
   const router = useRouter();

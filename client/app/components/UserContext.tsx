@@ -26,6 +26,23 @@ type CustomUser = {
   // Add other fields as needed
 };
 
+const roleNames = {
+  "1227192380118138901": "Membre",
+  "1225487330228310126": "Bureau",
+  "1227564151946084363": "President",
+};
+
+const promoNames = {
+  "1296446288614789162": "ing1",
+  "1296446375768096768": "ing2",
+  "1296446419556630619": "ing3",
+  "1296446455485304853": "ing4",
+  "1296446491119849603": "ing5",
+  "1296806777983205470": "Bachelor1",
+  "1296807354834223205": "Bachelor2",
+  "1296807400501673994": "Bachelor3",
+};
+
 const Context = createContext<{
   user: CustomUser | null;
   setUser: (newUser: CustomUser) => void;
@@ -34,7 +51,7 @@ const Context = createContext<{
   getEmail: (session: Session) => string;
   getUsername: (session: Session) => string;
   getPP: (session: Session) => CustomUser["pp"];
-  getUserPersonalization: (session: Session) => Promise<any>;
+  getUserPersonalization: (session: Session, role: string, promo: string) => Promise<any>;
   login: () => Promise<void>;
   updateFavPPProvider: (newProvider: string) => void;
   logout: () => void;
@@ -114,7 +131,7 @@ export const ContextProvider = ({ children }) => {
     };
   };
 
-  const getUserPersonalization = async (session: Session) => {
+  const getUserPersonalization = async (session: Session, new_role: string, new_promo: string) => {
     const { data, error } = await supabase
       .from("user_personalization_info")
       .select("pp_fav_provider, bio, theme, language, role, promo")
@@ -123,7 +140,10 @@ export const ContextProvider = ({ children }) => {
 
     if (error) {
       if (error.code === "PGRST116") {
-        console.error("No personalization data found for user: ", getID(session));
+        console.error(
+          "No personalization data found for user: ",
+          getID(session)
+        );
         // insert default personalization data
         const { error } = await supabase
           .from("user_personalization_info")
@@ -134,8 +154,8 @@ export const ContextProvider = ({ children }) => {
               bio: null,
               theme: "Light",
               language: "english",
-              role: "non_membre",
-              promo: null,
+              role: "new_role",
+              promo: new_promo,
             },
           ]);
         if (error) {
@@ -156,7 +176,67 @@ export const ContextProvider = ({ children }) => {
         return null;
       }
     }
+    if (data.role !== new_role || data.promo !== new_promo) {
+      console.log("Updating role and promo");
+      const { error } = await supabase
+        .from("user_personalization_info")
+        .update({ role: new_role, promo: new_promo })
+        .eq("user_uid", getID(session));
+      if (error) {
+        console.error("Error updating role and promo:", error);
+      }
+    }
     return data;
+  };
+
+  const getInfoFromDiscord = async (token: string, refresh_token: string, id: string) => {
+    // Check if the user is part of the 0xECE guild on Discord with the guild ID : 1225485887463227525
+    let role = null;
+    let promo = null;
+    try {
+      const response = await fetch(
+        "https://discord.com/api/users/@me/guilds/1225485887463227525/member",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const data = await response.json();
+      if (data.code == 10004) {
+        role = "Non membre";
+      } else {
+        // User is part of the guild
+        const userRole = data.roles;
+        for (let i = 0; i < userRole.length; i++) {
+          if (roleNames[userRole[i]] !== undefined) {
+            role = roleNames[userRole[i]];
+          }
+          if (promoNames[userRole[i]] !== undefined) {
+            promo = promoNames[userRole[i]];
+          }
+        }
+      }
+
+      // Lets put the role and promo in the database
+      const { error } = await supabase
+        .from("user_personalization_info")
+        .update({ role: role, promo: promo })
+        .eq("user_uid", id);
+      if (error) {
+        console.error("Error updating role and promo:", error);
+      }
+    } catch (error) {
+      console.log("Error fetching role from discord:", error);
+      if (error == 429) {
+        console.log("Rate limited by discord");
+      }else{
+        console.error("Error fetching role from discord:", error);
+      }
+    }
+
+    return { role: role, promo: promo };
   };
 
   const login = async () => {
@@ -175,27 +255,60 @@ export const ContextProvider = ({ children }) => {
         let new_bio = null;
         let new_theme = null;
         let new_language = null;
-        getUserPersonalization(session).then((data) => {
+        let discord_token = null;
+        let discord_refresh_token = null;
+        let new_role = "non_membre";
+        let new_promo = null;
+        if (session.user.user_metadata.iss.includes("discord")) {
+          discord_token = session.provider_token;
+          discord_refresh_token = session.provider_refresh_token;
+          getInfoFromDiscord(discord_token, discord_refresh_token, new_id).then(
+            (data) => {
+              new_role = data.role;
+              new_promo = data.promo;
+            }
+          );
+        }
+        getUserPersonalization(session, new_role, new_bio).then((data) => {
           new_fav_pp_provider = data.pp_fav_provider;
           new_bio = data.bio;
           new_theme = data.theme;
           new_language = data.language;
-          setUser({
-            id: new_id,
-            email: new_email,
-            username: new_username,
-            connected_with_github: new_connected_with_github,
-            connected_with_discord: new_connected_with_discord,
-            pp: new_pp,
-            fav_pp_provider: new_fav_pp_provider,
-            bio: new_bio,
-            theme: new_theme,
-            language: new_language,
-            discord_token: null,
-            discord_refresh_token: null,
-            role: data.role,
-            promo: data.promo,
-          });
+          if (new_role && new_promo) {
+            setUser({
+              id: new_id,
+              email: new_email,
+              username: new_username,
+              connected_with_github: new_connected_with_github,
+              connected_with_discord: new_connected_with_discord,
+              pp: new_pp,
+              fav_pp_provider: new_fav_pp_provider,
+              bio: new_bio,
+              theme: new_theme,
+              language: new_language,
+              discord_token: discord_token,
+              discord_refresh_token: discord_refresh_token,
+              role: new_role,
+              promo: new_promo,
+            });
+          } else {
+            setUser({
+              id: new_id,
+              email: new_email,
+              username: new_username,
+              connected_with_github: new_connected_with_github,
+              connected_with_discord: new_connected_with_discord,
+              pp: new_pp,
+              fav_pp_provider: new_fav_pp_provider,
+              bio: new_bio,
+              theme: new_theme,
+              language: new_language,
+              discord_token: discord_token,
+              discord_refresh_token: discord_refresh_token,
+              role: data.role,
+              promo: data.promo,
+            });
+          }
         });
       } else {
         setUser({
@@ -223,7 +336,7 @@ export const ContextProvider = ({ children }) => {
     if (error) {
       console.error("Error updating favorite profile picture provider:", error);
     }
-    setUser({ ...user, fav_pp_provider: newProvider});
+    setUser({ ...user, fav_pp_provider: newProvider });
   };
 
   const Logout = async () => {
