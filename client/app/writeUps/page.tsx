@@ -1,13 +1,15 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { supabase } from "../../utils/supabaseClient";
 import Link from 'next/link';
+import ContextTest from "../components/UserContext";
 
 export default function writeUps() {
 
   const [writeUps, setWriteUps] = useState([]); //initialise state
   const [currentPage, setCurrentPage] = useState(1);
   const writeUpsPerPage = 15;
+  const { user } = useContext(ContextTest);
 
   const fetchWriteUps = async () => {
     const start = (currentPage - 1) * writeUpsPerPage;
@@ -21,7 +23,6 @@ export default function writeUps() {
   useEffect (() => {
     fetchWriteUps();
   }, [currentPage]); // Refetch when currentPage changes
-  //console.log(writeUps)
   
   const formatDate = (dateString) => {
     const [year, month, day] = dateString.split('T')[0].split('-');
@@ -31,7 +32,14 @@ export default function writeUps() {
   return (
     <div className="p-6 min-h-full">
       <h2 className="wt-title mb-6">Write-ups</h2>
-      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {user && user.id && (
+        <div className="flex justify-end">
+        <Link href="/new">
+          <button className="button">Publier un write-up</button>
+        </Link>
+      </div>
+      )}
+      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
         {writeUps.map((writeUp) => (
           <Link
             key={writeUp.id}
