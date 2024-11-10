@@ -47,7 +47,7 @@ const Context = createContext<{
   getEmail: (session: Session) => string;
   getUsername: (session: Session) => string;
   getPP: (session: Session) => CustomUser["pp"];
-  getUserPersonalization: (session: Session) => Promise<any>;
+  getUserPersonalization: (session: Session, connected_with_discord: boolean) => Promise<any>;
   login: () => Promise<void>;
   updateFavPPProvider: (newProvider: string) => void;
   logout: () => void;
@@ -124,7 +124,10 @@ export const ContextProvider = ({ children }) => {
     };
   };
 
-  const getUserPersonalization = async (session: Session) => {
+  const getUserPersonalization = async (
+    session: Session,
+    connected_with_discord: boolean
+  ) => {
     const { data, error } = await supabase
       .from("user_personalization_info")
       .select("pp_fav_provider, bio, theme, language, role, promo")
@@ -137,13 +140,21 @@ export const ContextProvider = ({ children }) => {
           "No personalization data found for user: ",
           getID(session)
         );
-        // get info from discord
-        const { role, promo } = await getInfoFromDiscord(
-          session.provider_token,
-          session.provider_refresh_token,
-          getID(session)
-        );
+        let new_role = "non_membre";
+        let new_promo = "undefined";
+        if (connected_with_discord) {
+          console.log("fetching from discord");
+          // get info from discord
+          const { role, promo } = await getInfoFromDiscord(
+            session.provider_token,
+            session.provider_refresh_token,
+            getID(session)
+          );
+          new_role = role;
+          new_promo = promo;
+        }
         // insert default personalization data
+        console.log("Inserting default personalization data");
         const { error } = await supabase
           .from("user_personalization_info")
           .insert([
@@ -153,8 +164,8 @@ export const ContextProvider = ({ children }) => {
               bio: null,
               theme: "Light",
               language: "english",
-              role: role,
-              promo: promo,
+              role: new_role,
+              promo: new_promo,
             },
           ]);
         if (error) {
@@ -167,8 +178,8 @@ export const ContextProvider = ({ children }) => {
           bio: null,
           theme: "Light",
           language: "english",
-          role: role,
-          promo: promo,
+          role: new_role,
+          promo: new_promo,
         };
       } else {
         console.error("Error fetching user personalization:", error);
@@ -178,8 +189,11 @@ export const ContextProvider = ({ children }) => {
     return data;
   };
 
-  const getInfoFromDiscord = async (token: string, refresh_token: string, id: string) => {
-    console.log("Fetching role from discord");
+  const getInfoFromDiscord = async (
+    token: string,
+    refresh_token: string,
+    id: string
+  ) => {
     // Check if the user is part of the 0xECE guild on Discord with the guild ID : 1225485887463227525
     let role = null;
     let promo = null;
@@ -212,7 +226,7 @@ export const ContextProvider = ({ children }) => {
       console.log("Error fetching role from discord:", error);
       if (error == 429) {
         console.log("Rate limited by discord");
-      }else{
+      } else {
         console.error("Error fetching role from discord:", error);
       }
     }
@@ -235,46 +249,32 @@ export const ContextProvider = ({ children }) => {
         let new_bio = null;
         let new_theme = null;
         let new_language = null;
-        let discord_token = null;
-        let discord_refresh_token = null;
         let new_role = "non_membre";
         let new_promo = "non definie";
-        getUserPersonalization(session).then((data) => {
+        getUserPersonalization(session, new_connected_with_discord).then((data) => {
           new_fav_pp_provider = data.pp_fav_provider;
           new_bio = data.bio;
           new_theme = data.theme;
           new_language = data.language;
-          if (new_role && new_promo) {
-            setUser({
-              id: new_id,
-              email: new_email,
-              username: new_username,
-              connected_with_discord: new_connected_with_discord,
-              pp: new_pp,
-              fav_pp_provider: new_fav_pp_provider,
-              bio: new_bio,
-              theme: new_theme,
-              language: new_language,
-              role: new_role,
-              promo: new_promo,
-            });
-          } else {
-            setUser({
-              id: new_id,
-              email: new_email,
-              username: new_username,
-              connected_with_discord: new_connected_with_discord,
-              pp: new_pp,
-              fav_pp_provider: new_fav_pp_provider,
-              bio: new_bio,
-              theme: new_theme,
-              language: new_language,
-              role: data.role,
-              promo: data.promo,
-            });
-          }
+          new_role = data.role;
+          new_promo = data.promo;
+          setUser({
+            id: new_id,
+            email: new_email,
+            username: new_username,
+            connected_with_discord: new_connected_with_discord,
+            pp: new_pp,
+            fav_pp_provider: new_fav_pp_provider,
+            bio: new_bio,
+            theme: new_theme,
+            language: new_language,
+            role: new_role,
+            promo: new_promo,
+          });
+          
         });
       } else {
+        console.log("else no session");
         setUser({
           id: null,
           email: null,
