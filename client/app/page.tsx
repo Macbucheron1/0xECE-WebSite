@@ -278,7 +278,6 @@ export default function Home() {
                           La limite de 20 caractères est atteinte.
                         </p>
                       )}
-                      <p className="p-gray">{200 - name.length} caractères restants.</p>
                     </div>
                     <div className="mb-4">
                       <label className="block p-gray mb-2">Témoignage</label>
