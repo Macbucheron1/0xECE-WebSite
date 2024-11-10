@@ -34,9 +34,14 @@ const ProfileButton = () => {
   }, []);
 
   useEffect(() => { 
+    console.log("calling login");
     login();
   }, []);
   
+  useEffect(() => {
+    console.log("user", user);
+  },[user]);
+
   useEffect(() => {
     if (user) {
       if (user.fav_pp_provider === "gravatar") {
