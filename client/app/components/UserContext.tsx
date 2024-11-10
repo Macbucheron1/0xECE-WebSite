@@ -208,15 +208,6 @@ export const ContextProvider = ({ children }) => {
           }
         }
       }
-
-      // Lets put the role and promo in the database
-      const { error } = await supabase
-        .from("user_personalization_info")
-        .update({ role: role, promo: promo })
-        .eq("user_uid", id);
-      if (error) {
-        console.error("Error updating role and promo:", error);
-      }
     } catch (error) {
       console.log("Error fetching role from discord:", error);
       if (error == 429) {
