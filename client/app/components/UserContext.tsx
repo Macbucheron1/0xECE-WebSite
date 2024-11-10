@@ -224,11 +224,7 @@ export const ContextProvider = ({ children }) => {
       }
     } catch (error) {
       console.log("Error fetching role from discord:", error);
-      if (error == 429) {
-        console.log("Rate limited by discord");
-      } else {
-        console.error("Error fetching role from discord:", error);
-      }
+      return {role: "non_membre", promo: "undefined"};
     }
 
     return { role: role, promo: promo };
@@ -250,7 +246,7 @@ export const ContextProvider = ({ children }) => {
         let new_theme = null;
         let new_language = null;
         let new_role = "non_membre";
-        let new_promo = "non definie";
+        let new_promo = "undefined";
         getUserPersonalization(session, new_connected_with_discord).then((data) => {
           new_fav_pp_provider = data.pp_fav_provider;
           new_bio = data.bio;
@@ -285,7 +281,7 @@ export const ContextProvider = ({ children }) => {
           theme: "Light",
           bio: null,
           role: "non_membre",
-          promo: null,
+          promo: "undefined",
         });
       }
     });
@@ -318,7 +314,7 @@ export const ContextProvider = ({ children }) => {
       bio: null,
       language: "english",
       role: "non_membre",
-      promo: null,
+      promo: "undefined",
     });
   };
 
