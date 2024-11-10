@@ -37,15 +37,16 @@ export default function Home() {
   }
   useEffect(() => {
     const checkUserTestimonial = async () => {
-      if (user.id) {
+      if (user && user.id) {
         const { data, error } = await supabase //SELECT username FROM testimonials WHERE username = user.user_metadata.name
           .from("testimonials")
           .select("username")
           .eq("username", user.username);
         if (error && error.code !== "PGRST116") {
           console.error(error);
+          setHasSubmitted(true); 
         } else if (data.length === 0) {
-          setHasSubmitted(true); //si l'utilisateur a déjà soumis un témoignage, mettre à jour la variable d'état
+          setHasSubmitted(false); //si l'utilisateur a déjà soumis un témoignage, mettre à jour la variable d'état
         }
       }
     };
@@ -277,7 +278,6 @@ export default function Home() {
                           La limite de 20 caractères est atteinte.
                         </p>
                       )}
-                      <p className="p-gray">{200 - name.length} caractères restants.</p>
                     </div>
                     <div className="mb-4">
                       <label className="block p-gray mb-2">Témoignage</label>
@@ -293,6 +293,7 @@ export default function Home() {
                           La limite de 150 caractères est atteinte.
                         </p>
                       )}
+                      <p className="p-gray text-sm">{150 - message.length} caractères restants.</p>
                     </div>
                     <div className="flex justify-end">
                       <button

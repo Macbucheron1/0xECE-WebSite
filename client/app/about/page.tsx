@@ -2,7 +2,7 @@ export default function About() {
   return (
     <ul className="p-6">
       <h1 className="wt-title">About Us</h1>
-      <li className="card">
+      <li className="card mt-8">
         <h1 className="p-blue text-xl font-bold mb-4">Project Information</h1>
         <p className="text-lg p-gray mb-2">
           Welcome to our project! We are using this website to display the result of our lab / project.

@@ -9,12 +9,13 @@ export default function WriteUp({ params }) {
   const { writeUpsId } = params;
   const [writeUp, setWriteUp] = useState(null);
   const [notFound, setNotFound] = useState(false);
-  const [comments, setComments] = useState([]); // Initialise les commentaires
+  const [comments, setComments] = useState([]); 
   const [currentPage, setCurrentPage] = useState(1);
   const commentsPerPage = 3;
   const [commentContent, setCommentContent] = useState('');
   const { user } = useContext(ContextTest);
   const [errorMessage, setErrorMessage] = useState('');
+  const [hasMore, setHasMore] = useState(false); //allows to know if there are more comments to display
 
   const fetchWriteUp = async () => {
     const { data, error } = await supabase
@@ -34,7 +35,7 @@ export default function WriteUp({ params }) {
 
   const fetchComments = async () => {
     const start = (currentPage - 1) * commentsPerPage;
-    const end = start + commentsPerPage - 1;
+    const end = start + commentsPerPage; // Fetch one extra comment
     const { data, error } = await supabase
       .from('comments')
       .select('*')
@@ -44,7 +45,13 @@ export default function WriteUp({ params }) {
     if (error) {
       console.log(error);
     } else {
-      setComments(data);
+      if (data.length > commentsPerPage) {
+        setHasMore(true);
+        setComments(data.slice(0, commentsPerPage)); // Display only the required comments
+      } else {
+        setHasMore(false);
+        setComments(data);
+      }
     }
   };
 
@@ -83,7 +90,7 @@ export default function WriteUp({ params }) {
   };
 
   const nextPage = () => {
-    if (comments.length === commentsPerPage) {
+    if (hasMore) {
       setCurrentPage(currentPage + 1);
     }
   };
@@ -141,17 +148,18 @@ export default function WriteUp({ params }) {
             maxLength={200}
           ></textarea>
           {commentContent.length >= 200 && (
-            <p className="text-red-500">Vous avez atteint la taille maximale de commentaire.</p>
+            <p className="text-red-500 text-sm">Vous avez atteint la taille maximale de commentaire.</p>
           )}
-          <p className="p-gray">{200 - commentContent.length} caractères restants.</p>
+          <p className="p-gray text-sm">{200 - commentContent.length} caractères restants.</p>
           <button className="button float-right" onClick={handlePublish}>Publier</button>
           {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         </div>
-        <div className="mt-8">
+        <div className="mt-16">
           {comments.map((comment) => (
-            <div key={comment.id} className="p-2 border-b">
-              <p><strong>{comment.username}</strong> - {formatDate(comment.date)}</p>
+            <div key={comment.id} className="card mt-4">
+              <p className="text-lg p-blue font-bold">{comment.username}</p>
               <p>{comment.content}</p>
+              <p className="p-gray text-right">{formatDate(comment.date)}</p>
             </div>
           ))}
           {comments.length === 0 && (
@@ -159,11 +167,11 @@ export default function WriteUp({ params }) {
           )}
           {comments.length > 0 && (
             <div className="flex justify-between mt-4">
-              <button onClick={prevPage} disabled={currentPage === 1}>
+              <button onClick={prevPage} disabled={currentPage === 1} className="button disabled:opacity-50 disabled:cursor-not-allowed ">
                 &larr; Précédent
               </button>
               <span>Page {currentPage}</span>
-              <button onClick={nextPage} disabled={comments.length < commentsPerPage}>
+              <button onClick={nextPage} disabled={!hasMore} className="button disabled:opacity-50 disabled:cursor-not-allowed">
                 Suivant &rarr;
               </button>
             </div>
