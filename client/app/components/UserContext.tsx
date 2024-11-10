@@ -2,13 +2,11 @@ import { createContext, useState } from "react";
 import { supabase } from "../../utils/supabaseClient";
 import { Session } from "@supabase/supabase-js";
 import { generateGravatarUrl } from "../../utils/gravatar";
-import { UUID } from "crypto";
 
 type CustomUser = {
   id: string | null;
   email: string | null;
   username: string | null;
-  connected_with_github: boolean | null;
   connected_with_discord: boolean | null;
   pp: {
     gravatar?: string | null;
@@ -19,8 +17,6 @@ type CustomUser = {
   theme?: string | null;
   language?: string | null;
   bio?: string | null;
-  discord_token?: UUID | null;
-  discord_refresh_token?: UUID | null;
   role: string | null;
   promo: string | null;
   // Add other fields as needed
@@ -51,7 +47,7 @@ const Context = createContext<{
   getEmail: (session: Session) => string;
   getUsername: (session: Session) => string;
   getPP: (session: Session) => CustomUser["pp"];
-  getUserPersonalization: (session: Session, role: string, promo: string) => Promise<any>;
+  getUserPersonalization: (session: Session) => Promise<any>;
   login: () => Promise<void>;
   updateFavPPProvider: (newProvider: string) => void;
   logout: () => void;
@@ -76,15 +72,12 @@ export const ContextProvider = ({ children }) => {
     id: null,
     email: null,
     username: null,
-    connected_with_github: false,
     connected_with_discord: false,
     pp: null,
     fav_pp_provider: null,
     theme: "Light",
     bio: null,
     language: "english",
-    discord_token: null,
-    discord_refresh_token: null,
     role: "non_membre",
     promo: null,
   });
@@ -131,7 +124,7 @@ export const ContextProvider = ({ children }) => {
     };
   };
 
-  const getUserPersonalization = async (session: Session, new_role: string, new_promo: string) => {
+  const getUserPersonalization = async (session: Session) => {
     const { data, error } = await supabase
       .from("user_personalization_info")
       .select("pp_fav_provider, bio, theme, language, role, promo")
@@ -144,6 +137,12 @@ export const ContextProvider = ({ children }) => {
           "No personalization data found for user: ",
           getID(session)
         );
+        // get info from discord
+        const { role, promo } = await getInfoFromDiscord(
+          session.provider_token,
+          session.provider_refresh_token,
+          getID(session)
+        );
         // insert default personalization data
         const { error } = await supabase
           .from("user_personalization_info")
@@ -154,8 +153,8 @@ export const ContextProvider = ({ children }) => {
               bio: null,
               theme: "Light",
               language: "english",
-              role: "new_role",
-              promo: new_promo,
+              role: role,
+              promo: promo,
             },
           ]);
         if (error) {
@@ -168,28 +167,19 @@ export const ContextProvider = ({ children }) => {
           bio: null,
           theme: "Light",
           language: "english",
-          role: "non_membre",
-          promo: null,
+          role: role,
+          promo: promo,
         };
       } else {
         console.error("Error fetching user personalization:", error);
         return null;
       }
     }
-    if (data.role !== new_role || data.promo !== new_promo) {
-      console.log("Updating role and promo");
-      const { error } = await supabase
-        .from("user_personalization_info")
-        .update({ role: new_role, promo: new_promo })
-        .eq("user_uid", getID(session));
-      if (error) {
-        console.error("Error updating role and promo:", error);
-      }
-    }
     return data;
   };
 
   const getInfoFromDiscord = async (token: string, refresh_token: string, id: string) => {
+    console.log("Fetching role from discord");
     // Check if the user is part of the 0xECE guild on Discord with the guild ID : 1225485887463227525
     let role = null;
     let promo = null;
@@ -243,7 +233,6 @@ export const ContextProvider = ({ children }) => {
     const { data } = supabase.auth.onAuthStateChange((event, session) => {
       if (session) {
         const new_id = getID(session);
-        const new_connected_with_github = getConnected_With(session, "github");
         const new_connected_with_discord = getConnected_With(
           session,
           "discord"
@@ -258,18 +247,8 @@ export const ContextProvider = ({ children }) => {
         let discord_token = null;
         let discord_refresh_token = null;
         let new_role = "non_membre";
-        let new_promo = null;
-        if (session.user.user_metadata.iss.includes("discord")) {
-          discord_token = session.provider_token;
-          discord_refresh_token = session.provider_refresh_token;
-          getInfoFromDiscord(discord_token, discord_refresh_token, new_id).then(
-            (data) => {
-              new_role = data.role;
-              new_promo = data.promo;
-            }
-          );
-        }
-        getUserPersonalization(session, new_role, new_bio).then((data) => {
+        let new_promo = "non definie";
+        getUserPersonalization(session).then((data) => {
           new_fav_pp_provider = data.pp_fav_provider;
           new_bio = data.bio;
           new_theme = data.theme;
@@ -279,15 +258,12 @@ export const ContextProvider = ({ children }) => {
               id: new_id,
               email: new_email,
               username: new_username,
-              connected_with_github: new_connected_with_github,
               connected_with_discord: new_connected_with_discord,
               pp: new_pp,
               fav_pp_provider: new_fav_pp_provider,
               bio: new_bio,
               theme: new_theme,
               language: new_language,
-              discord_token: discord_token,
-              discord_refresh_token: discord_refresh_token,
               role: new_role,
               promo: new_promo,
             });
@@ -296,15 +272,12 @@ export const ContextProvider = ({ children }) => {
               id: new_id,
               email: new_email,
               username: new_username,
-              connected_with_github: new_connected_with_github,
               connected_with_discord: new_connected_with_discord,
               pp: new_pp,
               fav_pp_provider: new_fav_pp_provider,
               bio: new_bio,
               theme: new_theme,
               language: new_language,
-              discord_token: discord_token,
-              discord_refresh_token: discord_refresh_token,
               role: data.role,
               promo: data.promo,
             });
@@ -315,7 +288,6 @@ export const ContextProvider = ({ children }) => {
           id: null,
           email: null,
           username: null,
-          connected_with_github: false,
           connected_with_discord: false,
           pp: null,
           fav_pp_provider: null,
@@ -348,15 +320,12 @@ export const ContextProvider = ({ children }) => {
       id: null,
       email: null,
       username: null,
-      connected_with_github: false,
       connected_with_discord: false,
       pp: null,
       fav_pp_provider: null,
       theme: "Light",
       bio: null,
       language: "english",
-      discord_token: null,
-      discord_refresh_token: null,
       role: "non_membre",
       promo: null,
     });

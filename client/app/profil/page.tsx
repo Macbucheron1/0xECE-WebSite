@@ -15,28 +15,6 @@ export default function UserProfile() {
     router.push("/");
   };
 
-  const handleLink = async (linkingWith: string) => {
-    if (linkingWith === "github") {
-      const { data, error } = await supabase.auth.linkIdentity({
-        provider: "github",
-      });
-      if (error) {
-        console.error("Error linking account with github:", error.message);
-      }
-      console.log("linked with github: ", data);
-    } else if (linkingWith === "discord") {
-      const { data, error } = await supabase.auth.linkIdentity({
-        provider: "discord",
-        options: {
-          scopes: "identify email guilds guilds.members.read",
-        },
-      });
-      if (error) {
-        console.error("Error linking account with discord:", error.message);
-      }
-    }
-  };
-
   const handleUpdatePP = async (provider) => {
     await updateFavPPProvider(provider);
   };
@@ -57,37 +35,6 @@ export default function UserProfile() {
           >
             Logout
           </button>
-          {!user.connected_with_discord || !user.connected_with_github ? (
-            <button
-              className="mt-4 bg-green-500 text-white px-4 py-2 rounded"
-              onClick={() =>
-                handleLink(user.connected_with_discord ? "github" : "discord")
-              }
-            >
-              Link {user.connected_with_discord === true ? "Github" : "Discord"}
-            </button>
-          ) : (
-            <>
-              <button
-                className="mt-4 bg-purple-500 text-white px-4 py-2 rounded"
-                onClick={() => handleUpdatePP("gravatar")}
-              >
-                Use gravatar profile picture
-              </button>
-              <button
-                className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
-                onClick={() => handleUpdatePP("discord")}
-              >
-                Use Discord profile picture
-              </button>
-              <button
-                className="mt-4 bg-cyan-500 text-white px-4 py-2 rounded"
-                onClick={() => handleUpdatePP("github")}
-              >
-                Use Github profile picture
-              </button>
-            </>
-          )}
         </div>
       ) : (
         <p className="text-lg text-gray-700 mb-2">
