@@ -36,6 +36,7 @@ export default function PublishWriteUp() {
             console.log(data);
         }
     }
+    
 
     return (
         <div className="p-6 overflow-x-hidden">
@@ -134,14 +135,14 @@ export default function PublishWriteUp() {
                         </div>
                         <div className="flex justify-end">
                             <button
-                                className="mr-2 px-4 py-2 bg-gray-700 text-white rounded"
+                                className="text-white font-semibold py-2 px-4 rounded mr-6 bg-gray-700 hover:bg-gray-600"
                                 type="button"
                                 onClick={() => router.push('/writeUps')}
                             >
                                 Annuler
                             </button>
                             <button
-                                className="px-4 py-2 bg-blue-500 text-white rounded"
+                                className="button"
                                 type="submit"
                             >
                                 Publier
