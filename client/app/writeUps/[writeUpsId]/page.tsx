@@ -61,7 +61,7 @@ export default function WriteUp({ params }) {
 
   useEffect(() => {
     fetchComments();
-  }, [writeUpsId, currentPage]); // Recharge les commentaires lorsque l'ID ou la page change
+  }, [writeUpsId]); // Recharge les commentaires lorsque l'ID change
 
   if (notFound) {
     return (

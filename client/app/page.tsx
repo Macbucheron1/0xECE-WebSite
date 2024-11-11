@@ -42,11 +42,13 @@ export default function Home() {
           .from("testimonials")
           .select("username")
           .eq("username", user.username);
-        if (error && error.code !== "PGRST116") {
+        if (error) {
           console.error(error);
-          setHasSubmitted(true); 
         } else if (data.length === 0) {
           setHasSubmitted(false); //si l'utilisateur a déjà soumis un témoignage, mettre à jour la variable d'état
+        }
+        else {
+          setHasSubmitted(true);
         }
       }
     };
@@ -55,18 +57,10 @@ export default function Home() {
 
     /* Création d'un témoignage */
   const createTestimonial = async () => {
-    if (message.length < 10) {
-      alert("Votre témoignage doit contenir au moins 10 caractères.");
-      return;
-    }
-    if (name.length < 3) {
-      alert("Votre nom doit contenir au moins 3 caractères.");
-      return;
-    }
     const { error } = await supabase.from("testimonials").insert([
       //INSERT INTO testimonials (username, message, image_url, name) VALUES (user.user_metadata.name, message, user.user_metadata.avatar_url (changer), name)
       {
-        username: user.username, //Discord username (changer)
+        username: user.username, 
         message: message,
         image_url: actualPP,
         name: name,
@@ -74,11 +68,9 @@ export default function Home() {
     ]);
     if (error) {
       console.error(error);
-      alert("Échec lors de l'ajout du témoignage.");
     } else {
       setHasSubmitted(true); //mettre à jour la variable d'état pour indiquer que l'utilisateur a soumis un témoignage
       fetchTestimonials(); //mettre à jour la liste des témoignages
-      alert("Témoignage ajouté avec succès.");
       setIsFormOpen(false); //masquer le formulaire
       setName("");
       setMessage("");
@@ -264,7 +256,7 @@ export default function Home() {
                   </h3>
                   <form>
                     <div className="mb-4">
-                      <label className="block p-gray mb-2">Nom</label>
+                      <label className="block p-blue mb-2">Nom</label>
                       <input
                         type="text"
                         className="w-full p-2 rounded bg-gray-700 text-white"
@@ -280,7 +272,7 @@ export default function Home() {
                       )}
                     </div>
                     <div className="mb-4">
-                      <label className="block p-gray mb-2">Témoignage</label>
+                      <label className="block p-blue mb-2">Témoignage</label>
                       <textarea
                         className="w-full p-2 rounded bg-gray-700 text-white"
                         value={message}

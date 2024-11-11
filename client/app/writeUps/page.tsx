@@ -34,7 +34,7 @@ export default function writeUps() {
       <h2 className="wt-title mb-6">Write-ups</h2>
       {user && user.id && (
         <div className="flex justify-end">
-        <Link href="/new">
+        <Link href="/writeUps/new">
           <button className="button">Publier un write-up</button>
         </Link>
       </div>
@@ -44,7 +44,7 @@ export default function writeUps() {
           <Link
             key={writeUp.id}
             href={`/writeUps/${writeUp.id}`}
-            className="card hover:bg-gray-100 sm:hover:bg-gray-100 md:hover:bg-gray-100"
+            className="card hover:bg-gray-100 sm:hover:bg-gray-100 md:hover:bg-gray-500"
           >
             <h3 className="p-blue text-xl font-bold">{writeUp.title}</h3>
             <p className="text-lg p-gray">{writeUp.type}</p>
