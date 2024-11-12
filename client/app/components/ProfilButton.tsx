@@ -34,13 +34,8 @@ const ProfileButton = () => {
   }, []);
 
   useEffect(() => { 
-    console.log("calling login");
     login();
   }, []);
-  
-  useEffect(() => {
-    console.log("user", user);
-  },[user]);
 
   useEffect(() => {
     if (user) {
@@ -86,7 +81,7 @@ const ProfileButton = () => {
       className="bg-white flex items-center mr-3 shadow-md rounded-2xl p-2 hover:shadow-lg"
       onClick={() => {
         console.log("Profil");
-        router.push(`/profil`);
+        router.push(`/profil/`+user.id);
       }}
         >
       <img

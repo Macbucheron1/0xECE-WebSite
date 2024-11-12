@@ -47,7 +47,10 @@ const Context = createContext<{
   getEmail: (session: Session) => string;
   getUsername: (session: Session) => string;
   getPP: (session: Session) => CustomUser["pp"];
-  getUserPersonalization: (session: Session, connected_with_discord: boolean) => Promise<any>;
+  getUserPersonalization: (
+    session: Session,
+    connected_with_discord: boolean
+  ) => Promise<any>;
   login: () => Promise<void>;
   updateFavPPProvider: (newProvider: string) => void;
   logout: () => void;
@@ -128,23 +131,27 @@ export const ContextProvider = ({ children }) => {
     session: Session,
     connected_with_discord: boolean
   ) => {
-    const { data, error } = await supabase
-      .from("user_personalization_info")
-      .select("pp_fav_provider, bio, theme, language, role, promo")
-      .eq("user_uid", getID(session))
-      .single();
+    try {
+      const { data, error } = await supabase // Fetch user personalization data from the database
+        .from("user_personalization_info")
+        .select("pp_fav_provider, bio, theme, language, role, promo")
+        .eq("user_uid", getID(session))
+        .single();
 
-    if (error) {
+      if (error) {
+        throw error;
+      }
+
+      return data;
+    } catch (error) {
       if (error.code === "PGRST116") {
-        console.error(
-          "No personalization data found for user: ",
-          getID(session)
-        );
+        // No personalization data found for user, we need to insert
+
         let new_role = "non_membre";
         let new_promo = "undefined";
+
         if (connected_with_discord) {
-          console.log("fetching from discord");
-          // get info from discord
+          //  If the user is connected with Discord, we fetch the role and promo from Discord
           const { role, promo } = await getInfoFromDiscord(
             session.provider_token,
             session.provider_refresh_token,
@@ -152,9 +159,10 @@ export const ContextProvider = ({ children }) => {
           );
           new_role = role;
           new_promo = promo;
-        }
-        // insert default personalization data
-        console.log("Inserting default personalization data");
+        } // If the user is not connected with Discord, we set the role and promo to default values
+
+        // Insert personalization data
+
         const { error } = await supabase
           .from("user_personalization_info")
           .insert([
@@ -168,25 +176,28 @@ export const ContextProvider = ({ children }) => {
               promo: new_promo,
             },
           ]);
+
         if (error) {
+          // Error inserting default personalization data
           console.error("Error inserting default personalization data:", error);
-          return null;
         }
-        return {
-          user_uid: getID(session),
-          pp_fav_provider: "gravatar",
-          bio: null,
-          theme: "Light",
-          language: "english",
-          role: new_role,
-          promo: new_promo,
-        };
-      } else {
-        console.error("Error fetching user personalization:", error);
-        return null;
+      } else if (error.code === "23505") { // Error code by double rendering when being in development mode. In production, this error cannot happen.
       }
+      else {
+        // Error fetching user personalization data
+        console.error("Error fetching user personalization:", error);
+      }
+
+      return {
+        user_uid: getID(session),
+        pp_fav_provider: "gravatar",
+        bio: null,
+        theme: "Light",
+        language: "english",
+        role: "non_membre",
+        promo: "undefined",
+      };
     }
-    return data;
   };
 
   const getInfoFromDiscord = async (
@@ -223,8 +234,8 @@ export const ContextProvider = ({ children }) => {
         }
       }
     } catch (error) {
-      console.log("Error fetching role from discord:", error);
-      return {role: "non_membre", promo: "undefined"};
+      console.error("Error fetching role from discord:", error);
+      return { role: "non_membre", promo: "undefined" };
     }
 
     return { role: role, promo: promo };
@@ -247,30 +258,30 @@ export const ContextProvider = ({ children }) => {
         let new_language = null;
         let new_role = "non_membre";
         let new_promo = "undefined";
-        getUserPersonalization(session, new_connected_with_discord).then((data) => {
-          new_fav_pp_provider = data.pp_fav_provider;
-          new_bio = data.bio;
-          new_theme = data.theme;
-          new_language = data.language;
-          new_role = data.role;
-          new_promo = data.promo;
-          setUser({
-            id: new_id,
-            email: new_email,
-            username: new_username,
-            connected_with_discord: new_connected_with_discord,
-            pp: new_pp,
-            fav_pp_provider: new_fav_pp_provider,
-            bio: new_bio,
-            theme: new_theme,
-            language: new_language,
-            role: new_role,
-            promo: new_promo,
-          });
-          
-        });
+        getUserPersonalization(session, new_connected_with_discord).then(
+          (data) => {
+            new_fav_pp_provider = data.pp_fav_provider;
+            new_bio = data.bio;
+            new_theme = data.theme;
+            new_language = data.language;
+            new_role = data.role;
+            new_promo = data.promo;
+            setUser({
+              id: new_id,
+              email: new_email,
+              username: new_username,
+              connected_with_discord: new_connected_with_discord,
+              pp: new_pp,
+              fav_pp_provider: new_fav_pp_provider,
+              bio: new_bio,
+              theme: new_theme,
+              language: new_language,
+              role: new_role,
+              promo: new_promo,
+            });
+          }
+        );
       } else {
-        console.log("else no session");
         setUser({
           id: null,
           email: null,

@@ -1,8 +1,8 @@
 "use client";
 
 import { useContext } from "react";
-import ContextTest from "../components/UserContext";
-import { supabase } from "../../utils/supabaseClient";
+import ContextTest from "../../components/UserContext";
+import { supabase } from "../../../utils/supabaseClient";
 import { useRouter } from "next/navigation";
 
 export default function UserProfile() {
@@ -24,7 +24,9 @@ export default function UserProfile() {
       <h1 className="text-3xl font-bold mb-4">User Profile</h1>
       {user ? (
         <div className="bg-white p-6 rounded shadow mt-4">
-          <h2 className="text-2xl text-gray-700 font-bold mb-4">User Information</h2>
+          <h2 className="text-2xl text-gray-700 font-bold mb-4">
+            User Information
+          </h2>
           <p className="text-lg text-gray-700">Email: {user.email}</p>
           <p className="text-lg text-gray-700">Username: {user.username}</p>
           <p className="text-lg text-gray-700">Role: {user.role}</p>

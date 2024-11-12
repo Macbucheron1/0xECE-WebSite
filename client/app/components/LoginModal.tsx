@@ -32,7 +32,7 @@ const LoginModal = ({ onClose }) => {
    */
   const handleLogin = async (provider: "discord" | "github") => {
     if (provider === "discord") {
-      const { error } = await supabase.auth.signInWithOAuth({
+      const { data, error } = await supabase.auth.signInWithOAuth({
         provider: provider,
         options: {
           scopes: "identify email guilds guilds.members.read",
@@ -43,7 +43,7 @@ const LoginModal = ({ onClose }) => {
       } 
     } else if (provider === "github") {
       try {
-        const { error } = await supabase.auth.signInWithOAuth({ provider });
+        const { data, error } = await supabase.auth.signInWithOAuth({ provider });
         if (error) {
           console.error(`Error logging in with ${provider}:`, error.message);
         }
