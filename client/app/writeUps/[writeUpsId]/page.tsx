@@ -127,11 +127,10 @@ export default function WriteUp({ params }) {
           <button className="button my-8">Retour</button>
         </Link>
         <h2 className="wt-title mb-6">{writeUp.title}</h2>
-        <p className="text-lg p-gray">{writeUp.type}</p>
         <p className="text-lg p-gray">
-          Username: {writeUp.username}
+          Écrit par <Link href={`/profil/${writeUp.username}`} className="p-blue underline">{writeUp.username}</Link>
           <br />
-          Date: {formatDate(writeUp.date)}
+          Le {formatDate(writeUp.date)}
         </p>
         <div className="mt-4 markdown">
           <ReactMarkdown>
@@ -157,7 +156,9 @@ export default function WriteUp({ params }) {
         <div className="mt-16">
           {comments.map((comment) => (
             <div key={comment.id} className="card mt-4">
-              <p className="text-lg p-blue font-bold">{comment.username}</p>
+              <p className="text-lg p-blue font-bold">
+                <Link href={`/profil/${comment.username}`} className="p-blue underline">{comment.username}</Link>
+              </p>
               <p>{comment.content}</p>
               <p className="p-gray text-right">{formatDate(comment.date)}</p>
             </div>
