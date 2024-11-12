@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback, useContext, use } from "react";
 import { useRouter } from "next/navigation";
 import LoginModal from "./LoginModal";
 import ContextTest from "../components/UserContext";
+import Link from "next/link";
 
 /**
  * ProfileButton component renders a button that displays the user's profile picture and name if the user is logged in.
@@ -77,12 +78,9 @@ const ProfileButton = () => {
   }
 
   return (
-    <button
+    <Link
       className="bg-white flex items-center mr-3 shadow-md rounded-2xl p-2 hover:shadow-lg"
-      onClick={() => {
-        console.log("Profil");
-        router.push(`/profil/`+user.id);
-      }}
+      href={`/profil/${user.id}`}
         >
       <img
         src={actualPP}
@@ -92,7 +90,7 @@ const ProfileButton = () => {
       <span className="my-0 text-dark font-semibold text-[1.35rem]/[1.2] justify-center hidden lg:block mr-1 overflow-hidden">
         {user.username}
       </span>
-    </button>
+    </Link>
   );
 };
 
