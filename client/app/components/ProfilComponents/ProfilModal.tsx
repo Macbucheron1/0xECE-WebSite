@@ -1,8 +1,24 @@
 
-import { useState } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import ContextTest from '../UserContext';
 
-const ProfilModal = ({ isOpen, onClose }) => {
+const ProfilModal = ({ isOpen, onClose, newLinkProvider }) => {
     const [linkValue, setLinkValue] = useState('');
+    const { user } = useContext(ContextTest);
+
+    useEffect(() => {
+        if (user) {
+            if (newLinkProvider === 'linkedin') {
+                setLinkValue(user.linkedin_url || '');
+            } else if (newLinkProvider === 'rootme') {
+                setLinkValue(user.rootme_url || '');
+            } else if (newLinkProvider === 'tryhackme') {
+                setLinkValue(user.tryhackme_url || ''); 
+            } else if (newLinkProvider === 'htb') {
+                setLinkValue(user.htb_url || ''); ;
+            }
+        }
+    }, []);
 
     const handleModalClose = () => {
         onClose(linkValue);

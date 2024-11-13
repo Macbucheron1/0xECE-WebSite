@@ -2,6 +2,7 @@ import { createContext, useState } from "react";
 import { supabase } from "../../utils/supabaseClient";
 import { Session } from "@supabase/supabase-js";
 import { generateGravatarUrl } from "../../utils/gravatar";
+import { faLinkedin } from "@fortawesome/free-brands-svg-icons";
 
 type CustomUser = {
   id: string | null;
@@ -9,16 +10,20 @@ type CustomUser = {
   username: string | null;
   connected_with_discord: boolean | null;
   pp: {
-    gravatar?: string | null;
-    discord?: string | null;
-    github?: string | null;
+    gravatar: string | null;
+    discord: string | null;
+    github: string | null;
   } | null;
-  fav_pp_provider?: string | null;
-  theme?: string | null;
-  language?: string | null;
-  bio?: string | null;
+  fav_pp_provider: string | null;
+  theme: string | null;
+  language: string | null;
+  bio: string | null;
   role: string | null;
   promo: string | null;
+  linkedin_url: string | null;
+  rootme_url: string | null;
+  tryhackme_url: string | null;
+  htb_url: string | null;
   // Add other fields as needed
 };
 
@@ -55,7 +60,7 @@ const Context = createContext<{
   updateFavPPProvider: (newProvider: string) => void;
   updatePromo: (newPromo: string) => void;
   updateBio: (newBio: string) => void;
-  updateLink: (newLink: string, website: string) => void; 
+  updateLink: (newLink: string, website: string) => void;
   logout: () => void;
 }>({
   user: null,
@@ -87,8 +92,12 @@ export const ContextProvider = ({ children }) => {
     theme: "Light",
     bio: null,
     language: "english",
-    role: "non_membre",
+    role: "non membre",
     promo: null,
+    linkedin_url: null,
+    rootme_url: null,
+    tryhackme_url: null,
+    htb_url: null,
   });
 
   const getID = (session: Session) => {
@@ -140,7 +149,9 @@ export const ContextProvider = ({ children }) => {
     try {
       const { data, error } = await supabase // Fetch user personalization data from the database
         .from("user_personalization_info")
-        .select("pp_fav_provider, bio, theme, language, role, promo")
+        .select(
+          "pp_fav_provider, bio, theme, language, role, promo, linkedin_url, rootme_url, tryhackme_url, htb_url"
+        )
         .eq("user_uid", getID(session))
         .single();
 
@@ -153,7 +164,7 @@ export const ContextProvider = ({ children }) => {
       if (error.code === "PGRST116") {
         // No personalization data found for user, we need to insert
 
-        let new_role = "non_membre";
+        let new_role = "non membre";
         let new_promo = "undefined";
 
         if (connected_with_discord) {
@@ -180,6 +191,10 @@ export const ContextProvider = ({ children }) => {
               language: "english",
               role: new_role,
               promo: new_promo,
+              linkedin_url: null,
+              rootme_url: null,
+              tryhackme_url: null,
+              htb_url: null,
             },
           ]);
 
@@ -187,9 +202,9 @@ export const ContextProvider = ({ children }) => {
           // Error inserting default personalization data
           console.error("Error inserting default personalization data:", error);
         }
-      } else if (error.code === "23505") { // Error code by double rendering when being in development mode. In production, this error cannot happen.
-      }
-      else {
+      } else if (error.code === "23505") {
+        // Error code by double rendering when being in development mode. In production, this error cannot happen.
+      } else {
         // Error fetching user personalization data
         console.error("Error fetching user personalization:", error);
       }
@@ -200,8 +215,12 @@ export const ContextProvider = ({ children }) => {
         bio: null,
         theme: "Light",
         language: "english",
-        role: "non_membre",
+        role: "non membre",
         promo: "undefined",
+        linkedin_url: null,
+        rootme_url: null,
+        tryhackme_url: null,
+        htb_url: null,
       };
     }
   };
@@ -241,7 +260,7 @@ export const ContextProvider = ({ children }) => {
       }
     } catch (error) {
       console.error("Error fetching role from discord:", error);
-      return { role: "non_membre", promo: "undefined" };
+      return { role: "non membre", promo: "undefined" };
     }
 
     return { role: role, promo: promo };
@@ -262,8 +281,12 @@ export const ContextProvider = ({ children }) => {
         let new_bio = null;
         let new_theme = null;
         let new_language = null;
-        let new_role = "non_membre";
+        let new_role = "non membre";
         let new_promo = "undefined";
+        let new_linkedin_url = null;
+        let new_rootme_url = null;
+        let new_tryhackme_url = null;
+        let new_htb_url = null;
         getUserPersonalization(session, new_connected_with_discord).then(
           (data) => {
             new_fav_pp_provider = data.pp_fav_provider;
@@ -272,6 +295,10 @@ export const ContextProvider = ({ children }) => {
             new_language = data.language;
             new_role = data.role;
             new_promo = data.promo;
+            new_linkedin_url = data.linkedin_url;
+            new_rootme_url = data.rootme_url;
+            new_tryhackme_url = data.tryhackme_url;
+            new_htb_url = data.htb_url;
             setUser({
               id: new_id,
               email: new_email,
@@ -284,6 +311,10 @@ export const ContextProvider = ({ children }) => {
               language: new_language,
               role: new_role,
               promo: new_promo,
+              linkedin_url: new_linkedin_url,
+              rootme_url: new_rootme_url,
+              tryhackme_url: new_tryhackme_url,
+              htb_url: new_htb_url,
             });
           }
         );
@@ -297,8 +328,13 @@ export const ContextProvider = ({ children }) => {
           fav_pp_provider: null,
           theme: "Light",
           bio: null,
-          role: "non_membre",
+          language: "english",
+          role: "non membre",
           promo: "undefined",
+          linkedin_url: null,
+          rootme_url: null,
+          tryhackme_url: null,
+          htb_url: null,
         });
       }
     });
@@ -316,15 +352,66 @@ export const ContextProvider = ({ children }) => {
   };
 
   const updatePromo = async (newPromo: string) => {
-    console.log("new promo: ", newPromo);
+    setUser({ ...user, promo: newPromo });
+    const { error } = await supabase
+      .from("user_personalization_info")
+      .update({ promo: newPromo })
+      .eq("user_uid", user.id);
+    if (error) {
+      console.error("Error updating promo:", error);
+    }
   };
 
   const updateBio = async (newBio: string) => {
-    console.log("new bio: ", newBio);
+    setUser({ ...user, bio: newBio });
+    const { error } = await supabase
+      .from("user_personalization_info")
+      .update({ bio: newBio })
+      .eq("user_uid", user.id);
+    if (error) {
+      console.error("Error updating bio:", error);
+    }
   };
 
   const updateLink = async (newLink: string, website: string) => {
-    console.log("new link in context: ", newLink);
+    if (website === "linkedin") {
+      setUser({ ...user, linkedin_url: newLink });
+      const { error } = await supabase
+        .from("user_personalization_info")
+        .update({ linkedin_url: newLink })
+        .eq("user_uid", user.id);
+      if (error) {
+        console.error("Error updating linkedin url:", error);
+      }
+    } else if (website === "rootme") {
+      setUser({ ...user, rootme_url: newLink });
+      const { error } = await supabase
+        .from("user_personalization_info")
+        .update({ rootme_url: newLink })
+        .eq("user_uid", user.id);
+      if (error) {
+        console.error("Error updating rootme url:", error);
+      }
+    } else if (website === "tryhackme") {
+      setUser({ ...user, tryhackme_url: newLink });
+      const { error } = await supabase
+        .from("user_personalization_info")
+        .update({ tryhackme_url: newLink })
+        .eq("user_uid", user.id);
+      if (error) {
+        console.error("Error updating tryhackme url:", error);
+      }
+    } else if (website === "htb") {
+      setUser({ ...user, htb_url: newLink });
+      const { error } = await supabase
+        .from("user_personalization_info")
+        .update({ htb_url: newLink })
+        .eq("user_uid", user.id);
+      if (error) {
+        console.error("Error updating htb url:", error);
+      }
+    }
+    console.log("new user: ", user);
   };
 
   const Logout = async () => {
@@ -342,8 +429,12 @@ export const ContextProvider = ({ children }) => {
       theme: "Light",
       bio: null,
       language: "english",
-      role: "non_membre",
+      role: "non membre",
       promo: "undefined",
+      linkedin_url: null,
+      rootme_url: null,
+      tryhackme_url: null,
+      htb_url: null,
     });
   };
 

@@ -1,11 +1,13 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import { use, useContext, useEffect, useState } from "react";
 import ContextTest from "../../components/UserContext";
+import { supabase } from "../../../utils/supabaseClient";
 import { useRouter } from "next/navigation";
 import ProfilModal from "../../components/ProfilComponents/ProfilModal";
 import SocialLink from "../../components/ProfilComponents/SocialLink";
 import UserInfo from "../../components/ProfilComponents/UserInfo";
+import Bio from "../../components/ProfilComponents/Bio";
 
 export default function UserProfile({
   params,
@@ -13,14 +15,8 @@ export default function UserProfile({
   params: { profilID: string };
 }) {
   const [isPageEditable, setIsPageEditable] = useState(false);
-  const {
-    user,
-    logout,
-    updateFavPPProvider,
-    updateBio,
-    updateLink,
-    updatePromo,
-  } = useContext(ContextTest);
+  const { user, logout, updateFavPPProvider, updateLink } =
+    useContext(ContextTest);
   const [visitedUser, setVisitedUser] = useState(null);
 
   const promoOptions = ["ing1", "ing2", "ing3", "ing4", "ing5"];
@@ -148,7 +144,7 @@ export default function UserProfile({
             <UserInfo promoOptions={promoOptions} />
 
             {/* Bio Section */}
-
+            <Bio />
 
             {/* Link Buttons */}
             <SocialLink handleModaleOpen={handleModaleOpen} />
@@ -162,10 +158,7 @@ export default function UserProfile({
             </button>
             {/* Modal Window */}
             {isModalOpen && (
-              <ProfilModal
-                isOpen={isModalOpen}
-                onClose={handleModalClose}
-              />
+              <ProfilModal newLinkProvider={newLinkProvider} isOpen={isModalOpen} onClose={handleModalClose} />
             )}
           </div>
         </div>
@@ -198,6 +191,9 @@ export default function UserProfile({
       <div className="p-6">
         <h1 className="text-3xl font-bold mb-4">User Profile</h1>
         <div className="bg-white p-6 rounded shadow mt-4">
+          <h2 className="text-2xl text-gray-700 font-bold mb-4">
+            User Information
+          </h2>
           <p className="text-lg text-gray-700 mb-2">
             Loading user information...
           </p>

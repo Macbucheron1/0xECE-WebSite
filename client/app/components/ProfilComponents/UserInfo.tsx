@@ -13,7 +13,8 @@ const UserInfo = ({
 
   useEffect(() => {
     if (user) {
-      setPromo(user.promo);
+      if (user.promo) setPromo(user.promo);
+      else setPromo(promoOptions[0]);
     }
   }, [user]);
 
