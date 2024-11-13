@@ -4,6 +4,7 @@ import { supabase } from "../../../utils/supabaseClient";
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import ContextTest from "../../components/UserContext";
+import { useRouter } from 'next/navigation'; // Import useRouter
 
 export default function WriteUp({ params }) {
   const { writeUpsId } = params;
@@ -16,6 +17,8 @@ export default function WriteUp({ params }) {
   const { user } = useContext(ContextTest);
   const [errorMessage, setErrorMessage] = useState('');
   const [hasMore, setHasMore] = useState(false); //allows to know if there are more comments to display
+  const [isAuthor, setIsAuthor] = useState(false); // Add a state to store the author status
+  const router = useRouter(); // Initialize useRouter
 
   const fetchWriteUp = async () => {
     const { data, error } = await supabase
@@ -62,6 +65,32 @@ export default function WriteUp({ params }) {
   useEffect(() => {
     fetchComments();
   }, [writeUpsId]); // Recharge les commentaires lorsque l'ID change
+
+  /*Check if the current user is the author */
+  const checkAuthor = async ()  => {
+    if (user && user.id){
+      const { data, error } = await supabase
+        .from('writeups')
+        .select('user_uid')
+        .eq('id', writeUpsId)
+        .single();  // SELECT user_uid FROM writeups WHERE id = writeUpsId
+      if (error) {
+        console.log(error);
+      } else if (data.user_uid === user.id) {
+          return true;
+      }
+
+      }
+    return false;
+  }
+
+  useEffect(() => {
+    const fetchAuthorStatus = async () => {
+      const result = await checkAuthor();
+      setIsAuthor(result);
+    };
+    fetchAuthorStatus();
+  }, [user]); // Use useEffect to check if the user is the author
 
   if (notFound) {
     return (
@@ -120,12 +149,34 @@ export default function WriteUp({ params }) {
     }
   };
 
+  const handleDelete = async () => {
+    const { error } = await supabase
+      .from('writeups')
+      .delete()
+      .eq('id', writeUpsId); // Delete the write-up from Supabase
+    if (error) {
+      console.log(error);
+    } else {
+      router.push('/writeUps'); // Redirect after deletion
+    }
+  };
+
   return (
     <div className="p-6 overflow-x-hidden">
       <div className="max-w-3xl mx-auto">
-        <Link href="/writeUps">
-          <button className="button my-8">Retour</button>
-        </Link>
+        <div className="flex justify-between items-center my-8">
+          <Link href="/writeUps">
+            <button className="button">Retour</button>
+          </Link>
+          {isAuthor && (
+            <div>
+              <button className="button mr-2" onClick={handleDelete}>Supprimer</button>
+              <Link href={`/writeUps/${writeUpsId}/edit`}>
+                <button className="button">Modifier</button>
+              </Link>
+            </div>
+          )}
+        </div>
         <h2 className="wt-title mb-6">{writeUp.title}</h2>
         <p className="text-lg p-gray">
           Écrit par <Link href={`/profil/${writeUp.username}`} className="p-blue underline">{writeUp.username}</Link>

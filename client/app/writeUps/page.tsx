@@ -30,7 +30,7 @@ export default function writeUps() {
   }
 
   return (
-    <div className="p-6 min-h-full">
+    <div className="p-6 min-h-full flex flex-col"> {/* Added 'flex flex-col' */}
       <h2 className="wt-title mb-6">Write-ups</h2>
       {user && user.id && (
         <div className="flex justify-end">
@@ -39,16 +39,17 @@ export default function writeUps() {
         </Link>
       </div>
       )}
-      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
+      <ul className="flex-grow grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
         {writeUps.map((writeUp) => (
           <Link
             key={writeUp.id}
             href={`/writeUps/${writeUp.id}`}
-            className="card hover:bg-gray-100 sm:hover:bg-gray-100 md:hover:bg-gray-500"
+            className="card hover:bg-gray-100 sm:hover:bg-gray-100 md:hover:bg-gray-500 flex flex-col"
           >
-            <h3 className="p-blue text-xl font-bold">{writeUp.title}</h3>
-            <p className="text-lg p-gray">{writeUp.type}</p>
-            <p className="text-right">
+            <h3 className="p-blue text-xl font-bold break-words">{writeUp.title}</h3>
+            <p className="text-lg p-gray break-words">{writeUp.type}</p>
+            <div className="flex-grow"></div> {/* Spacer to push content up */}
+            <p className="text-right mt-auto">
               {writeUp.username} - {formatDate(writeUp.date)}
             </p>
           </Link>

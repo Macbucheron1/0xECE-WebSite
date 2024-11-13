@@ -26,6 +26,7 @@ export default function PublishWriteUp() {
                 type: type,
                 content: writeUp,
                 username: user.username,
+                user_uid: user.id,
                 date: new Date().toISOString(),
             }, // INSERT INTO writeups (title, type, content, username, date) VALUES (title, type, writeUp, user.username, NOW())
         ]);
@@ -124,12 +125,12 @@ export default function PublishWriteUp() {
                                 rows={10}
                                 value={writeUp}
                                 onChange={(e) => setWriteUp(e.target.value)}
-                                maxLength={5000}
+                                maxLength={7000}
                                 required
                             ></textarea>
-                            {writeUp.length === 5000 && (
+                            {writeUp.length === 7000 && (
                                 <p className="text-red-500">
-                                    La limite de 5000 caractères est atteinte.
+                                    La limite de 7000 caractères est atteinte.
                                 </p>
                             )}
                         </div>

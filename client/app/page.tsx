@@ -38,10 +38,10 @@ export default function Home() {
   useEffect(() => {
     const checkUserTestimonial = async () => {
       if (user && user.id) {
-        const { data, error } = await supabase //SELECT username FROM testimonials WHERE username = user.user_metadata.name
+        const { data, error } = await supabase //SELECT user_uid FROM testimonials WHERE user_uid = user.id
           .from("testimonials")
-          .select("username")
-          .eq("username", user.username);
+          .select("user_uid")
+          .eq("user_uid", user.id);
         if (error) {
           console.error(error);
         } else if (data.length === 0) {
@@ -56,16 +56,17 @@ export default function Home() {
   }, [user]);
 
     /* Création d'un témoignage */
-  const createTestimonial = async () => {
+  const createTestimonial = async (e: React.FormEvent) => {
+    e.preventDefault(); // Prevent form from reloading the page
     const { error } = await supabase.from("testimonials").insert([
-      //INSERT INTO testimonials (username, message, image_url, name) VALUES (user.user_metadata.name, message, user.user_metadata.avatar_url (changer), name)
       {
-        username: user.username, 
+        user_uid: user.id, 
         message: message,
         image_url: actualPP,
         name: name,
       },
     ]);
+
     if (error) {
       console.error(error);
     } else {
@@ -115,6 +116,7 @@ export default function Home() {
       },
     ],
   };
+
 
   return (
     <div className="p-6">
@@ -220,7 +222,7 @@ export default function Home() {
           {testimonials.length > 0 ? (
             <Slider {...settings}>
               {testimonials.map((testimonial) => (
-                <div key={testimonial.username} className="px-4">
+                <div key={testimonial.user_uid} className="px-4">
                   <div className="bg-gray-800 p-6 rounded-lg shadow h-96 flex flex-col max-w-sm mx-auto">
                     <img
                       src={testimonial.image_url}
@@ -254,7 +256,7 @@ export default function Home() {
                   <h3 className="text-2xl font-bold mb-4 p-blue">
                     Ajouter un témoignage
                   </h3>
-                  <form>
+                  <form onSubmit={createTestimonial}>
                     <div className="mb-4">
                       <label className="block p-blue mb-2">Nom</label>
                       <input
@@ -296,9 +298,8 @@ export default function Home() {
                         Annuler
                       </button>
                       <button
-                        type="button"
+                        type="submit"
                         className="bg-green-500 text-white px-4 py-2 rounded"
-                        onClick={createTestimonial}
                       >
                         Soumettre
                       </button>
