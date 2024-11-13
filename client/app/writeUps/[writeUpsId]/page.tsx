@@ -19,6 +19,7 @@ export default function WriteUp({ params }) {
   const [hasMore, setHasMore] = useState(false); //allows to know if there are more comments to display
   const [isAuthor, setIsAuthor] = useState(false); // Add a state to store the author status
   const router = useRouter(); // Initialize useRouter
+  const [actualPP, setActualPP] = useState<string>("/img/inconnu.png");
 
   const fetchWriteUp = async () => {
     const { data, error } = await supabase
@@ -57,6 +58,18 @@ export default function WriteUp({ params }) {
       }
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      if (user.fav_pp_provider === "gravatar") {
+        setActualPP(user.pp.gravatar);
+      } else if (user.fav_pp_provider === "discord") {
+        setActualPP(user.pp.discord);
+      } else if (user.fav_pp_provider === "github") {
+        setActualPP(user.pp.github);
+      }
+    }
+  }, [user]);
 
   useEffect(() => {
     fetchWriteUp();
@@ -130,6 +143,7 @@ export default function WriteUp({ params }) {
     }
   };
 
+  //Publish a comment
   const handlePublish = async () => {
     if (user && user.id) {
       const { error } = await supabase.from('comments').insert({
@@ -137,6 +151,7 @@ export default function WriteUp({ params }) {
         username: user.username,
         date: new Date().toISOString(),
         writeup_id: writeUpsId,
+        image_url: actualPP,
       });
       if (error) {
         console.log(error);
@@ -212,10 +227,13 @@ export default function WriteUp({ params }) {
         <div className="mt-16">
           {comments.map((comment) => (
             <div key={comment.id} className="card mt-4">
-              <p className="text-lg p-blue font-bold">
-                <Link href={`/profil/${comment.username}`} className="p-blue underline">{comment.username}</Link>
-              </p>
-              <p>{comment.content}</p>
+              <div className="flex items-center">
+                <img src={comment.image_url} alt={`${comment.username}'s profile picture`} className="w-10 h-10 rounded-full mr-4"/>
+                <p className="text-lg p-blue font-bold">
+                  <Link href={`/profil/${comment.username}`} className="p-blue underline">{comment.username}</Link>
+                </p>
+              </div>
+              <p className="break-words">{comment.content}</p>
               <p className="p-gray text-right">{formatDate(comment.date)}</p>
             </div>
           ))}

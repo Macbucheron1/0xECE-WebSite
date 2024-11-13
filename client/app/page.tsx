@@ -13,6 +13,10 @@ export default function Home() {
   const [testimonials, setTestimonials] = useState([]); //variable d'état pour stocker les témoignages
   const { user } = useContext(ContextTest);
   const [actualPP, setActualPP] = useState<string>("/img/inconnu.png");
+  const [isFormOpen, setIsFormOpen] = useState(false); //variable d'état pour afficher ou masquer le formulaire
+  const [name, setName] = useState(""); //variable d'état pour stocker le nom de l'utilisateur
+  const [message, setMessage] = useState(""); //variable d'état pour stocker le message du témoignage
+  const [hasSubmitted, setHasSubmitted] = useState(false); //variable d'état pour vérifier si l'utilisateur a déjà soumis un témoignage
 
   const fetchTestimonials = async () => {
     const { data, error } = await supabase.from("testimonials").select("*"); //SELECT * FROM testimonials
@@ -26,15 +30,7 @@ export default function Home() {
     fetchTestimonials(); //appel de la fonction fetchTestimonials lors du montage du composant
   }, []);
 
-  const [isFormOpen, setIsFormOpen] = useState(false); //variable d'état pour afficher ou masquer le formulaire
-  const [name, setName] = useState(""); //variable d'état pour stocker le nom de l'utilisateur
-  const [message, setMessage] = useState(""); //variable d'état pour stocker le message du témoignage
-
-  const [hasSubmitted, setHasSubmitted] = useState(false); //variable d'état pour vérifier si l'utilisateur a déjà soumis un témoignage
-
-  {
     /* Vérifier si l'utilisateur a déjà soumis un témoignage */
-  }
   useEffect(() => {
     const checkUserTestimonial = async () => {
       if (user && user.id) {
