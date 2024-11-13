@@ -170,7 +170,12 @@ export default function WriteUp({ params }) {
           </Link>
           {isAuthor && (
             <div>
-              <button className="button mr-2" onClick={handleDelete}>Supprimer</button>
+              <button
+                className="bg-red-500 text-white font-semibold py-2 px-4 rounded hover:bg-red-700 mr-2"
+                onClick={handleDelete}
+              >
+                Supprimer
+              </button>
               <Link href={`/writeUps/${writeUpsId}/edit`}>
                 <button className="button">Modifier</button>
               </Link>
