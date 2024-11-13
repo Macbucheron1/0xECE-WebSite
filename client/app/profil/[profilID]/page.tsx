@@ -1,13 +1,13 @@
 "use client";
 
-import { use, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ContextTest from "../../components/UserContext";
-import { supabase } from "../../../utils/supabaseClient";
 import { useRouter } from "next/navigation";
-import ProfilModal from "../../components/ProfilComponents/ProfilModal";
-import SocialLink from "../../components/ProfilComponents/SocialLink";
-import UserInfo from "../../components/ProfilComponents/UserInfo";
-import Bio from "../../components/ProfilComponents/Bio";
+import ProfilModal from "../../components/ProfilComponents/user/ProfilModal";
+import SocialLink from "../../components/ProfilComponents/user/SocialLink";
+import UserInfo from "../../components/ProfilComponents/user/UserInfo";
+import Bio from "../../components/ProfilComponents/user/Bio";
+import User from "../../components/ProfilComponents/user/User";
 
 export default function UserProfile({
   params,
@@ -15,45 +15,8 @@ export default function UserProfile({
   params: { profilID: string };
 }) {
   const [isPageEditable, setIsPageEditable] = useState(false);
-  const { user, logout, updateFavPPProvider, updateLink } =
-    useContext(ContextTest);
+  const { user } = useContext(ContextTest);
   const [visitedUser, setVisitedUser] = useState(null);
-
-  const promoOptions = ["ing1", "ing2", "ing3", "ing4", "ing5"];
-  const [currentPPIndex, setCurrentPPIndex] = useState(0);
-  const [availablePPs, setAvailablePPs] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newLinkProvider, setNewLinkProvider] = useState("");
-
-  const handleModaleOpen = (provider: string) => {
-    setIsModalOpen(true);
-    setNewLinkProvider(provider);
-  };
-
-  const handleModalClose = (newLinkValue: string) => {
-    console.log("new link in the page: ", newLinkValue);
-    updateLink(newLinkValue, newLinkProvider);
-    setIsModalOpen(false);
-  };
-
-  // Set initial index based on favorite provider
-  useEffect(() => {
-    if (user && user.pp) {
-      // Filter out null profile pictures and create an array of available ones
-      const availablePPs = Object.entries(user.pp)
-        .filter(([_, value]) => value !== null)
-        .map(([provider, url]) => ({ provider, url }));
-
-      setAvailablePPs(availablePPs);
-
-      const favIndex = availablePPs.findIndex(
-        (pp) => pp.provider === user.fav_pp_provider
-      );
-      if (favIndex !== -1) {
-        setCurrentPPIndex(favIndex);
-      }
-    }
-  }, [user]);
 
   useEffect(() => {
     if (params.profilID == user.id) {
@@ -65,104 +28,9 @@ export default function UserProfile({
 
   const router = useRouter();
 
-  const handleLogout = async () => {
-    await logout();
-    router.push("/");
-  };
-
-  const handleUpdatePP = async (provider: string) => {
-    await updateFavPPProvider(provider);
-  };
-
-  const handlePrevPP = () => {
-    setCurrentPPIndex((prev) => {
-      const newIndex = prev === 0 ? availablePPs.length - 1 : prev - 1;
-      handleUpdatePP(availablePPs[newIndex].provider);
-      return newIndex;
-    });
-  };
-
-  const handleNextPP = () => {
-    setCurrentPPIndex((prev) => {
-      const newIndex = prev === availablePPs.length - 1 ? 0 : prev + 1;
-      handleUpdatePP(availablePPs[newIndex].provider);
-      return newIndex;
-    });
-  };
-
   if (visitedUser) {
     if (isPageEditable) {
-      return (
-        <div className="min-h-screen bg-gray-900 text-gray-100 p-6">
-          <div className="max-w-4xl mx-auto">
-            {/* Profile Picture and Username Section */}
-            <div className="bg-gray-800 rounded-lg p-6 mb-6">
-              <div className="flex flex-col items-center mb-4">
-                {/* Profile Picture Carousel */}
-                <div className="flex items-center space-x-4 mb-4">
-                  <button
-                    onClick={handlePrevPP}
-                    className="text-2xl text-gray-400 hover:text-cyan-400 transition-colors"
-                  >
-                    ←
-                  </button>
-
-                  <div className="relative w-24 h-24">
-                    {availablePPs.length > 0 && (
-                      <img
-                        src={availablePPs[currentPPIndex].url}
-                        alt={`${availablePPs[currentPPIndex].provider} profile`}
-                        className="w-24 h-24 rounded-full object-cover"
-                      />
-                    )}
-                  </div>
-
-                  <button
-                    onClick={handleNextPP}
-                    className="text-2xl text-gray-400 hover:text-cyan-400 transition-colors"
-                  >
-                    →
-                  </button>
-                </div>
-
-                {/* Provider Label */}
-                <div className="text-sm text-gray-400 mb-4">
-                  {availablePPs[currentPPIndex]?.provider
-                    .charAt(0)
-                    .toUpperCase() +
-                    availablePPs[currentPPIndex]?.provider.slice(1)}
-                </div>
-
-                {/* Username */}
-                <h2 className="text-2xl font-bold text-cyan-400">
-                  {user.username}
-                </h2>
-              </div>
-            </div>
-
-            {/* User Information Card */}
-            <UserInfo promoOptions={promoOptions} />
-
-            {/* Bio Section */}
-            <Bio />
-
-            {/* Link Buttons */}
-            <SocialLink handleModaleOpen={handleModaleOpen} />
-
-            {/* Logout Button */}
-            <button
-              onClick={handleLogout}
-              className="w-full bg-red-500 hover:bg-red-600 text-white font-medium py-3 rounded-lg transition-colors"
-            >
-              Logout
-            </button>
-            {/* Modal Window */}
-            {isModalOpen && (
-              <ProfilModal newLinkProvider={newLinkProvider} isOpen={isModalOpen} onClose={handleModalClose} />
-            )}
-          </div>
-        </div>
-      );
+      return <User />;
     } else {
       return (
         <div className="p-6">
@@ -175,10 +43,7 @@ export default function UserProfile({
             <p className="text-lg text-gray-700">Username: {user.username}</p>
             <p className="text-lg text-gray-700">Role: {user.role}</p>
             <p className="text-lg text-gray-700">Promo: {user.promo}</p>
-            <button
-              className="mt-4 bg-red-500 text-white px-4 py-2 rounded"
-              onClick={handleLogout}
-            >
+            <button className="mt-4 bg-red-500 text-white px-4 py-2 rounded">
               Logout_
             </button>
           </div>
