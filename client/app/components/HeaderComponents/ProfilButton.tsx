@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback, useContext, use } from "react";
 import { useRouter } from "next/navigation";
 import LoginModal from "./LoginModal";
-import ContextTest from "../components/UserContext";
+import ContextTest from "../UserContext";
 import Link from "next/link";
 
 /**
@@ -34,7 +34,7 @@ const ProfileButton = () => {
     setIsModalOpen(false);
   }, []);
 
-  useEffect(() => { 
+  useEffect(() => {
     login();
   }, []);
 
@@ -49,7 +49,7 @@ const ProfileButton = () => {
       }
     }
   }, [user]);
-  
+
   if (!user.id) {
     return (
       <>
@@ -81,7 +81,7 @@ const ProfileButton = () => {
     <Link
       className="bg-white flex items-center mr-3 shadow-md rounded-2xl p-2 hover:shadow-lg"
       href={`/profil/${user.id}`}
-        >
+    >
       <img
         src={actualPP}
         alt={`${user.username}'s profile`}

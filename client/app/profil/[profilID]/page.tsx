@@ -2,18 +2,43 @@
 
 import { useContext, useEffect, useState } from "react";
 import ContextTest from "../../components/UserContext";
-import { supabase } from "../../../utils/supabaseClient";
 import { useRouter } from "next/navigation";
+import ProfilModal from "../../components/ProfilComponents/ProfilModal";
+import SocialLink from "../../components/ProfilComponents/SocialLink";
+import UserInfo from "../../components/ProfilComponents/UserInfo";
 
-export default function UserProfile({ params }) {
+export default function UserProfile({
+  params,
+}: {
+  params: { profilID: string };
+}) {
   const [isPageEditable, setIsPageEditable] = useState(false);
-  const { user, logout, updateFavPPProvider } = useContext(ContextTest);
+  const {
+    user,
+    logout,
+    updateFavPPProvider,
+    updateBio,
+    updateLink,
+    updatePromo,
+  } = useContext(ContextTest);
   const [visitedUser, setVisitedUser] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
-  const [promo, setPromo] = useState("Ing4");
-  const promoOptions = ["Ing1", "Ing2", "Ing3", "Ing4", "Ing5"];
+
+  const promoOptions = ["ing1", "ing2", "ing3", "ing4", "ing5"];
   const [currentPPIndex, setCurrentPPIndex] = useState(0);
   const [availablePPs, setAvailablePPs] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newLinkProvider, setNewLinkProvider] = useState("");
+
+  const handleModaleOpen = (provider: string) => {
+    setIsModalOpen(true);
+    setNewLinkProvider(provider);
+  };
+
+  const handleModalClose = (newLinkValue: string) => {
+    console.log("new link in the page: ", newLinkValue);
+    updateLink(newLinkValue, newLinkProvider);
+    setIsModalOpen(false);
+  };
 
   // Set initial index based on favorite provider
   useEffect(() => {
@@ -49,7 +74,7 @@ export default function UserProfile({ params }) {
     router.push("/");
   };
 
-  const handleUpdatePP = async (provider) => {
+  const handleUpdatePP = async (provider: string) => {
     await updateFavPPProvider(provider);
   };
 
@@ -120,73 +145,13 @@ export default function UserProfile({ params }) {
             </div>
 
             {/* User Information Card */}
-            <div className="bg-gray-800 rounded-lg p-6 mb-6">
-              <h2 className="text-xl font-semibold mb-4">User Information</h2>
-
-              <div className="space-y-4">
-                <div>
-                  <label className="text-gray-400 block mb-1">Email</label>
-                  <p className="text-cyan-400">macbucheron@outlook.fr</p>
-                </div>
-
-                <div>
-                  <label className="text-gray-400 block mb-1">Role</label>
-                  <p>Membre</p>
-                </div>
-
-                <div>
-                  <label className="text-gray-400 block mb-1">Promo</label>
-                  {isEditing ? (
-                    <select
-                      value={promo}
-                      onChange={(e) => setPromo(e.target.value)}
-                      className="bg-gray-700 rounded px-3 py-2 w-full max-w-xs"
-                    >
-                      {promoOptions.map((option) => (
-                        <option key={option} value={option}>
-                          {option}
-                        </option>
-                      ))}
-                    </select>
-                  ) : (
-                    <div className="flex items-center space-x-2">
-                      <span>{promo}</span>
-                      <button
-                        onClick={() => setIsEditing(true)}
-                        className="text-sm text-cyan-400 hover:text-cyan-300"
-                      >
-                        Edit
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
+            <UserInfo promoOptions={promoOptions} />
 
             {/* Bio Section */}
-            <div className="bg-gray-800 rounded-lg p-6 mb-6">
-              <h2 className="text-xl font-semibold mb-4">Bio</h2>
-              <textarea
-                className="w-full bg-gray-700 rounded-lg p-4 min-h-[120px] text-gray-100 resize-none"
-                placeholder="Write something about yourself..."
-              />
-            </div>
 
-            {/* Navigation Buttons */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-              <button className="bg-gray-800 p-4 rounded-lg hover:bg-gray-700 transition-colors">
-                Lien
-              </button>
-              <button className="bg-gray-800 p-4 rounded-lg hover:bg-gray-700 transition-colors">
-                Projets
-              </button>
-              <button className="bg-gray-800 p-4 rounded-lg hover:bg-gray-700 transition-colors">
-                CTF
-              </button>
-              <button className="bg-gray-800 p-4 rounded-lg hover:bg-gray-700 transition-colors">
-                TP
-              </button>
-            </div>
+
+            {/* Link Buttons */}
+            <SocialLink handleModaleOpen={handleModaleOpen} />
 
             {/* Logout Button */}
             <button
@@ -195,6 +160,13 @@ export default function UserProfile({ params }) {
             >
               Logout
             </button>
+            {/* Modal Window */}
+            {isModalOpen && (
+              <ProfilModal
+                isOpen={isModalOpen}
+                onClose={handleModalClose}
+              />
+            )}
           </div>
         </div>
       );
@@ -226,9 +198,6 @@ export default function UserProfile({ params }) {
       <div className="p-6">
         <h1 className="text-3xl font-bold mb-4">User Profile</h1>
         <div className="bg-white p-6 rounded shadow mt-4">
-          <h2 className="text-2xl text-gray-700 font-bold mb-4">
-            User Information
-          </h2>
           <p className="text-lg text-gray-700 mb-2">
             Loading user information...
           </p>

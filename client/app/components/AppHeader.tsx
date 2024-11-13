@@ -5,20 +5,20 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import { useMediaQuery } from "react-responsive";
-import NavMenu from "./NavMenu";
-import NotificationButton from "./NotifButton";
-import SettingsButton from "./SettingButton";
-import HamburgerButton from "./HamburgerButton";
-import SearchInput from "./SearchInput";
-import ProfileButton from "./ProfilButton";
+import NavMenu from "./HeaderComponents/NavMenu";
+import NotificationButton from "./HeaderComponents/NotifButton";
+import SettingsButton from "./HeaderComponents/SettingButton";
+import HamburgerButton from "./HeaderComponents/HamburgerButton";
+import SearchInput from "./HeaderComponents/SearchInput";
+import ProfileButton from "./HeaderComponents/ProfilButton";
 
 /**
  * Header component
- * 
+ *
  * This component renders the header of the application, which includes a profile button, search input,
  * hamburger button, settings button, and notification button. It also manages the state and positioning
  * of a navigation menu.
- * 
+ *
  * @returns {JSX.Element | null} The rendered header component or null if not on the client side.
  */
 const Header = () => {

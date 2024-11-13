@@ -53,6 +53,9 @@ const Context = createContext<{
   ) => Promise<any>;
   login: () => Promise<void>;
   updateFavPPProvider: (newProvider: string) => void;
+  updatePromo: (newPromo: string) => void;
+  updateBio: (newBio: string) => void;
+  updateLink: (newLink: string, website: string) => void; 
   logout: () => void;
 }>({
   user: null,
@@ -65,6 +68,9 @@ const Context = createContext<{
   getUserPersonalization: async () => null,
   login: async () => null,
   updateFavPPProvider: () => null,
+  updatePromo: () => null,
+  updateBio: () => null,
+  updateLink: () => null,
   logout: () => null,
 });
 
@@ -309,6 +315,18 @@ export const ContextProvider = ({ children }) => {
     setUser({ ...user, fav_pp_provider: newProvider });
   };
 
+  const updatePromo = async (newPromo: string) => {
+    console.log("new promo: ", newPromo);
+  };
+
+  const updateBio = async (newBio: string) => {
+    console.log("new bio: ", newBio);
+  };
+
+  const updateLink = async (newLink: string, website: string) => {
+    console.log("new link in context: ", newLink);
+  };
+
   const Logout = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
@@ -340,6 +358,9 @@ export const ContextProvider = ({ children }) => {
         getUsername: getUsername,
         getPP: getPP,
         getUserPersonalization: getUserPersonalization,
+        updateBio: updateBio,
+        updateLink: updateLink,
+        updatePromo: updatePromo,
         login: login,
         updateFavPPProvider: updateFavPPProvider,
         logout: Logout,
