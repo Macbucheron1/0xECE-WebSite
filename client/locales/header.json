@@ -1,0 +1,16 @@
+{
+    "french": {
+        "home": "Accueil",
+        "about": "À propos",
+        "writeups": "Write Ups",
+        "contacts": "Contacts",
+        "search": "Rechercher..."
+    }, 
+    "english": {
+        "home": "Home",
+        "about": "About",
+        "writeups": "Write Ups",
+        "contacts": "Contacts",
+        "search": "Search..."
+    }
+}

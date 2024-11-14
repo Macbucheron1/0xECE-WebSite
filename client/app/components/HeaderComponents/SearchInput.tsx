@@ -1,9 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
+import header from "../../../locales/header.json";
+import Context from "../contexts/UserContext";
 
 const SearchInput = () => {
   const [searchText, setSearchText] = useState("");
   const router = useRouter();
+  const [text, setText] = useState(header.english);
+  const { user } = useContext(Context);
+
+  useEffect(() => {
+    if (user.language === "french") {
+      setText(header.french);
+    } else {
+      setText(header.english);
+    }
+  }, [user]);
 
   const handleClearSearch = () => {
     setSearchText("");
@@ -29,7 +41,7 @@ const SearchInput = () => {
       </span>
       <input
         className="block w-full min-w-[70px] py-3 pl-12 pr-4 text-base font-medium leading-normal bg-white border border-solid outline-none appearance-none placeholder:text-secondary-dark peer text-stone-500 border-stone-200 bg-clip-padding rounded-2xl shadow hover:shadow-lg"
-        placeholder="Search..."
+        placeholder={text.search}
         type="text"
         value={searchText}
         onChange={(e) => {

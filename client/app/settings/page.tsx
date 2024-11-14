@@ -1,15 +1,23 @@
 
 "use client";
-import {useState} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoon, faSun, faGlobe } from "@fortawesome/free-solid-svg-icons";
 import ContextTest from "../components/contexts/UserContext";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import settings from "../../locales/settings.json"
 
 
 const SettingsPage = () => {
-  const [language, setLanguage] = useState("en");
   const { user, updateTheme, udpateLanguage } = useContext(ContextTest);
+  const [text, setText] = useState(settings.english);
+
+  useEffect(() => {
+    if (user.language === "french") {
+      setText(settings.french);
+    } else {
+      setText(settings.english);
+    }
+  }, [user]);
 
   const toggleTheme = () => {
     updateTheme(user.theme === "Dark" ? "Light" : "Dark");
@@ -23,11 +31,11 @@ const SettingsPage = () => {
     <div
       className={`min-h-screen p-8`}
     >
-      <h1 className="text-2xl font-bold mb-6">Settings</h1>
+      <h1 className="text-2xl font-bold mb-6">{text.title}</h1>
 
       {/* Theme */}
       <div className="mb-6">
-        <h2 className="text-xl font-semibold mb-2">Theme</h2>
+        <h2 className="text-xl font-semibold mb-2">{text.theme}</h2>
         <div className="flex items-center">
           <button
             className={`mr-4 focus:outline-none ${
@@ -47,14 +55,14 @@ const SettingsPage = () => {
               user.theme === "Dark" ? "text-gray-400" : "text-gray-700"
             }`}
           >
-            {user.theme === "Dark" ? "Dark" : "Light"}
+            {user.theme === "Dark" ? text.dark : text.light}
           </span>
         </div>
       </div>
 
       {/* Language */}
       <div className="mb-6">
-        <h2 className="text-xl font-semibold mb-2">Language</h2>
+        <h2 className="text-xl font-semibold mb-2">{text.language}</h2>
         <button
           className={`bg-[#232936] rounded-lg px-4 py-2 flex items-center justify-between w-full focus:outline-none ${
             user.theme === "Dark"

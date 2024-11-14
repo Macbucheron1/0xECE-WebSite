@@ -1,0 +1,16 @@
+{
+  "french": {
+    "title": "Paramètres",
+    "theme": "Thème",
+    "dark": "Sombre",
+    "light": "Clair",
+    "language": "Langue"
+  },
+  "english": {
+    "title": "Settings",
+    "theme": "Theme",
+    "dark": "Dark",
+    "light": "Light",
+    "language": "Language"
+  }
+}

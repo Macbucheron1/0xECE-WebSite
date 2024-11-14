@@ -7,6 +7,9 @@ import {
   faInfoCircle,
   faAddressBook,
 } from "@fortawesome/free-solid-svg-icons";
+import header from "../../../locales/header.json"
+import { useState, useEffect, useContext } from "react";
+import Context from "../contexts/UserContext";
 
 interface NavMenuProps {
   isNavOpen: boolean;
@@ -14,6 +17,16 @@ interface NavMenuProps {
 
 const NavMenu = ({ isNavOpen }: NavMenuProps) => {
   const pathname = usePathname();
+  const [text, setText] = useState(header.english);
+  const { user } = useContext(Context);
+
+  useEffect(() => {
+    if (user.language === "french") {
+      setText(header.french);
+    } else {
+      setText(header.english);
+    }
+  }, [user]);
 
   return (
     <nav className={isNavOpen ? "animate-slideIn" : "animate-slideOut"}>
@@ -26,7 +39,7 @@ const NavMenu = ({ isNavOpen }: NavMenuProps) => {
             }`}
           >
             <FontAwesomeIcon icon={faHome} className="mr-2" />
-            Home
+            {text.home}
           </Link>
         </li>
         <li className="">
@@ -37,7 +50,7 @@ const NavMenu = ({ isNavOpen }: NavMenuProps) => {
             }`}
           >
             <FontAwesomeIcon icon={faPen} className="mr-2" />
-            Write Ups
+            {text.writeups}
           </Link>
         </li>
         <li className="">
@@ -48,7 +61,7 @@ const NavMenu = ({ isNavOpen }: NavMenuProps) => {
             }`}
           >
             <FontAwesomeIcon icon={faInfoCircle} className="mr-2" />
-            About
+            {text.about}
           </Link>
         </li>
         <li className="">
@@ -59,7 +72,7 @@ const NavMenu = ({ isNavOpen }: NavMenuProps) => {
             }`}
           >
             <FontAwesomeIcon icon={faAddressBook} className="mr-2" />
-            Contacts
+            {text.contacts}
           </Link>
         </li>
       </ul>

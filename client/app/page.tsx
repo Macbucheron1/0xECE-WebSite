@@ -59,7 +59,6 @@ export default function Home() {
     } else {
       setText(home.english);
     }
-    console.log("text", text);
   }, [user]);
 
     /* Création d'un témoignage */
