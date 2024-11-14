@@ -1,10 +1,10 @@
 "use client";
 
 import { useContext, useEffect, useState } from "react";
-import ContextTest from "../../components/UserContext";
+import ContextTest from "../../components/contexts/UserContext";
 import User from "../../components/ProfilComponents/user/User";
 import OtherUser from "../../components/ProfilComponents/other/OtherUser";
-import { ContextProvider } from "../../components/OtherContext";
+import { ContextProvider } from "../../components/contexts/OtherContext";
 import Loader from "../../components/Loader";
 
 export default function UserProfile({

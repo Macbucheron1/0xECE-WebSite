@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import OtherContext from "../../OtherContext";
+import OtherContext from "../../contexts/OtherContext";
 
 const OtherBio = () => {
   const { visitedUser } = useContext(OtherContext);

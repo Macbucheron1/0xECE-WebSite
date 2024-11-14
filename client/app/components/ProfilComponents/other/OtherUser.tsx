@@ -1,5 +1,5 @@
 import { useEffect, useContext } from "react";
-import OtherContext from "../../OtherContext";
+import OtherContext from "../../contexts/OtherContext";
 import OtherInfo from "./OtherInfo";
 import OtherBio from "./OtherBio";
 import OtherSocialLink from "./OtherSocialLink";
@@ -59,14 +59,13 @@ const OtherUser = () => {
         </div>
       </div>
     );
-  } else { // No user found
+  } else {
+    // No user found
     return (
       <div className="px-6 py-11">
-      <div className="max-w-4xl mx-auto flex justify-center items-center h-full">
-        <h2 className="text-2xl font-bold text-white">
-          User not found
-        </h2>
-      </div>
+        <div className="max-w-4xl mx-auto flex justify-center items-center h-full">
+          <h2 className="text-2xl font-bold text-white">User not found</h2>
+        </div>
       </div>
     );
   }

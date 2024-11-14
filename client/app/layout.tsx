@@ -3,7 +3,7 @@
 import Header from "./components/AppHeader";
 import Footer from "./components/AppFooter";
 import "../styles/globals.css";
-import { ContextProvider } from "./components/UserContext"; // Adjust the path as necessary
+import { ContextProvider } from "./components/contexts/UserContext"; // Adjust the path as necessary
 
 export default function RootLayout({ children }) {
   return (

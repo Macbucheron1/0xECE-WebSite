@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react";
-import ContextTest from "../../UserContext";
+import ContextTest from "../../contexts/UserContext";
 
 interface UserInfoProps {
   promoOptions: string[];

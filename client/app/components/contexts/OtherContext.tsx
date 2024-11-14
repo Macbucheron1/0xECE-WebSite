@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import { supabase } from "../../utils/supabaseClient";
+import { supabase } from "../../../utils/supabaseClient";
 
 type visitedUser = {
   id: string | null;
@@ -28,21 +28,21 @@ const Context = createContext<{
 export default Context;
 
 export const ContextProvider = ({ children, id }) => {
-    const [visitedUser, setVisitedUser] = useState<visitedUser | null>(null);
+  const [visitedUser, setVisitedUser] = useState<visitedUser | null>(null);
 
-    const fetchUser = async () => {
-        const { data, error } = await supabase
-            .from("user_personalization_info")
-            .select("*")
-            .eq("user_uid", id)
-            .single();
+  const fetchUser = async () => {
+    const { data, error } = await supabase
+      .from("user_personalization_info")
+      .select("*")
+      .eq("user_uid", id)
+      .single();
 
-        if (error) {
-            console.log("error", error);
-        } else {
-            setVisitedUser(data);
-        }        
-    };
+    if (error) {
+      console.log("error", error);
+    } else {
+      setVisitedUser(data);
+    }
+  };
 
   return (
     <Context.Provider

@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useContext, useEffect, useState } from "react";
 import { supabase } from "../utils/supabaseClient";
-import ContextTest from "./components/UserContext";
+import ContextTest from "./components/contexts/UserContext";
 
 export default function Home() {
   {

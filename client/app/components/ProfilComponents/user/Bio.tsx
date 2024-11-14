@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import debounce from "lodash.debounce";
 import "react-quill/dist/quill.snow.css";
 import { useContext } from "react";
-import ContextTest from "../../UserContext";
+import ContextTest from "../../contexts/UserContext";
 
 // Dynamically import ReactQuill to avoid SSR issues
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });

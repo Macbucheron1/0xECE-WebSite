@@ -3,7 +3,7 @@ import { useEffect, useState, useContext } from "react";
 import { supabase } from "../../../utils/supabaseClient";
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
-import ContextTest from "../../components/UserContext";
+import ContextTest from "../../components/contexts/UserContext";
 import { useRouter } from 'next/navigation'; // Import useRouter
 import Loader from "../../components/Loader";
 

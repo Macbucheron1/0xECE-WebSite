@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import OtherContext from "../../OtherContext";
+import OtherContext from "../../contexts/OtherContext";
 
 const OtherSocialLink = () => {
   const { visitedUser } = useContext(OtherContext);
@@ -16,9 +16,7 @@ const OtherSocialLink = () => {
         target={visitedUser.linkedin_url ? "_blank" : "_self"}
         aria-disabled={!visitedUser.linkedin_url}
         title={
-          !visitedUser.linkedin_url
-            ? "The user has not set this link yet!"
-            : ""
+          !visitedUser.linkedin_url ? "The user has not set this link yet!" : ""
         }
       >
         <img
@@ -75,7 +73,9 @@ const OtherSocialLink = () => {
         target={visitedUser.tryhackme_url ? "_blank" : "_self"}
         aria-disabled={!visitedUser.tryhackme_url}
         title={
-          !visitedUser.tryhackme_url ? "The user has not set this link yet!" : ""
+          !visitedUser.tryhackme_url
+            ? "The user has not set this link yet!"
+            : ""
         }
       >
         <img

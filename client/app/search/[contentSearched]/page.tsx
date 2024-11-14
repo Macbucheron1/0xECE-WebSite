@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { SearchIcon } from "@heroicons/react/outline";
 import getSearchInfo from "../../../utils/getSearchInfo";
 
 const SearchResults = ({ params }) => {

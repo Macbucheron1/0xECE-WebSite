@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/navigation";
-import ContextTest from "../../UserContext";
+import ContextTest from "../../contexts/UserContext";
 import UserInfo from "./UserInfo";
 import Bio from "./Bio";
 import SocialLink from "./SocialLink";

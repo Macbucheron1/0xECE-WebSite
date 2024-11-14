@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import ContextTest from "../../UserContext";
+import ContextTest from "../../contexts/UserContext";
 
 const ProfilModal = ({ isOpen, onClose, newLinkProvider }) => {
   const [linkValue, setLinkValue] = useState("");

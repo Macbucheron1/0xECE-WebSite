@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import OtherContext from "../../OtherContext";
+import OtherContext from "../../contexts/OtherContext";
 
 const OtherInfo = () => {
   const { visitedUser } = useContext(OtherContext);
-  
+
   return (
     <div className="bg-gray-800 rounded-lg p-6 mb-4">
       <h2 className="text-xl font-semibold mb-4 text-cyan-400">
