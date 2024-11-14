@@ -21,7 +21,6 @@ const SearchResults = ({ params }) => {
       // Simulate fetching grouped results
       getSearchInfo(query).then((data) => {
         setResults(data);
-        console.log(data);
       });
       setLoading(false);
     }, 500);
