@@ -2,9 +2,10 @@
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useContext, useEffect, useState } from "react";
+import { use, useContext, useEffect, useState } from "react";
 import { supabase } from "../utils/supabaseClient";
 import ContextTest from "./components/contexts/UserContext";
+import home from "../locales/home.json"
 
 export default function Home() {
   {
@@ -17,6 +18,7 @@ export default function Home() {
   const [name, setName] = useState(""); //variable d'état pour stocker le nom de l'utilisateur
   const [message, setMessage] = useState(""); //variable d'état pour stocker le message du témoignage
   const [hasSubmitted, setHasSubmitted] = useState(false); //variable d'état pour vérifier si l'utilisateur a déjà soumis un témoignage
+  const [text, setText] = useState(home.english);
 
   const fetchTestimonials = async () => {
     const { data, error } = await supabase.from("testimonials").select("*"); //SELECT * FROM testimonials
@@ -49,6 +51,15 @@ export default function Home() {
       }
     };
     checkUserTestimonial();
+  }, [user]);
+
+  useEffect(() => {
+    if (user.language === "french") {
+      setText(home.french);
+    } else {
+      setText(home.english);
+    }
+    console.log("text", text);
   }, [user]);
 
     /* Création d'un témoignage */
@@ -124,9 +135,9 @@ export default function Home() {
           className="h-16 w-16 md:h-24 md:w-24 lg:h-32 lg:w-32 mb-4 md:mb-0"
         />
         <div className="text-center md:absolute md:left-1/2 md:-translate-x-1/2 md:w-full">
-          <h1 className="text-5xl font-bold">Bienvenue chez 0xECE</h1>
+          <h1 className="text-5xl font-bold">{text.Title}</h1>
           <p className="text-xl p-gray">
-            Association de cybersécurité de l'ECE Paris
+            {text.SubTitle}
           </p>
         </div>
       </header>
@@ -135,25 +146,16 @@ export default function Home() {
       <section className="my-32 flex flex-col lg:flex-row mx-4 md:mx-8 lg:mx-16">
         <div className="w-full lg:w-2/5 p-4">
           <h2 className="text-3xl font-bold mb-4 text-center p-blue">
-            Présentation de l'association
+            {text.PresentationTitle}
           </h2>
           <p className="text-gray-300 text-justify">
-            L'association 0xECE de l'école ECE Paris regroupe une communauté de
-            passionnés de cybersécurité désireux de développer leurs compétences
-            et d'explorer les multiples facettes de la sécurité informatique.
-            Notre mission principale est de promouvoir l'apprentissage continu,
-            la collaboration entre étudiants, et l'innovation en matière de
-            cybersécurité. À travers la participation régulière à des
-            compétitions de type Capture The Flag (CTF), nous mettons en
-            pratique des techniques de défense et d'attaque, apprenons à
-            identifier et exploiter des vulnérabilités, et développons une
-            expertise qui nous prépare aux défis de demain.
+            {text.PresentationBody}            
           </p>
         </div>
         <div className="w-full lg:w-3/5 p-4">
           <img
             src="/img/ctf.png"
-            alt="Image de l'association"
+            alt={text.imgAlt}
             className="rounded-lg shadow-lg w-full h-auto"
           />
         </div>
@@ -167,8 +169,8 @@ export default function Home() {
             alt="Cybersécurité"
             className="mx-auto h-32 w-32 mb-4"
           />
-          <h3 className="text-2xl font-bold p-blue">Cybersécurité</h3>
-          <p className="p-gray">Protection et défense informatique</p>
+          <h3 className="text-2xl font-bold p-blue">{text.ValueTitle1}</h3>
+          <p className="p-gray">{text.ValueBody1}</p>
         </div>
         <div className="text-center">
           <img
@@ -176,8 +178,8 @@ export default function Home() {
             alt="Apprentissage"
             className="mx-auto h-32 w-32 mb-4"
           />
-          <h3 className="text-2xl font-bold p-blue">Apprentissage</h3>
-          <p className="p-gray">Formation continue en cybersécurité</p>
+          <h3 className="text-2xl font-bold p-blue">{text.ValueTitle2}</h3>
+          <p className="p-gray">{text.ValueBody2}</p>
         </div>
         <div className="text-center">
           <img
@@ -185,26 +187,26 @@ export default function Home() {
             alt="Collaboration"
             className="mx-auto h-32 w-32 mb-4"
           />
-          <h3 className="text-2xl font-bold p-blue">Collaboration</h3>
-          <p className="p-gray">Travail d'équipe et partage de connaissances</p>
+          <h3 className="text-2xl font-bold p-blue">{text.ValueTitle3}</h3>
+          <p className="p-gray">{text.ValueBody3}</p>
         </div>
       </section>
 
       {/* En Chiffres */}
       <section className="my-32 text-center">
-        <h2 className="text-3xl font-bold mb-4 p-blue">En Chiffres</h2>
+        <h2 className="text-3xl font-bold mb-4 p-blue">{text.NumbersTitle}</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="card">
             <p className="text-3xl font-bold p-blue">50+</p>
-            <p className="p-gray">CTFs</p>
+            <p className="p-gray">{text.NumberBody1}</p>
           </div>
           <div className="card">
             <p className="text-3xl font-bold p-blue">80+</p>
-            <p className="p-gray">Membres Actifs</p>
+            <p className="p-gray">{text.NumberBody2}</p>
           </div>
           <div className="card">
             <p className="text-3xl font-bold p-blue">150+</p>
-            <p className="p-gray">Write-ups</p>
+            <p className="p-gray">{text.NumberBody3}</p>
           </div>
         </div>
       </section>
@@ -212,7 +214,7 @@ export default function Home() {
       {/* Témoignages */}
       <section className="my-32">
         <h2 className="text-3xl font-bold mb-6 p-blue text-center">
-          Témoignages
+          {text.Testimonials}
         </h2>
         <div className="max-w-6xl mx-auto px-4">
           {testimonials.length > 0 ? (
@@ -237,7 +239,7 @@ export default function Home() {
             </Slider>
           ) : (
             <p className="text-center p-gray">
-              Aucun témoignage disponible pour le moment.
+              {text.TestimonialsEmpty}
             </p>
           )}
 
@@ -245,16 +247,16 @@ export default function Home() {
             <div className="flex justify-center mt-6">
               {!isFormOpen ? (
                 <button className="button" onClick={() => setIsFormOpen(true)}>
-                  Ajouter un témoignage
+                  {text.TestimonialsButton}
                 </button>
               ) : (
                 <div className="mt-4 bg-gray-800 p-6 rounded-lg shadow max-w-md mx-auto">
                   <h3 className="text-2xl font-bold mb-4 p-blue">
-                    Ajouter un témoignage
+                    {text.TestimonialsButton}
                   </h3>
                   <form onSubmit={createTestimonial}>
                     <div className="mb-4">
-                      <label className="block p-blue mb-2">Nom</label>
+                      <label className="block p-blue mb-2">{text.TestimonialsName}</label>
                       <input
                         type="text"
                         className="w-full p-2 rounded bg-gray-700 text-white"
@@ -265,12 +267,12 @@ export default function Home() {
                       />
                       {name.length === 20 && (
                         <p className="text-red-500">
-                          La limite de 20 caractères est atteinte.
+                          {text.TestimonialsNameLimitation}
                         </p>
                       )}
                     </div>
                     <div className="mb-4">
-                      <label className="block p-blue mb-2">Témoignage</label>
+                      <label className="block p-blue mb-2">{text.Testimonial}</label>
                       <textarea
                         className="w-full p-2 rounded bg-gray-700 text-white"
                         value={message}
@@ -280,10 +282,10 @@ export default function Home() {
                       ></textarea>
                       {message.length === 150 && (
                         <p className="text-red-500 text-sm">
-                          La limite de 150 caractères est atteinte.
+                          {text.TestimonialsTextLimitation}
                         </p>
                       )}
-                      <p className="p-gray text-sm">{150 - message.length} caractères restants.</p>
+                      <p className="p-gray text-sm">{150 - message.length} {text.TestimonialsLeftCharacters}</p>
                     </div>
                     <div className="flex justify-end">
                       <button
@@ -291,13 +293,13 @@ export default function Home() {
                         className="mr-2 bg-red-500 text-white px-4 py-2 rounded"
                         onClick={() => setIsFormOpen(false)}
                       >
-                        Annuler
+                        {text.TestimonialsCancel}
                       </button>
                       <button
                         type="submit"
                         className="bg-green-500 text-white px-4 py-2 rounded"
                       >
-                        Soumettre
+                        {text.TestimonialsSubmit}
                       </button>
                     </div>
                   </form>
