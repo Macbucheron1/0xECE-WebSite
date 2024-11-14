@@ -59,6 +59,8 @@ const Context = createContext<{
   updatePromo: (newPromo: string) => void;
   updateBio: (newBio: string) => void;
   updateLink: (newLink: string, website: string) => void;
+  updateTheme: (newTheme: string) => void;
+  udpateLanguage: (newLanguage: string) => void;
   logout: () => void;
 }>({
   user: null,
@@ -74,6 +76,8 @@ const Context = createContext<{
   updatePromo: () => null,
   updateBio: () => null,
   updateLink: () => null,
+  updateTheme: () => null,
+  udpateLanguage: () => null,
   logout: () => null,
 });
 
@@ -419,6 +423,28 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
+  const updateTheme = async (newTheme: string) => {
+    setUser({ ...user, theme: newTheme });
+    const { error } = await supabase
+      .from("user_personalization_info")
+      .update({ theme: newTheme })
+      .eq("user_uid", user.id);
+    if (error) {
+      console.error("Error updating theme:", error);
+    }
+  }
+
+  const udpateLanguage = async (newLanguage: string) => {
+    setUser({ ...user, language: newLanguage });
+    const { error } = await supabase
+      .from("user_personalization_info")
+      .update({ language: newLanguage })
+      .eq("user_uid", user.id);
+    if (error) {
+      console.error("Error updating language:", error);
+    }
+  }
+
   const Logout = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
@@ -459,6 +485,8 @@ export const ContextProvider = ({ children }) => {
         updatePromo: updatePromo,
         login: login,
         updateFavPPProvider: updateFavPPProvider,
+        updateTheme: updateTheme,
+        udpateLanguage: udpateLanguage,
         logout: Logout,
       }}
     >
