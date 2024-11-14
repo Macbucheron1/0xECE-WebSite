@@ -4,7 +4,7 @@ import React from 'react';
 const SocialLink = ({ handleModaleOpen}) => {
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
       <button
         className="bg-gray-800 p-4 rounded-lg hover:bg-gray-700 transition-colors"
         onClick={() => handleModaleOpen("linkedin")}

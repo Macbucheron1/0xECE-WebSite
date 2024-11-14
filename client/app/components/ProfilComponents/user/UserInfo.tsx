@@ -24,13 +24,15 @@ const UserInfo = ({
   };
 
   return (
-    <div className="bg-gray-800 rounded-lg p-6 mb-6">
-      <h2 className="text-xl font-semibold mb-4">User Information</h2>
+    <div className="bg-gray-800 rounded-lg p-6 mb-4">
+      <h2 className="text-xl font-semibold mb-4 text-cyan-400">
+        User Information
+      </h2>
 
       <div className="space-y-4">
         <div>
           <label className="text-gray-400 block mb-1">Email</label>
-          <p className="text-cyan-400">{user.email}</p>
+          <p>{user.email}</p>
         </div>
 
         <div>

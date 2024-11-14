@@ -37,8 +37,8 @@ const Bio = () => {
   }, []);
 
   return (
-    <div className="bg-gray-800 rounded-lg p-6 mb-6">
-      <h2 className="text-xl font-semibold mb-4">Bio</h2>
+    <div className="bg-gray-800 rounded-lg p-6 mb-4">
+      <h2 className="text-xl font-semibold mb-4 text-cyan-400">Bio</h2>
       <ReactQuill
         className="custom-quill"
         theme="snow"

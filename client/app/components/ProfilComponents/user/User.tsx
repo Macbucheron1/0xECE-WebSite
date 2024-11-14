@@ -8,7 +8,16 @@ import ProfilModal from "./ProfilModal";
 
 
 const User = () => {
-  const promoOptions = ["ing1", "ing2", "ing3", "ing4", "ing5"];
+  const promoOptions = [
+    "ing1",
+    "ing2",
+    "ing3",
+    "ing4",
+    "ing5",
+    "Bachelor1",
+    "Bachelor2",
+    "Bachelor3",
+  ];
   const [currentPPIndex, setCurrentPPIndex] = useState(0);
   const [availablePPs, setAvailablePPs] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -72,10 +81,10 @@ const User = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-100 p-6">
+    <div className="bg-gray-900 text-gray-100 p-6">
       <div className="max-w-4xl mx-auto">
         {/* Profile Picture and Username Section */}
-        <div className="bg-gray-800 rounded-lg p-6 mb-6">
+        <div className="bg-gray-800 rounded-lg p-6 mb-4">
           <div className="flex flex-col items-center mb-4">
             {/* Profile Picture Carousel */}
             <div className="flex items-center space-x-4 mb-4">

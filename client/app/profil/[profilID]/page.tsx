@@ -2,12 +2,9 @@
 
 import { useContext, useEffect, useState } from "react";
 import ContextTest from "../../components/UserContext";
-import { useRouter } from "next/navigation";
-import ProfilModal from "../../components/ProfilComponents/user/ProfilModal";
-import SocialLink from "../../components/ProfilComponents/user/SocialLink";
-import UserInfo from "../../components/ProfilComponents/user/UserInfo";
-import Bio from "../../components/ProfilComponents/user/Bio";
 import User from "../../components/ProfilComponents/user/User";
+import OtherUser from "../../components/ProfilComponents/other/OtherUser";
+import { ContextProvider } from "../../components/OtherContext";
 
 export default function UserProfile({
   params,
@@ -23,31 +20,21 @@ export default function UserProfile({
       // The user is visiting their own profile
       setVisitedUser(user);
       setIsPageEditable(true);
+    } else {
+      // The user is visiting someone else's profile
+      setVisitedUser(true);
+
     }
   }, [user, params.profilID]);
-
-  const router = useRouter();
 
   if (visitedUser) {
     if (isPageEditable) {
       return <User />;
     } else {
       return (
-        <div className="p-6">
-          <h1 className="text-3xl font-bold mb-4">User Profile</h1>
-          <div className="bg-white p-6 rounded shadow mt-4">
-            <h2 className="text-2xl text-gray-700 font-bold mb-4">
-              User Information
-            </h2>
-            <p className="text-lg text-gray-700">Email: {user.email}</p>
-            <p className="text-lg text-gray-700">Username: {user.username}</p>
-            <p className="text-lg text-gray-700">Role: {user.role}</p>
-            <p className="text-lg text-gray-700">Promo: {user.promo}</p>
-            <button className="mt-4 bg-red-500 text-white px-4 py-2 rounded">
-              Logout_
-            </button>
-          </div>
-        </div>
+        <ContextProvider id={params.profilID}>
+          <OtherUser />
+        </ContextProvider>
       );
     }
   } else {

@@ -2,7 +2,6 @@ import { createContext, useState } from "react";
 import { supabase } from "../../utils/supabaseClient";
 import { Session } from "@supabase/supabase-js";
 import { generateGravatarUrl } from "../../utils/gravatar";
-import { faLinkedin } from "@fortawesome/free-brands-svg-icons";
 
 type CustomUser = {
   id: string | null;
@@ -24,7 +23,6 @@ type CustomUser = {
   rootme_url: string | null;
   tryhackme_url: string | null;
   htb_url: string | null;
-  // Add other fields as needed
 };
 
 const roleNames = {
@@ -341,9 +339,17 @@ export const ContextProvider = ({ children }) => {
   };
 
   const updateFavPPProvider = async (newProvider: string) => {
+    let newPP = null;
+    if (newProvider === "gravatar") {
+      newPP = user.pp.gravatar;
+    } else if (newProvider === "discord") {
+      newPP = user.pp.discord;
+    } else if (newProvider === "github") {
+      newPP = user.pp.github;
+    }
     const { error } = await supabase
       .from("user_personalization_info")
-      .update({ pp_fav_provider: newProvider })
+      .update({ pp_fav_provider: newProvider, pp_url: newPP})
       .eq("user_uid", user.id);
     if (error) {
       console.error("Error updating favorite profile picture provider:", error);
@@ -411,7 +417,6 @@ export const ContextProvider = ({ children }) => {
         console.error("Error updating htb url:", error);
       }
     }
-    console.log("new user: ", user);
   };
 
   const Logout = async () => {
