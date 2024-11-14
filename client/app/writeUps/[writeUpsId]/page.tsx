@@ -21,6 +21,16 @@ export default function WriteUp({ params }) {
   const router = useRouter(); // Initialize useRouter
   const [actualPP, setActualPP] = useState<string>("/img/inconnu.png");
 
+useEffect(() => {
+  const hash = window.location.hash;
+  if (hash) {
+    const element = document.querySelector(hash);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+});
+
   const fetchWriteUp = async () => {
     const { data, error } = await supabase
       .from('writeups')
@@ -199,17 +209,23 @@ export default function WriteUp({ params }) {
         </div>
         <h2 className="wt-title mb-6">{writeUp.title}</h2>
         <p className="text-lg p-gray">
-          Écrit par <Link href={`/profil/${writeUp.username}`} className="p-blue underline">{writeUp.username}</Link>
+          Écrit par{" "}
+          <Link
+            href={`/profil/${writeUp.username}`}
+            className="p-blue underline"
+          >
+            {writeUp.username}
+          </Link>
           <br />
           Le {formatDate(writeUp.date)}
         </p>
         <div className="mt-4 markdown">
-          <ReactMarkdown>
-            {writeUp.content}
-          </ReactMarkdown>
+          <ReactMarkdown>{writeUp.content}</ReactMarkdown>
         </div>
         <div className="mt-8">
-          <h1 className="text-2xl font-bold p-blue text-left my-4">Commentaires</h1>
+          <h1 className="text-2xl font-bold p-blue text-left my-4">
+            Commentaires
+          </h1>
           <textarea
             className="w-full p-2 rounded bg-gray-700 text-white"
             placeholder="Saisissez votre commentaire..."
@@ -218,19 +234,40 @@ export default function WriteUp({ params }) {
             maxLength={200}
           ></textarea>
           {commentContent.length >= 200 && (
-            <p className="text-red-500 text-sm">Vous avez atteint la taille maximale de commentaire.</p>
+            <p className="text-red-500 text-sm">
+              Vous avez atteint la taille maximale de commentaire.
+            </p>
           )}
-          <p className="p-gray text-sm">{200 - commentContent.length} caractères restants.</p>
-          <button className="button float-right" onClick={handlePublish}>Publier</button>
+          <p className="p-gray text-sm">
+            {200 - commentContent.length} caractères restants.
+          </p>
+          <button className="button float-right" onClick={handlePublish}>
+            Publier
+          </button>
           {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         </div>
         <div className="mt-16">
           {comments.map((comment) => (
-            <div key={comment.id} className="card mt-4">
+            <div
+              key={comment.id}
+              id={`comment-${comment.id}`}
+              className="card mt-4"
+            >
               <div className="flex items-center">
-                <img src={comment.image_url} alt={`${comment.username}'s profile picture`} className="w-10 h-10 rounded-full mr-4"/>
+                <Link href={`/profil/${comment.username}` /*change to comment.user_id*/}> 
+                  <img
+                    src={comment.image_url}
+                    alt={`${comment.username}'s profile picture`} 
+                    className="w-10 h-10 rounded-full mr-4"
+                  />
+                </Link>
                 <p className="text-lg p-blue font-bold">
-                  <Link href={`/profil/${comment.username}`} className="p-blue underline">{comment.username}</Link>
+                  <Link
+                    href={`/profil/${comment.username}`} // Change to comment.user_id
+                    className="p-blue underline"
+                  >
+                    {comment.username}
+                  </Link>
                 </p>
               </div>
               <p className="break-words">{comment.content}</p>
@@ -238,15 +275,25 @@ export default function WriteUp({ params }) {
             </div>
           ))}
           {comments.length === 0 && (
-            <p className="font-bold p-gray text-center mt-16">Aucun commentaire pour le moment.</p>
+            <p className="font-bold p-gray text-center mt-16">
+              Aucun commentaire pour le moment.
+            </p>
           )}
           {comments.length > 0 && (
             <div className="flex justify-between mt-4">
-              <button onClick={prevPage} disabled={currentPage === 1} className="button disabled:opacity-50 disabled:cursor-not-allowed ">
+              <button
+                onClick={prevPage}
+                disabled={currentPage === 1}
+                className="button disabled:opacity-50 disabled:cursor-not-allowed "
+              >
                 &larr; Précédent
               </button>
               <span>Page {currentPage}</span>
-              <button onClick={nextPage} disabled={!hasMore} className="button disabled:opacity-50 disabled:cursor-not-allowed">
+              <button
+                onClick={nextPage}
+                disabled={!hasMore}
+                className="button disabled:opacity-50 disabled:cursor-not-allowed"
+              >
                 Suivant &rarr;
               </button>
             </div>

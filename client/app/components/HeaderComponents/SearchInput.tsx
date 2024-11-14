@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const SearchInput = () => {
   const [searchText, setSearchText] = useState("");
+  const router = useRouter();
 
   const handleClearSearch = () => {
     setSearchText("");
@@ -32,7 +34,7 @@ const SearchInput = () => {
         value={searchText}
         onChange={(e) => {
           setSearchText(e.target.value);
-          console.log(e.target.value);
+          router.push(`/search/${e.target.value}`);
         }}
       />
       {searchText && (
