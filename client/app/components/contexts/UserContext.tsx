@@ -1,7 +1,7 @@
 import { createContext, useState } from "react";
-import { supabase } from "../../utils/supabaseClient";
+import { supabase } from "../../../utils/supabaseClient";
 import { Session } from "@supabase/supabase-js";
-import { generateGravatarUrl } from "../../utils/gravatar";
+import { generateGravatarUrl } from "../../../utils/gravatar";
 
 type CustomUser = {
   id: string | null;

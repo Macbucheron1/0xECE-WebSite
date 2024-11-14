@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback, useContext, use } from "react";
 import { useRouter } from "next/navigation";
 import LoginModal from "./LoginModal";
-import ContextTest from "../UserContext";
+import ContextTest from "../contexts/UserContext";
 import Link from "next/link";
 
 /**

@@ -2,7 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDiscord, faGithub } from "@fortawesome/free-brands-svg-icons";
 import { supabase } from "../../../utils/supabaseClient";
-import ContextUser from "../UserContext";
+import ContextUser from "../contexts/UserContext";
 import { useContext } from "react";
 
 interface LoginModalProps {
