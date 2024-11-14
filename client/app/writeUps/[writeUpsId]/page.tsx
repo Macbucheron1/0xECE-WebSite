@@ -5,6 +5,7 @@ import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import ContextTest from "../../components/UserContext";
 import { useRouter } from 'next/navigation'; // Import useRouter
+import Loader from "../../components/Loader";
 
 export default function WriteUp({ params }) {
   const { writeUpsId } = params;
@@ -129,11 +130,7 @@ useEffect(() => {
   }
 
   if (!writeUp) {
-    return (
-      <div className="p-6 flex items-center justify-center">
-        <div>Loading...</div>
-      </div>
-    );
+    return <Loader />;
   }
 
   const formatDate = (dateString) => {
