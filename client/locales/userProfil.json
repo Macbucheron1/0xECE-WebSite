@@ -1,0 +1,26 @@
+{
+  "french": {
+    "infoTitle": "Informations utilisateur",
+    "infoEmail": "Email",
+    "infoRole": "Rôle",
+    "infoPromo": "Promotion",
+    "biotTitle": "Bio",
+    "bioBody": "Écrivez quelque chose à propos de vous...",
+    "logoutButton": "Déconnexion",
+    "linkTitle": "Entrer un lien",
+    "linkBody": "Entrer un lien...",
+    "linkSubmit": "Soumettre"
+  },
+  "english": {
+    "infoTitle": "User information",
+    "infoEmail": "Email",
+    "infoRole": "Role",
+    "infoPromo": "Class",
+    "biotTitle": "Bio",
+    "bioBody": "Write something about yourself...",
+    "logoutButton": "Logout",
+    "linkTitle": "Enter link",
+    "linkBody": "Enter link...",
+    "linkSubmit": "Submit"
+  }
+}

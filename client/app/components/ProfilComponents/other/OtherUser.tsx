@@ -1,12 +1,24 @@
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useState } from "react";
 import OtherContext from "../../contexts/OtherContext";
 import OtherInfo from "./OtherInfo";
 import OtherBio from "./OtherBio";
 import OtherSocialLink from "./OtherSocialLink";
 import { generateGravatarUrl } from "../../../../utils/gravatar";
+import otherProfil from "../../../../locales/otherProfil.json"
+import UserContext from "../../contexts/UserContext";
 
 const OtherUser = () => {
   const { visitedUser, fetchUser, setVisitedUser } = useContext(OtherContext);
+  const { user } = useContext(UserContext);
+  const [text, setText] = useState(otherProfil.english);
+
+  useEffect(() => {
+    if (user.language === "french") {
+      setText(otherProfil.french);
+    } else {
+      setText(otherProfil.english);
+    }
+  }, [user]);
 
   useEffect(() => {
     fetchUser();
@@ -64,7 +76,7 @@ const OtherUser = () => {
     return (
       <div className="px-6 py-11">
         <div className="max-w-4xl mx-auto flex justify-center items-center h-full">
-          <h2 className="text-2xl font-bold text-white">User not found</h2>
+          <h2 className="text-2xl font-bold text-white">{text.noUser}</h2>
         </div>
       </div>
     );

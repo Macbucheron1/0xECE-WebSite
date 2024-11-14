@@ -6,6 +6,7 @@ import debounce from "lodash.debounce";
 import "react-quill/dist/quill.snow.css";
 import { useContext } from "react";
 import ContextTest from "../../contexts/UserContext";
+import userProfil from "../../../../locales/userProfil.json";
 
 // Dynamically import ReactQuill to avoid SSR issues
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
@@ -13,6 +14,16 @@ const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 const Bio = () => {
   const [bio, setBio] = useState("");
   const { user, updateBio } = useContext(ContextTest);
+  const [text, setText] = useState(userProfil.english);
+
+  useEffect(() => {
+    if (user.language === "french") {
+      setText(userProfil.french);
+    } else {
+      setText(userProfil.english);
+    }
+  }, [user]);
+
 
   const updateBioInDatabase = async (value: string) => {
     // Replace this with your actual API call to update the bio in Supabase
@@ -38,13 +49,13 @@ const Bio = () => {
 
   return (
     <div className="bg-gray-800 rounded-lg p-6 mb-4">
-      <h2 className="text-xl font-semibold mb-4 text-cyan-400">Bio</h2>
+      <h2 className="text-xl font-semibold mb-4 text-cyan-400">{text.biotTitle}</h2>
       <ReactQuill
         className="custom-quill"
         theme="snow"
         value={bio}
         onChange={handleChange}
-        placeholder="Write something about yourself..."
+        placeholder={text.bioBody}
       />
       <style jsx global>{`
         .custom-quill .ql-toolbar {

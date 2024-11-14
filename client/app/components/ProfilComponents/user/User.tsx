@@ -5,7 +5,7 @@ import UserInfo from "./UserInfo";
 import Bio from "./Bio";
 import SocialLink from "./SocialLink";
 import ProfilModal from "./ProfilModal";
-
+import userProfil from "../../../../locales/userProfil.json";
 
 const User = () => {
   const promoOptions = [
@@ -23,7 +23,17 @@ const User = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newLinkProvider, setNewLinkProvider] = useState("");
   const router = useRouter();
-    const { user, logout, updateFavPPProvider, updateLink } = useContext(ContextTest);
+  const { user, logout, updateFavPPProvider, updateLink } =
+    useContext(ContextTest);
+  const [text, setText] = useState(userProfil.english);
+
+  useEffect(() => {
+    if (user.language === "french") {
+      setText(userProfil.french);
+    } else {
+      setText(userProfil.english);
+    }
+  }, [user]);
 
   // Set initial index based on favorite provider
   useEffect(() => {
@@ -140,7 +150,7 @@ const User = () => {
           onClick={handleLogout}
           className="w-full bg-red-500 hover:bg-red-600 text-white font-medium py-3 rounded-lg transition-colors"
         >
-          Logout
+          {text.logoutButton}
         </button>
         {/* Modal Window */}
         {isModalOpen && (

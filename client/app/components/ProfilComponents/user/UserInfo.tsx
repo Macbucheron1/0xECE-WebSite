@@ -1,5 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import ContextTest from "../../contexts/UserContext";
+import userProfil from "../../../../locales/userProfil.json"
 
 interface UserInfoProps {
   promoOptions: string[];
@@ -10,6 +11,16 @@ const UserInfo = ({
 }: UserInfoProps) => {
   const { user, updatePromo } = useContext(ContextTest);
   const [promo, setPromo] = useState(null);
+  const [text, setText] = useState(userProfil.english);
+
+  useEffect(() => {
+    if (user.language === "french") {
+      setText(userProfil.french);
+    } else {
+      setText(userProfil.english);
+    }
+  }, [user]);
+
 
   useEffect(() => {
     if (user) {
@@ -26,22 +37,22 @@ const UserInfo = ({
   return (
     <div className="bg-gray-800 rounded-lg p-6 mb-4">
       <h2 className="text-xl font-semibold mb-4 text-cyan-400">
-        User Information
+        {text.infoTitle}
       </h2>
 
       <div className="space-y-4">
         <div>
-          <label className="text-gray-400 block mb-1">Email</label>
+          <label className="text-gray-400 block mb-1">{text.infoEmail}</label>
           <p>{user.email}</p>
         </div>
 
         <div>
-          <label className="text-gray-400 block mb-1">Role</label>
+          <label className="text-gray-400 block mb-1">{text.infoRole}</label>
           <p>{user.role}</p>
         </div>
 
         <div>
-          <label className="text-gray-400 block mb-1">Promo</label>
+          <label className="text-gray-400 block mb-1">{text.infoPromo}</label>
           <select
             value={promo}
             onChange={handlePromoChange}

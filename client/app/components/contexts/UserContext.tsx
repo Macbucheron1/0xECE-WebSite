@@ -353,7 +353,7 @@ export const ContextProvider = ({ children }) => {
     }
     const { error } = await supabase
       .from("user_personalization_info")
-      .update({ pp_fav_provider: newProvider, pp_url: newPP})
+      .update({ pp_fav_provider: newProvider, pp_url: newPP })
       .eq("user_uid", user.id);
     if (error) {
       console.error("Error updating favorite profile picture provider:", error);
@@ -425,25 +425,29 @@ export const ContextProvider = ({ children }) => {
 
   const updateTheme = async (newTheme: string) => {
     setUser({ ...user, theme: newTheme });
-    const { error } = await supabase
-      .from("user_personalization_info")
-      .update({ theme: newTheme })
-      .eq("user_uid", user.id);
-    if (error) {
-      console.error("Error updating theme:", error);
+    if (user.id) {
+      const { error } = await supabase
+        .from("user_personalization_info")
+        .update({ theme: newTheme })
+        .eq("user_uid", user.id);
+      if (error) {
+        console.error("Error updating theme:", error);
+      }
     }
-  }
+  };
 
   const udpateLanguage = async (newLanguage: string) => {
     setUser({ ...user, language: newLanguage });
-    const { error } = await supabase
-      .from("user_personalization_info")
-      .update({ language: newLanguage })
-      .eq("user_uid", user.id);
-    if (error) {
-      console.error("Error updating language:", error);
+    if (user.id) {
+      const { error } = await supabase
+        .from("user_personalization_info")
+        .update({ language: newLanguage })
+        .eq("user_uid", user.id);
+      if (error) {
+        console.error("Error updating language:", error);
+      }
     }
-  }
+  };
 
   const Logout = async () => {
     const { error } = await supabase.auth.signOut();

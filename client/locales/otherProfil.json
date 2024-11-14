@@ -1,0 +1,20 @@
+{
+  "french": {
+    "infoTitle": "Informations utilisateur",
+    "infoEmail": "Email",
+    "infoRole": "Rôle",
+    "infoPromo": "Promotion",
+    "noUser": "Aucun utilisateur trouvé",
+    "noBio": "L'utilisateur n'a pas encore défini de bio !",
+    "noPromo": "Cet utilisateur n'a pas spécifié sa promotion !"
+  },
+  "english": {
+    "infoTitle": "User Information",
+    "infoEmail": "Email",
+    "infoRole": "Role",
+    "infoPromo": "Class",
+    "noUser": "No user found",
+    "noBio": "The user has not set a bio yet !",
+    "noPromo": "This user did not specify his class !"
+  }
+}
