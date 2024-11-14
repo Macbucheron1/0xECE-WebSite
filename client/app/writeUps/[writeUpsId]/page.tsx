@@ -77,7 +77,7 @@ export default function WriteUp({ params }) {
 
   useEffect(() => {
     fetchComments();
-  }, [writeUpsId]); // Recharge les commentaires lorsque l'ID change
+  }, [writeUpsId, currentPage]); // Include currentPage as a dependency
 
   /*Check if the current user is the author */
   const checkAuthor = async ()  => {
