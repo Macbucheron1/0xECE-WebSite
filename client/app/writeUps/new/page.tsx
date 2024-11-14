@@ -2,7 +2,7 @@
 import { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "../../../utils/supabaseClient";
-import ContextTest from "../../components/UserContext";
+import ContextTest from "../../components/contexts/UserContext";
 
 export default function PublishWriteUp() {
     const router = useRouter();
