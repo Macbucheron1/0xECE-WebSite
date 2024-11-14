@@ -15,6 +15,7 @@ export default function WriteUp({ params }) {
   const [currentPage, setCurrentPage] = useState(1);
   const commentsPerPage = 3;
   const [commentContent, setCommentContent] = useState('');
+  const [email, setEmail] = useState(''); // Add a state for email
   const { user } = useContext(ContextTest);
   const [errorMessage, setErrorMessage] = useState('');
   const [hasMore, setHasMore] = useState(false); //allows to know if there are more comments to display
@@ -151,24 +152,31 @@ useEffect(() => {
   };
 
   //Publish a comment
-  const handlePublish = async () => {
-    if (user && user.id) {
-      const { error } = await supabase.from('comments').insert({
-        content: commentContent,
-        username: user.username,
-        date: new Date().toISOString(),
-        writeup_id: writeUpsId,
-        image_url: actualPP,
-        user_uid: user.id,
-      });
-      if (error) {
-        console.log(error);
-      } else {
-        setCommentContent('');
-        fetchComments(); // Met à jour la liste des commentaires
-      }
+  const handlePublish = async (e) => {
+    e.preventDefault();
+    if (email.length > 100) { // Validate email length
+      setErrorMessage("L'email dépasse la taille maximale autorisée de 100 caractères.");
+      return;
+    }
+    let username = user && user.username ? user.username : 'Anonyme';
+    let image_url = user && user.username ? actualPP : '/img/inconnu.png';
+    let user_uid = user && user.username ? user.id : null;
+
+    const { error } = await supabase.from('comments').insert({
+      content: commentContent,
+      username: username,
+      date: new Date().toISOString(),
+      writeup_id: writeUpsId,
+      image_url: image_url,
+      user_uid: user_uid,
+      email: email, // Include email for non-logged-in users
+    });
+    if (error) {
+      console.log(error);
     } else {
-      setErrorMessage('Veuillez vous connecter pour publier un commentaire');
+      setCommentContent('');
+      setEmail(''); // Clear the email field
+      fetchComments(); // Update the comments list
     }
   };
 
@@ -208,10 +216,7 @@ useEffect(() => {
         <h2 className="wt-title mb-6">{writeUp.title}</h2>
         <p className="text-lg p-gray">
           Écrit par{" "}
-          <Link
-            href={`/profil/${writeUp.user_uid}`}
-            className="p-blue underline"
-          >
+          <Link href={`/profil/${writeUp.user_uid}`} className="p-blue underline">
             {writeUp.username}
           </Link>
           <br />
@@ -224,24 +229,43 @@ useEffect(() => {
           <h1 className="text-2xl font-bold p-blue text-left my-4">
             Commentaires
           </h1>
-          <textarea
-            className="w-full p-2 rounded bg-gray-700 text-white"
-            placeholder="Saisissez votre commentaire..."
-            value={commentContent}
-            onChange={(e) => setCommentContent(e.target.value)}
-            maxLength={200}
-          ></textarea>
-          {commentContent.length >= 200 && (
-            <p className="text-red-500 text-sm">
-              Vous avez atteint la taille maximale de commentaire.
+          <form onSubmit={handlePublish}>
+            {user && !user.id && (
+              <input
+                type="email"
+                className="w-full p-2 rounded bg-gray-700 text-white mb-2"
+                placeholder="Votre email"
+                value={email}
+                required
+                maxLength={100} // Limit email to 100 characters
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            )}
+            {email.length >= 100 && (
+              <p className="text-red-500 text-sm mb-4">
+                L&#39;email a atteint la taille maximale autorisée.
+              </p>
+            )}
+            <textarea
+              className="w-full p-2 rounded bg-gray-700 text-white"
+              placeholder="Saisissez votre commentaire..."
+              value={commentContent}
+              onChange={(e) => setCommentContent(e.target.value)}
+              required
+              maxLength={200}
+            ></textarea>
+            {commentContent.length >= 200 && (
+              <p className="text-red-500 text-sm">
+                Vous avez atteint la taille maximale de commentaire.
+              </p>
+            )}
+            <p className="p-gray text-sm">
+              {200 - commentContent.length} caractères restants.
             </p>
-          )}
-          <p className="p-gray text-sm">
-            {200 - commentContent.length} caractères restants.
-          </p>
-          <button className="button float-right" onClick={handlePublish}>
-            Publier
-          </button>
+            <button type="submit" className="button float-right">
+              Publier
+            </button>
+          </form>
           {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         </div>
         <div className="mt-16">
@@ -252,20 +276,29 @@ useEffect(() => {
               className="card mt-4"
             >
               <div className="flex items-center">
-                <Link href={`/profil/${comment.user_uid}`}> 
+                {comment.user_uid ? (
+                  <Link href={`/profil/${comment.user_uid}`}> 
+                    <img
+                      src={comment.image_url}
+                      alt={`${comment.username}'s profile picture`} 
+                      className="w-10 h-10 rounded-full mr-4"
+                    />
+                  </Link>
+                ) : (
                   <img
                     src={comment.image_url}
                     alt={`${comment.username}'s profile picture`} 
                     className="w-10 h-10 rounded-full mr-4"
                   />
-                </Link>
+                )}
                 <p className="text-lg p-blue font-bold">
-                  <Link
-                    href={`/profil/${comment.user_uid}`} 
-                    className="p-blue underline"
-                  >
-                    {comment.username}
-                  </Link>
+                  {comment.user_uid ? (
+                    <Link href={`/profil/${comment.user_uid}`} className="p-blue underline">
+                      {comment.username}
+                    </Link>
+                  ) : (
+                    <span className="p-blue">{comment.username}</span>
+                  )}
                 </p>
               </div>
               <p className="break-words">{comment.content}</p>
