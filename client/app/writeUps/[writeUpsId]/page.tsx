@@ -162,6 +162,7 @@ useEffect(() => {
         date: new Date().toISOString(),
         writeup_id: writeUpsId,
         image_url: actualPP,
+        user_uid: user.id,
       });
       if (error) {
         console.log(error);
@@ -211,7 +212,7 @@ useEffect(() => {
         <p className="text-lg p-gray">
           Écrit par{" "}
           <Link
-            href={`/profil/${writeUp.username}`}
+            href={`/profil/${writeUp.user_uid}`}
             className="p-blue underline"
           >
             {writeUp.username}
@@ -254,7 +255,7 @@ useEffect(() => {
               className="card mt-4"
             >
               <div className="flex items-center">
-                <Link href={`/profil/${comment.username}` /*change to comment.user_id*/}> 
+                <Link href={`/profil/${comment.user_uid}`}> 
                   <img
                     src={comment.image_url}
                     alt={`${comment.username}'s profile picture`} 
@@ -263,7 +264,7 @@ useEffect(() => {
                 </Link>
                 <p className="text-lg p-blue font-bold">
                   <Link
-                    href={`/profil/${comment.username}`} // Change to comment.user_id
+                    href={`/profil/${comment.user_uid}`} 
                     className="p-blue underline"
                   >
                     {comment.username}
