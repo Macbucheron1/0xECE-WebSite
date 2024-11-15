@@ -3,6 +3,7 @@ import { useEffect, useState, useContext } from "react";
 import { supabase } from "../../utils/supabaseClient";
 import Link from 'next/link';
 import ContextTest from "../components/contexts/UserContext";
+import writeups from "../../locales/writeups.json"
 
 export default function writeUps() {
 
@@ -10,6 +11,16 @@ export default function writeUps() {
   const [currentPage, setCurrentPage] = useState(1);
   const writeUpsPerPage = 15;
   const { user } = useContext(ContextTest);
+  const [text, setText] = useState(writeups.english);
+
+  useEffect(() => {
+    if (user.language === "french") {
+      setText(writeups.french);
+    } else {
+      setText(writeups.english);
+    }
+  }, [user]);
+
 
   const fetchWriteUps = async () => {
     const start = (currentPage - 1) * writeUpsPerPage;
@@ -30,14 +41,16 @@ export default function writeUps() {
   }
 
   return (
-    <div className="p-6 min-h-full flex flex-col"> {/* Added 'flex flex-col' */}
+    <div className="p-6 min-h-full flex flex-col">
+      {" "}
+      {/* Added 'flex flex-col' */}
       <h2 className="wt-title mb-6">Write-ups</h2>
       {user && user.id && (
         <div className="flex justify-end">
-        <Link href="/writeUps/new">
-          <button className="button">Publier un write-up</button>
-        </Link>
-      </div>
+          <Link href="/writeUps/new">
+            <button className="button">{text.mainPublishButton}</button>
+          </Link>
+        </div>
       )}
       <ul className="flex-grow grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
         {writeUps.map((writeUp) => (
@@ -46,7 +59,9 @@ export default function writeUps() {
             href={`/writeUps/${writeUp.id}`}
             className="card hover:bg-gray-100 sm:hover:bg-gray-100 md:hover:bg-gray-500 flex flex-col"
           >
-            <h3 className="p-blue text-xl font-bold break-words">{writeUp.title}</h3>
+            <h3 className="p-blue text-xl font-bold break-words">
+              {writeUp.title}
+            </h3>
             <p className="text-lg p-gray break-words">{writeUp.type}</p>
             <div className="flex-grow"></div> {/* Spacer to push content up */}
             <p className="text-right mt-auto">
@@ -61,17 +76,15 @@ export default function writeUps() {
           disabled={currentPage === 1}
           className="button disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Précédent
+          {text.mainPreviousButton}
         </button>
-        <span className="text-lg font-semibold mx-4">
-          Page {currentPage}
-        </span>
+        <span className="text-lg font-semibold mx-4">Page {currentPage}</span>
         <button
           onClick={() => setCurrentPage((prev) => prev + 1)}
           disabled={writeUps.length < writeUpsPerPage}
           className="button disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Suivant
+          {text.mainNextButton}
         </button>
       </div>
     </div>

@@ -1,0 +1,78 @@
+{
+  "french": {
+    "mainNextButton": "Suivant",
+    "mainPreviousButton": "Précédent",
+    "notFound": "Aucun write-up correspondant n'a été trouvé.",
+    "mainPublishButton": "Publier un write-up",
+
+    "particularBackButton": "Retour",
+    "particularWritten": "Écrit par",
+    "particularDatePrefix": "Le",
+
+    "particularCommentary": "Commentaires",
+    "particularCommentaryEmailPlaceholder": "Entrez votre email...",
+    "particularCommentaryTextPlaceholder": "Saisissez votre commentaire...",
+    "particularNoCommentary": "Aucun commentaire pour le moment.",
+
+    "particularCharaLeft": "caractères restants",
+    "particularSubmitButton": "Publier",
+    "particularDeleteButton": "Supprimer",
+    "particularEditButton": "Modifier",
+    "particularMaxCommentEmailSize": "L'email a atteint la taille maximale autorisée.",
+    "paritcularMaxCommentTextSize": "Vous avez atteint la taille maximale de commentaire.",
+
+    "publishSizeError": "L'email dépasse la taille maximale autorisée de 100 caractères.",
+
+    "newAlert": "Veuillez remplir tous les champs.",
+    "newTitle": "Publier un write-up",
+    "newSuccess": "Le write-up a été publié avec succès.",
+    "newQuit": "Quitter",
+    "newUsername": "Nom d'utilisateur",
+    "newCTF": "Nom du CTF",
+    "newCTFMaxSize": "La limite de 30 caractères est atteinte.",
+    "newChallenge": "Nom du challenge",
+    "newChallengeMaxSize": "La limite de 30 caractères est atteinte.",
+    "newTypeMaxSize": "La limite de 30 caractères est atteinte.",
+    "newTextMaxSize": "La limite de 7000 caractères est atteinte.",
+    "newCancelButton": "Annuler",
+    "newSubmitButton": "Publier"
+  },
+  "english": {
+    "mainNextButton": "Next",
+    "mainPreviousButton": "Previous",
+    "notFound": "No matching write-up was found.",
+    "mainPublishButton": "Publish a write-up",
+
+    "particularBackButton": "Back",
+    "particularWritten": "Written by",
+    "particularDatePrefix": "On",
+
+    "particularCommentary": "Comments",
+    "particularCommentaryEmailPlaceholder": "Enter your email...",
+    "particularCommentaryTextPlaceholder": "Enter your comment...",
+    "particularNoCommentary": "No comments yet.",
+
+    "particularCharaLeft": "characters left",
+    "particularSubmitButton": "Submit",
+    "particularDeleteButton": "Delete",
+    "particularEditButton": "Edit",
+    "particularMaxCommentEmailSize": "Email has reached the maximum allowed size.",
+    "paritcularMaxCommentTextSize": "You have reached the maximum comment size.",
+
+    "publishSizeError": "Email exceeds the maximum allowed size of 100 characters.",
+
+    "newAlert": "Please fill all fields.",
+    "newTitle": "Publish a write-up",
+    "newSuccess": "The write-up has been successfully published.",
+    "newQuit": "Leave",
+    "newUsername": "Username",
+    "newCTF": "CTF Name",
+    "newCTFMaxSize": "The 30 character limit has been reached.",
+    "newChallenge": "Challenge Name",
+    "newChallengeMaxSize": "The 30 character limit has been reached.",
+    "newTypeMaxSize": "The 30 character limit has been reached.",
+    "newTextMaxSize": "The 7000 character limit has been reached.",
+    "newCancelButton": "Cancel",
+    "newSubmitButton": "Publish"
+  }
+}
