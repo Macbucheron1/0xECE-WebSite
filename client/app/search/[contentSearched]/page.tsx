@@ -1,10 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import getSearchInfo from "../../../utils/getSearchInfo";
+import Context from "../../components/contexts/UserContext";
+import search from "../../../locales/search.json";
 
 const SearchResults = ({ params }) => {
   const query = params.contentSearched;
+  const { user } = useContext(Context);
+  const [text, setText] = useState(search.english);
+
+  useEffect(() => {
+    if (user.language === "french") {
+      setText(search.french);
+    } else {
+      setText(search.english);
+    }
+  }, [user]);
 
   // This is a placeholder for your actual search logic
   const [results, setResults] = useState({
@@ -43,15 +55,15 @@ const SearchResults = ({ params }) => {
       {/* Search Header */}
       <div className="border-b border-gray-700 pb-6 pt-8">
         <div className="container mx-auto px-4">
-          <h1 className="text-2xl font-bold mb-2">Search Results</h1>
+          <h1 className="text-2xl font-bold mb-2">{text.result}</h1>
           <p className="text-gray-400">
             {loading
-              ? "Searching..."
-              : `Found ${
+              ? text.searching
+              : `${text.resultFound1} ${
                   results.users.length +
                   results.writeUps.length +
                   results.comments.length
-                } results for "${query}"`}
+                } ${text.resultFound2} "${query}"`}
           </p>
         </div>
       </div>
@@ -67,7 +79,7 @@ const SearchResults = ({ params }) => {
             {/* Users */}
             {results.users.length > 0 && (
               <div className="mb-8">
-                <h2 className="text-xl font-semibold mb-4">Users</h2>
+                <h2 className="text-xl font-semibold mb-4">{text.resultUser}</h2>
                 <div className="space-y-4">
                   {results.users.map((user, index) => (
                     <div key={index} className="p-4 bg-gray-800 rounded">
@@ -84,7 +96,7 @@ const SearchResults = ({ params }) => {
             {/* WriteUps */}
             {results.writeUps.length > 0 && (
               <div className="mb-8">
-                <h2 className="text-xl font-semibold mb-4">WriteUps</h2>
+                <h2 className="text-xl font-semibold mb-4">{text.resultWriteUps}</h2>
                 <div className="space-y-4">
                   {results.writeUps.map((writeUp, index) => (
                     <div key={index} className="p-4 bg-gray-800 rounded">
@@ -101,7 +113,7 @@ const SearchResults = ({ params }) => {
             {/* Comments */}
             {results.comments.length > 0 && (
               <div className="mb-8">
-                <h2 className="text-xl font-semibold mb-4">Comments</h2>
+                <h2 className="text-xl font-semibold mb-4">{text.resultComments}</h2>
                 <div className="space-y-4">
                   {results.comments.map((comment, index) => (
                     <div key={index} className="p-4 bg-gray-800 rounded">
