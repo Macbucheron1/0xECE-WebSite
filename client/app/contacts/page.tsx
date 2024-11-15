@@ -1,10 +1,8 @@
-
 "use client";
 
 import contact from "../../locales/contact.json";
 import { useState, useContext, useEffect } from "react";
 import ContextTest from "../components/contexts/UserContext";
-
 
 export default function Contacts() {
   const { user } = useContext(ContextTest);
@@ -23,7 +21,10 @@ export default function Contacts() {
       <h2 className="wt-title mb-4">{text.title}</h2>
       <form className="w-full max-w-lg">
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2 p-blue" htmlFor="name">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2 p-blue"
+            htmlFor="name"
+          >
             {text.nameLabel}
           </label>
           <input
@@ -34,7 +35,10 @@ export default function Contacts() {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2 p-blue" htmlFor="email">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2 p-blue"
+            htmlFor="email"
+          >
             {text.emailLabel}
           </label>
           <input
@@ -45,7 +49,10 @@ export default function Contacts() {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2 p-blue" htmlFor="message">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2 p-blue"
+            htmlFor="message"
+          >
             {text.messageLabel}
           </label>
           <textarea

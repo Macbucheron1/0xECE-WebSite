@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState, useContext } from "react";
 import { supabase } from "../../../../utils/supabaseClient";
-import Link from 'next/link';
+import Link from "next/link";
 import ContextTest from "../../../components/contexts/UserContext";
 
 export default function EditWriteUp({ params }) {
@@ -9,18 +9,18 @@ export default function EditWriteUp({ params }) {
   const [writeUp, setWriteUp] = useState(null);
   const [notFound, setNotFound] = useState(false);
   const { user } = useContext(ContextTest);
-  const [ctfName, setCtfName] = useState('');
-  const [challengeName, setChallengeName] = useState('');
-  const [content, setContent] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [ctfName, setCtfName] = useState("");
+  const [challengeName, setChallengeName] = useState("");
+  const [content, setContent] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [isAuthor, setIsAuthor] = useState(false);
 
   // Fonction pour récupérer le write-up
   const fetchWriteUp = async () => {
     const { data, error } = await supabase
-      .from('writeups')
-      .select('*')
-      .eq('id', writeUpsId)
+      .from("writeups")
+      .select("*")
+      .eq("id", writeUpsId)
       .single(); //SELECT * FROM writeups WHERE id = writeUpsId
     if (error || !data) {
       console.log(error);
@@ -29,7 +29,7 @@ export default function EditWriteUp({ params }) {
       }, 3000);
     } else {
       setWriteUp(data);
-      const [ctf, challenge] = data.title.split(':');
+      const [ctf, challenge] = data.title.split(":");
       setCtfName(ctf.trim());
       setChallengeName(challenge.trim());
       setContent(data.content);
@@ -76,13 +76,13 @@ export default function EditWriteUp({ params }) {
   const handleUpdate = async () => {
     const title = `${ctfName}: ${challengeName}`;
     const { error } = await supabase
-      .from('writeups')
+      .from("writeups")
       .update({
         title: title,
         content: content,
-        date: new Date().toISOString(), 
+        date: new Date().toISOString(),
       }) // UPDATE writeups SET title = title, content = content, date = NOW() WHERE id = writeUpsId
-      .eq('id', writeUpsId);
+      .eq("id", writeUpsId);
     if (error) {
       console.log(error);
       setErrorMessage("Erreur lors de la mise à jour du write-up.");
@@ -116,7 +116,9 @@ export default function EditWriteUp({ params }) {
               La limite de 30 caractères est atteinte.
             </p>
           )}
-          <p className="p-gray text-sm mb-4">{30 - ctfName.length} caractères restants.</p>
+          <p className="p-gray text-sm mb-4">
+            {30 - ctfName.length} caractères restants.
+          </p>
 
           <label className="block mb-2">Nom du Challenge</label>
           <input
@@ -133,7 +135,9 @@ export default function EditWriteUp({ params }) {
               La limite de 30 caractères est atteinte.
             </p>
           )}
-          <p className="p-gray text-sm mb-4">{30 - challengeName.length} caractères restants.</p>
+          <p className="p-gray text-sm mb-4">
+            {30 - challengeName.length} caractères restants.
+          </p>
 
           <label className="block mb-2">Contenu</label>
           <textarea
@@ -149,7 +153,9 @@ export default function EditWriteUp({ params }) {
               La limite de 7000 caractères est atteinte.
             </p>
           )}
-          <p className="p-gray text-sm mb-4">{7000 - content.length} caractères restants.</p>
+          <p className="p-gray text-sm mb-4">
+            {7000 - content.length} caractères restants.
+          </p>
 
           {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
@@ -157,15 +163,11 @@ export default function EditWriteUp({ params }) {
             <button
               type="button"
               className="text-white font-semibold py-2 px-4 rounded mr-6 bg-gray-700 hover:bg-gray-600"
-              onClick={() => window.location.href = `/writeUps/${writeUpsId}`}
+              onClick={() => (window.location.href = `/writeUps/${writeUpsId}`)}
             >
               Annuler
             </button>
-            <button
-              type="button"
-              className="button"
-              onClick={handleUpdate}
-            >
+            <button type="button" className="button" onClick={handleUpdate}>
               Mettre à jour
             </button>
           </div>

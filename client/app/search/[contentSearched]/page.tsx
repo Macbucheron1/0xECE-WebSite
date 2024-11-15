@@ -79,7 +79,9 @@ const SearchResults = ({ params }) => {
             {/* Users */}
             {results.users.length > 0 && (
               <div className="mb-8">
-                <h2 className="text-xl font-semibold mb-4">{text.resultUser}</h2>
+                <h2 className="text-xl font-semibold mb-4">
+                  {text.resultUser}
+                </h2>
                 <div className="space-y-4">
                   {results.users.map((user, index) => (
                     <div key={index} className="p-4 bg-gray-800 rounded">
@@ -96,7 +98,9 @@ const SearchResults = ({ params }) => {
             {/* WriteUps */}
             {results.writeUps.length > 0 && (
               <div className="mb-8">
-                <h2 className="text-xl font-semibold mb-4">{text.resultWriteUps}</h2>
+                <h2 className="text-xl font-semibold mb-4">
+                  {text.resultWriteUps}
+                </h2>
                 <div className="space-y-4">
                   {results.writeUps.map((writeUp, index) => (
                     <div key={index} className="p-4 bg-gray-800 rounded">
@@ -113,7 +117,9 @@ const SearchResults = ({ params }) => {
             {/* Comments */}
             {results.comments.length > 0 && (
               <div className="mb-8">
-                <h2 className="text-xl font-semibold mb-4">{text.resultComments}</h2>
+                <h2 className="text-xl font-semibold mb-4">
+                  {text.resultComments}
+                </h2>
                 <div className="space-y-4">
                   {results.comments.map((comment, index) => (
                     <div key={index} className="p-4 bg-gray-800 rounded">

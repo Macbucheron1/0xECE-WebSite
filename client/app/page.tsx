@@ -5,7 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { use, useContext, useEffect, useState } from "react";
 import { supabase } from "../utils/supabaseClient";
 import ContextTest from "./components/contexts/UserContext";
-import home from "../locales/home.json"
+import home from "../locales/home.json";
 
 export default function Home() {
   {
@@ -32,7 +32,7 @@ export default function Home() {
     fetchTestimonials(); //appel de la fonction fetchTestimonials lors du montage du composant
   }, []);
 
-    /* Vérifier si l'utilisateur a déjà soumis un témoignage */
+  /* Vérifier si l'utilisateur a déjà soumis un témoignage */
   useEffect(() => {
     const checkUserTestimonial = async () => {
       if (user && user.id) {
@@ -44,8 +44,7 @@ export default function Home() {
           console.error(error);
         } else if (data.length === 0) {
           setHasSubmitted(false); //si l'utilisateur a déjà soumis un témoignage, mettre à jour la variable d'état
-        }
-        else {
+        } else {
           setHasSubmitted(true);
         }
       }
@@ -61,12 +60,12 @@ export default function Home() {
     }
   }, [user]);
 
-    /* Création d'un témoignage */
+  /* Création d'un témoignage */
   const createTestimonial = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent form from reloading the page
     const { error } = await supabase.from("testimonials").insert([
       {
-        user_uid: user.id, 
+        user_uid: user.id,
         message: message,
         image_url: actualPP,
         name: name,
@@ -123,7 +122,6 @@ export default function Home() {
     ],
   };
 
-
   return (
     <div className="p-6">
       {/* Logo et Titre */}
@@ -135,9 +133,7 @@ export default function Home() {
         />
         <div className="text-center md:absolute md:left-1/2 md:-translate-x-1/2 md:w-full">
           <h1 className="text-5xl font-bold">{text.Title}</h1>
-          <p className="text-xl p-gray">
-            {text.SubTitle}
-          </p>
+          <p className="text-xl p-gray">{text.SubTitle}</p>
         </div>
       </header>
 
@@ -147,9 +143,7 @@ export default function Home() {
           <h2 className="text-3xl font-bold mb-4 text-center p-blue">
             {text.PresentationTitle}
           </h2>
-          <p className="text-gray-300 text-justify">
-            {text.PresentationBody}            
-          </p>
+          <p className="text-gray-300 text-justify">{text.PresentationBody}</p>
         </div>
         <div className="w-full lg:w-3/5 p-4">
           <img
@@ -237,9 +231,7 @@ export default function Home() {
               ))}
             </Slider>
           ) : (
-            <p className="text-center p-gray">
-              {text.TestimonialsEmpty}
-            </p>
+            <p className="text-center p-gray">{text.TestimonialsEmpty}</p>
           )}
 
           {user && user.id && !hasSubmitted && (
@@ -255,7 +247,9 @@ export default function Home() {
                   </h3>
                   <form onSubmit={createTestimonial}>
                     <div className="mb-4">
-                      <label className="block p-blue mb-2">{text.TestimonialsName}</label>
+                      <label className="block p-blue mb-2">
+                        {text.TestimonialsName}
+                      </label>
                       <input
                         type="text"
                         className="w-full p-2 rounded bg-gray-700 text-white"
@@ -271,7 +265,9 @@ export default function Home() {
                       )}
                     </div>
                     <div className="mb-4">
-                      <label className="block p-blue mb-2">{text.Testimonial}</label>
+                      <label className="block p-blue mb-2">
+                        {text.Testimonial}
+                      </label>
                       <textarea
                         className="w-full p-2 rounded bg-gray-700 text-white"
                         value={message}
@@ -284,7 +280,9 @@ export default function Home() {
                           {text.TestimonialsTextLimitation}
                         </p>
                       )}
-                      <p className="p-gray text-sm">{150 - message.length} {text.TestimonialsLeftCharacters}</p>
+                      <p className="p-gray text-sm">
+                        {150 - message.length} {text.TestimonialsLeftCharacters}
+                      </p>
                     </div>
                     <div className="flex justify-end">
                       <button

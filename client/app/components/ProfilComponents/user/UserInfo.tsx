@@ -1,14 +1,12 @@
 import { useState, useContext, useEffect } from "react";
 import ContextTest from "../../contexts/UserContext";
-import userProfil from "../../../../locales/userProfil.json"
+import userProfil from "../../../../locales/userProfil.json";
 
 interface UserInfoProps {
   promoOptions: string[];
 }
 
-const UserInfo = ({
-  promoOptions,
-}: UserInfoProps) => {
+const UserInfo = ({ promoOptions }: UserInfoProps) => {
   const { user, updatePromo } = useContext(ContextTest);
   const [promo, setPromo] = useState(null);
   const [text, setText] = useState(userProfil.english);
@@ -20,7 +18,6 @@ const UserInfo = ({
       setText(userProfil.english);
     }
   }, [user]);
-
 
   useEffect(() => {
     if (user) {

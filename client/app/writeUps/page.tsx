@@ -1,12 +1,11 @@
 "use client";
 import { useEffect, useState, useContext } from "react";
 import { supabase } from "../../utils/supabaseClient";
-import Link from 'next/link';
+import Link from "next/link";
 import ContextTest from "../components/contexts/UserContext";
-import writeups from "../../locales/writeups.json"
+import writeups from "../../locales/writeups.json";
 
 export default function writeUps() {
-
   const [writeUps, setWriteUps] = useState([]); //initialise state
   const [currentPage, setCurrentPage] = useState(1);
   const writeUpsPerPage = 15;
@@ -21,24 +20,25 @@ export default function writeUps() {
     }
   }, [user]);
 
-
   const fetchWriteUps = async () => {
     const start = (currentPage - 1) * writeUpsPerPage;
     const end = start + writeUpsPerPage - 1;
-    const { data, error } = await supabase.from('writeups').select('*').order('date', {ascending: false}).range(start, end); // SELECT * FROM writeups ORDER BY date DESC LIMIT 15 OFFSET 0
-    if(error)
-      console.log(error);
-    else
-      setWriteUps(data);
-  }
-  useEffect (() => {
+    const { data, error } = await supabase
+      .from("writeups")
+      .select("*")
+      .order("date", { ascending: false })
+      .range(start, end); // SELECT * FROM writeups ORDER BY date DESC LIMIT 15 OFFSET 0
+    if (error) console.log(error);
+    else setWriteUps(data);
+  };
+  useEffect(() => {
     fetchWriteUps();
   }, [currentPage]); // Refetch when currentPage changes
-  
+
   const formatDate = (dateString) => {
-    const [year, month, day] = dateString.split('T')[0].split('-');
+    const [year, month, day] = dateString.split("T")[0].split("-");
     return `${day}/${month}/${year}`;
-  }
+  };
 
   return (
     <div className="p-6 min-h-full flex flex-col">

@@ -1,8 +1,6 @@
-
-
 /**
  * Supabase client
- * 
+ *
  * This module exports a Supabase client instance that can be used to interact with the Supabase API.
  */
 

@@ -3,34 +3,35 @@
 @tailwind utilities;
 
 .wt-title {
-    @apply text-4xl font-bold text-white mb-4 text-center;
+  @apply text-4xl font-bold text-white mb-4 text-center;
 }
 
-.page{
-    @apply bg-gray-900 text-white flex-grow; /*fond bleu et texte blanc*/
+.page {
+  @apply bg-gray-900 text-white flex-grow; /*fond bleu et texte blanc*/
 }
 
-.card{
-    @apply bg-gray-800 p-6 rounded-lg shadow; /*fond gris, padding 6, bord arrondi, ombre*/
+.card {
+  @apply bg-gray-800 p-6 rounded-lg shadow; /*fond gris, padding 6, bord arrondi, ombre*/
 }
 
-.p-blue{
-    @apply text-blue-400; 
+.p-blue {
+  @apply text-blue-400;
 }
 
-.p-gray{
-    @apply text-gray-400; 
+.p-gray {
+  @apply text-gray-400;
 }
 
-.button{
-    @apply bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-700; /*bouton bleu, texte blanc, padding 4, bord arrondi*/
+.button {
+  @apply bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-700; /*bouton bleu, texte blanc, padding 4, bord arrondi*/
 }
 
-.markdown > * { /* Tailwind takes out all default styles applied to html elements.*/
+.markdown > * {
+  /* Tailwind takes out all default styles applied to html elements.*/
   all: revert;
   white-space: pre-wrap; /* Allow code to wrap */
-  word-wrap: break-word;  
-} 
+  word-wrap: break-word;
+}
 
 /*@keyframes fall {
     0% {
@@ -42,7 +43,7 @@
       opacity: 0;
     }
   }*/
-  
+
 /*  
   .hacker-background .character {
     position: absolute;

@@ -1,22 +1,20 @@
 {
-    "french": {
-        "result": "Résultats de la recherche",
-        "searching": "Recherche en cours...",
-        "resultFound1": "Trouvé",
-        "resultFound2": "résultats pour",
-        "resultUser": "Utilisateur",
-        "resultWriteUps": "WriteUps",
-        "resultComments": "Commentaires"
-
-    }, 
-    "english": {
-        "result": "Search Results",
-        "searching": "Searching...",
-        "resultFound1": "Found",
-        "resultFound2": "results for",
-        "resultUser": "User",
-        "resultWriteUps": "WriteUps",
-        "resultComments": "Comments"
-        
-    }
+  "french": {
+    "result": "Résultats de la recherche",
+    "searching": "Recherche en cours...",
+    "resultFound1": "Trouvé",
+    "resultFound2": "résultats pour",
+    "resultUser": "Utilisateur",
+    "resultWriteUps": "WriteUps",
+    "resultComments": "Commentaires"
+  },
+  "english": {
+    "result": "Search Results",
+    "searching": "Searching...",
+    "resultFound1": "Found",
+    "resultFound2": "results for",
+    "resultUser": "User",
+    "resultWriteUps": "WriteUps",
+    "resultComments": "Comments"
+  }
 }

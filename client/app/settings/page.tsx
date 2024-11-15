@@ -1,11 +1,9 @@
-
 "use client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoon, faSun, faGlobe } from "@fortawesome/free-solid-svg-icons";
 import ContextTest from "../components/contexts/UserContext";
 import { useContext, useEffect, useState } from "react";
-import settings from "../../locales/settings.json"
-
+import settings from "../../locales/settings.json";
 
 const SettingsPage = () => {
   const { user, updateTheme, udpateLanguage } = useContext(ContextTest);
@@ -28,9 +26,7 @@ const SettingsPage = () => {
   };
 
   return (
-    <div
-      className={`min-h-screen p-8`}
-    >
+    <div className={`min-h-screen p-8`}>
       <h1 className="text-2xl font-bold mb-6">{text.title}</h1>
 
       {/* Theme */}
@@ -69,7 +65,11 @@ const SettingsPage = () => {
               ? "text-gray-100 hover:bg-[#2a3241]"
               : "text-gray-800 bg-gray-200 hover:bg-gray-200"
           } transition-colors`}
-          onClick={() => handleLanguageChange(user.language === "english" ? "french" : "english")}
+          onClick={() =>
+            handleLanguageChange(
+              user.language === "english" ? "french" : "english"
+            )
+          }
         >
           <span>{user.language === "english" ? "English" : "Français"}</span>
           <FontAwesomeIcon icon={faGlobe} className="h-5 w-5 text-gray-400" />

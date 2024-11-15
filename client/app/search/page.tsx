@@ -1,16 +1,16 @@
 "use client";
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const SearchPage = () => {
-    const router = useRouter();
+  const router = useRouter();
 
-    useEffect(() => {
-        router.push('/');
-    }, [router]);
+  useEffect(() => {
+    router.push("/");
+  }, [router]);
 
-    return null;
+  return null;
 };
 
 export default SearchPage;

@@ -7,7 +7,7 @@ import {
   faInfoCircle,
   faAddressBook,
 } from "@fortawesome/free-solid-svg-icons";
-import header from "../../../locales/header.json"
+import header from "../../../locales/header.json";
 import { useState, useEffect, useContext } from "react";
 import Context from "../contexts/UserContext";
 

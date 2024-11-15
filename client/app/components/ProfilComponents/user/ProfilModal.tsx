@@ -17,7 +17,6 @@ const ProfilModal = ({ isOpen, onClose, newLinkProvider }) => {
     }
   }, [user]);
 
-
   useEffect(() => {
     if (user) {
       if (newLinkProvider === "linkedin") {

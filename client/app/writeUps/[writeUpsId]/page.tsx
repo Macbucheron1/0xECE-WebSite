@@ -165,9 +165,7 @@ export default function WriteUp({ params }) {
     e.preventDefault();
     if (email.length > 100) {
       // Validate email length
-      setErrorMessage(
-        text.publishSizeError
-      );
+      setErrorMessage(text.publishSizeError);
       return;
     }
     let username = user && user.username ? user.username : "Anonyme";

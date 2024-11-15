@@ -4,7 +4,7 @@ import OtherInfo from "./OtherInfo";
 import OtherBio from "./OtherBio";
 import OtherSocialLink from "./OtherSocialLink";
 import { generateGravatarUrl } from "../../../../utils/gravatar";
-import otherProfil from "../../../../locales/otherProfil.json"
+import otherProfil from "../../../../locales/otherProfil.json";
 import UserContext from "../../contexts/UserContext";
 
 const OtherUser = () => {

@@ -40,10 +40,12 @@ const LoginModal = ({ onClose }) => {
       });
       if (error) {
         console.error(`Error logging in with ${provider}:`, error.message);
-      } 
+      }
     } else if (provider === "github") {
       try {
-        const { data, error } = await supabase.auth.signInWithOAuth({ provider });
+        const { data, error } = await supabase.auth.signInWithOAuth({
+          provider,
+        });
         if (error) {
           console.error(`Error logging in with ${provider}:`, error.message);
         }

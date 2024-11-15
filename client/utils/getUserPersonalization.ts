@@ -13,7 +13,7 @@ async function getUserPersonalization(user: User) {
     console.log("data: ", data);
     return;
   }
-  
+
   const pp_provider = data.pp_fav_provider;
   const bio = data.bio;
   const theme = data.theme;

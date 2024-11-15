@@ -55,9 +55,7 @@ export default function PublishWriteUp() {
         {showConfirmation && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-gray-800 p-6 rounded-lg text-center">
-              <p className="text-white mb-4">
-                {text.newSuccess}
-              </p>
+              <p className="text-white mb-4">{text.newSuccess}</p>
               <button
                 className="px-4 py-2 bg-blue-500 text-white rounded"
                 onClick={() => router.push("/writeUps")}
@@ -90,9 +88,7 @@ export default function PublishWriteUp() {
                 required
               />
               {ctfName.length === 30 && (
-                <p className="text-red-500">
-                  {text.newCTFMaxSize}
-                </p>
+                <p className="text-red-500">{text.newCTFMaxSize}</p>
               )}
             </div>
             <div className="mb-4">
@@ -107,9 +103,7 @@ export default function PublishWriteUp() {
                 required
               />
               {challengeName.length === 30 && (
-                <p className="text-red-500">
-                  {text.newChallengeMaxSize}
-                </p>
+                <p className="text-red-500">{text.newChallengeMaxSize}</p>
               )}
             </div>
             <div className="mb-4">
@@ -124,9 +118,7 @@ export default function PublishWriteUp() {
                 required
               />
               {type.length === 30 && (
-                <p className="text-red-500">
-                  {text.newTypeMaxSize}
-                </p>
+                <p className="text-red-500">{text.newTypeMaxSize}</p>
               )}
             </div>
             <div className="mb-4">
@@ -140,9 +132,7 @@ export default function PublishWriteUp() {
                 required
               ></textarea>
               {writeUp.length === 7000 && (
-                <p className="text-red-500">
-                  {text.newTextMaxSize}
-                </p>
+                <p className="text-red-500">{text.newTextMaxSize}</p>
               )}
             </div>
             <div className="flex justify-end">

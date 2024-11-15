@@ -24,7 +24,6 @@ const Bio = () => {
     }
   }, [user]);
 
-
   const updateBioInDatabase = async (value: string) => {
     // Replace this with your actual API call to update the bio in Supabase
     updateBio(value);
@@ -49,7 +48,9 @@ const Bio = () => {
 
   return (
     <div className="bg-gray-800 rounded-lg p-6 mb-4">
-      <h2 className="text-xl font-semibold mb-4 text-cyan-400">{text.biotTitle}</h2>
+      <h2 className="text-xl font-semibold mb-4 text-cyan-400">
+        {text.biotTitle}
+      </h2>
       <ReactQuill
         className="custom-quill"
         theme="snow"
