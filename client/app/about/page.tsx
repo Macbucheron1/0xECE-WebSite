@@ -1,28 +1,47 @@
+
+"use client";
+
+import { useState, useContext, useEffect } from "react";
+import ContextTest from "../components/contexts/UserContext";
+import about from "../../locales/about.json";
+
 export default function About() {
+  const { user } = useContext(ContextTest);
+  const [text, setText] = useState(about.english);
+
+  useEffect(() => {
+    if (user.language === "french") {
+      setText(about.french);
+    } else {
+      setText(about.english);
+    }
+  }, [user]);
+
+
   return (
     <ul className="p-6">
-      <h1 className="wt-title">About Us</h1>
+      <h1 className="wt-title">{text.title}</h1>
       <li className="card mt-8">
-        <h1 className="p-blue text-xl font-bold mb-4">Project Information</h1>
+        <h1 className="p-blue text-xl font-bold mb-4">{text.firstCardTitle}</h1>
         <p className="text-lg p-gray mb-2">
-          Welcome to our project! We are using this website to display the result of our lab / project.
+          {text.firstCardText1}
         </p>
         <p className="text-lg p-gray">
-          It is the result of numerous lab for the Web Technologies course at ECE Paris directed by Mr. Paul Farault
+          {text.firstCardText2}
         </p>
       </li>
       <li className="mt-4">
         <ul className='flex gap-6'>
           <li className='card flex-grow'>
-            <h1 className="p-blue text-xl font-bold mb-4">Nathan Deprat</h1>
+            <h1 className="p-blue text-xl font-bold mb-4">{text.secondCardTitle}</h1>
             <p className="text-lg p-gray">
-              Passionate about cybersecurity, I am looking for a 4 - 5 months internship pls help.
+              {text.secondCardText}
             </p>
           </li>
           <li className='card flex-grow'>
-            <h1 className="p-blue text-xl font-bold mb-4">Ibrahim Diallo</h1>
+            <h1 className="p-blue text-xl font-bold mb-4">{text.thirdCardTitle}</h1>
             <p className="text-lg p-gray">
-              Also looking for an internship in cybersecurity (He is better than Nathan).
+              {text.thirdCardText}
             </p>
           </li>
         </ul>
