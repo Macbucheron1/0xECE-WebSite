@@ -1,0 +1,22 @@
+{
+    "french": {
+        "title": "Nous contacter",
+        "nameLabel": "Nom",
+        "namePlaceholder": "Entrez votre nom",
+        "emailLabel": "Email",
+        "emailPlaceholder": "Entrez votre email",
+        "messageLabel": "Message",
+        "messagePlaceholder": "Entrez votre message",
+        "sendButton": "Envoyer"
+    }, 
+    "english": {
+        "title": "Contact Us",
+        "nameLabel": "Name",
+        "namePlaceholder": "Enter your name",
+        "emailLabel": "Email",
+        "emailPlaceholder": "Enter your email",
+        "messageLabel": "Message",
+        "messagePlaceholder": "Enter your message",
+        "sendButton": "Send"
+    }
+}
