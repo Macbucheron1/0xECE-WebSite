@@ -37,10 +37,10 @@ const OtherUser = () => {
 
   if (visitedUser) {
     return (
-      <div className="bg-gray-900 text-gray-100 p-6">
+      <div className="p-6">
         <div className="max-w-4xl mx-auto">
           {/* Profile Picture and Username Section */}
-          <div className="bg-gray-800 rounded-lg p-6 mb-4">
+          <div className="card mb-4">
             <div className="flex flex-col items-center mb-4">
               {/* Profile Picture Carousel */}
               <div className="flex items-center space-x-4 mb-4">
@@ -54,7 +54,7 @@ const OtherUser = () => {
               </div>
 
               {/* Username */}
-              <h2 className="text-2xl font-bold text-cyan-400">
+              <h2 className="text-2xl font-bold p-blue">
                 {visitedUser.username}
               </h2>
             </div>
@@ -76,7 +76,7 @@ const OtherUser = () => {
     return (
       <div className="px-6 py-11">
         <div className="max-w-4xl mx-auto flex justify-center items-center h-full">
-          <h2 className="text-2xl font-bold text-white">{text.noUser}</h2>
+          <h2 className="text-2xl font-bold p-white">{text.noUser}</h2>
         </div>
       </div>
     );

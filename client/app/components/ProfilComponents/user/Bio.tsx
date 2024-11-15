@@ -47,8 +47,8 @@ const Bio = () => {
   }, []);
 
   return (
-    <div className="bg-gray-800 rounded-lg p-6 mb-4">
-      <h2 className="text-xl font-semibold mb-4 text-cyan-400">
+    <div className="card mb-4">
+      <h2 className="text-xl font-semibold mb-4 p-blue">
         {text.biotTitle}
       </h2>
       <ReactQuill

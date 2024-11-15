@@ -32,28 +32,28 @@ const UserInfo = ({ promoOptions }: UserInfoProps) => {
   };
 
   return (
-    <div className="bg-gray-800 rounded-lg p-6 mb-4">
-      <h2 className="text-xl font-semibold mb-4 text-cyan-400">
+    <div className="card mb-4">
+      <h2 className="text-xl font-semibold mb-4 p-blue">
         {text.infoTitle}
       </h2>
 
       <div className="space-y-4">
         <div>
-          <label className="text-gray-400 block mb-1">{text.infoEmail}</label>
-          <p>{user.email}</p>
+          <label className="block mb-1">{text.infoEmail}</label>
+          <p className="p-white">{user.email}</p>
         </div>
 
         <div>
-          <label className="text-gray-400 block mb-1">{text.infoRole}</label>
-          <p>{user.role}</p>
+          <label className="block mb-1">{text.infoRole}</label>
+          <p className="p-white">{user.role}</p>
         </div>
 
         <div>
-          <label className="text-gray-400 block mb-1">{text.infoPromo}</label>
+          <label className="block mb-1">{text.infoPromo}</label>
           <select
             value={promo}
             onChange={handlePromoChange}
-            className="bg-gray-700 rounded px-3 py-2 w-full max-w-xs"
+            className="p-gray2 rounded px-3 py-2 w-full max-w-xs"
             disabled={user.connected_with_discord}
           >
             {promoOptions.map((option) => (

@@ -51,14 +51,6 @@ export default function EditWriteUp({ params }) {
     checkAuthor();
   }, [user, writeUp]);
 
-  if (notFound) {
-    // ...existing code...
-  }
-
-  if (!writeUp) {
-    // ...existing code...
-  }
-
   if (!isAuthor) {
     return (
       <div className="p-6 flex items-center justify-center">
@@ -107,7 +99,7 @@ export default function EditWriteUp({ params }) {
             value={ctfName}
             onChange={(e) => setCtfName(e.target.value)}
             maxLength={30}
-            className="w-full p-2 rounded bg-gray-700 text-white"
+            className="input"
             placeholder="Hack The Box"
             required
           />
@@ -126,7 +118,7 @@ export default function EditWriteUp({ params }) {
             value={challengeName}
             onChange={(e) => setChallengeName(e.target.value)}
             maxLength={30}
-            className="w-full p-2 rounded bg-gray-700 text-white"
+            className="input"
             placeholder="Eternal Blue"
             required
           />
@@ -144,7 +136,7 @@ export default function EditWriteUp({ params }) {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             maxLength={7000}
-            className="w-full p-2 rounded bg-gray-700 text-white"
+            className="input"
             rows={10}
             required
           ></textarea>

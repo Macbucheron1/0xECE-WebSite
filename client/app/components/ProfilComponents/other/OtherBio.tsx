@@ -17,10 +17,10 @@ const OtherBio = () => {
   }, [user]);
 
   return (
-    <div className="bg-gray-800 rounded-lg p-6 mb-4">
-      <h2 className="text-xl font-semibold mb-4 text-cyan-400">Bio</h2>
+    <div className="card mb-4">
+      <h2 className="text-xl font-semibold mb-4 p-blue">Bio</h2>
       {visitedUser.bio !== null && visitedUser.bio !== "<p><br></p>" ? (
-        <div dangerouslySetInnerHTML={{ __html: visitedUser.bio }} />
+        <div className="p-white" dangerouslySetInnerHTML={{ __html: visitedUser.bio }} />
       ) : (
         <p className="text-gray-400">{text.noBio}</p>
       )}

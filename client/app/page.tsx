@@ -60,6 +60,7 @@ export default function Home() {
     }
   }, [user]);
 
+
   /* Création d'un témoignage */
   const createTestimonial = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent form from reloading the page
@@ -143,7 +144,7 @@ export default function Home() {
           <h2 className="text-3xl font-bold mb-4 text-center p-blue">
             {text.PresentationTitle}
           </h2>
-          <p className="text-gray-300 text-justify">{text.PresentationBody}</p>
+          <p className="p-gray text-justify">{text.PresentationBody}</p>
         </div>
         <div className="w-full lg:w-3/5 p-4">
           <img
@@ -214,13 +215,13 @@ export default function Home() {
             <Slider {...settings}>
               {testimonials.map((testimonial) => (
                 <div key={testimonial.user_uid} className="px-4">
-                  <div className="bg-gray-800 p-6 rounded-lg shadow h-96 flex flex-col max-w-sm mx-auto">
+                  <div className="card p-6 rounded-lg shadow h-96 flex flex-col max-w-sm mx-auto">
                     <img
                       src={testimonial.image_url}
                       alt="Témoignage"
                       className="w-32 h-32 mx-auto rounded-lg mb-4 object-cover"
                     />
-                    <p className="text-lg italic text-gray-300 flex-grow overflow-y-auto break-words">
+                    <p className="text-lg italic p-gray flex-grow overflow-y-auto break-words">
                       "{testimonial.message}"
                     </p>
                     <p className="text-right mt-4 p-blue font-bold break-words">
@@ -241,7 +242,7 @@ export default function Home() {
                   {text.TestimonialsButton}
                 </button>
               ) : (
-                <div className="mt-4 bg-gray-800 p-6 rounded-lg shadow max-w-md mx-auto">
+                <div className="mt-4 card max-w-md mx-auto">
                   <h3 className="text-2xl font-bold mb-4 p-blue">
                     {text.TestimonialsButton}
                   </h3>
@@ -252,7 +253,7 @@ export default function Home() {
                       </label>
                       <input
                         type="text"
-                        className="w-full p-2 rounded bg-gray-700 text-white"
+                        className="input"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         maxLength={20}
@@ -269,7 +270,7 @@ export default function Home() {
                         {text.Testimonial}
                       </label>
                       <textarea
-                        className="w-full p-2 rounded bg-gray-700 text-white"
+                        className="input"
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                         maxLength={150}

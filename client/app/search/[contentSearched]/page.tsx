@@ -53,10 +53,10 @@ const SearchResults = ({ params }) => {
   return (
     <div className="text-gray-100">
       {/* Search Header */}
-      <div className="border-b border-gray-700 pb-6 pt-8">
+      <div className="text-center border-b border-gray-700 pb-6 pt-8">
         <div className="container mx-auto px-4">
-          <h1 className="text-2xl font-bold mb-2">{text.result}</h1>
-          <p className="text-gray-400">
+          <h1 className="wt-title">{text.result}</h1>
+          <p className="p-gray">
             {loading
               ? text.searching
               : `${text.resultFound1} ${
@@ -79,12 +79,12 @@ const SearchResults = ({ params }) => {
             {/* Users */}
             {results.users.length > 0 && (
               <div className="mb-8">
-                <h2 className="text-xl font-semibold mb-4">
+                <h2 className="p-white text-xl font-semibold mb-4">
                   {text.resultUser}
                 </h2>
                 <div className="space-y-4">
                   {results.users.map((user, index) => (
-                    <div key={index} className="p-4 bg-gray-800 rounded">
+                    <div key={index} className="p-4 settings rounded">
                       {/* Render user details */}
                       <a href={`/profil/${user.user_uid}`}>
                         {highlightText(user.username, query)}
@@ -98,12 +98,12 @@ const SearchResults = ({ params }) => {
             {/* WriteUps */}
             {results.writeUps.length > 0 && (
               <div className="mb-8">
-                <h2 className="text-xl font-semibold mb-4">
+                <h2 className="p-white text-xl font-semibold mb-4">
                   {text.resultWriteUps}
                 </h2>
                 <div className="space-y-4">
                   {results.writeUps.map((writeUp, index) => (
-                    <div key={index} className="p-4 bg-gray-800 rounded">
+                    <div key={index} className="p-4 settings rounded">
                       {/* Render writeUp details and console.log each */}
                       <a href={`/writeUps/${writeUp.id}`}>
                         {highlightText(writeUp.title, query)}
@@ -117,12 +117,12 @@ const SearchResults = ({ params }) => {
             {/* Comments */}
             {results.comments.length > 0 && (
               <div className="mb-8">
-                <h2 className="text-xl font-semibold mb-4">
+                <h2 className="p-white text-xl font-semibold mb-4">
                   {text.resultComments}
                 </h2>
                 <div className="space-y-4">
                   {results.comments.map((comment, index) => (
-                    <div key={index} className="p-4 bg-gray-800 rounded">
+                    <div key={index} className="p-4 settings rounded">
                       {/* Render comment details */}
                       <a
                         href={`/writeUps/${comment.writeup_id}#comment-${comment.id}`}

@@ -3,27 +3,51 @@
 @tailwind utilities;
 
 .wt-title {
-  @apply text-4xl font-bold text-white mb-4 text-center;
+  @apply text-4xl font-bold mb-4 text-center;
+  color: var(--text-color);
 }
 
 .page {
-  @apply bg-gray-900 text-white flex-grow; /*fond bleu et texte blanc*/
+  @apply flex-grow;
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
 
 .card {
-  @apply bg-gray-800 p-6 rounded-lg shadow; /*fond gris, padding 6, bord arrondi, ombre*/
+  background-color: var(--card-bg-color);
+  color: var(--card-text-color);
+  @apply p-6 rounded-lg shadow;
+}
+
+.input{
+  background-color: var(--input-bg-color);
+  color: var(--input-text-color);
+  @apply w-full p-2 rounded;
 }
 
 .p-blue {
-  @apply text-blue-400;
+  color: var(--button-bg-color);
 }
 
 .p-gray {
-  @apply text-gray-400;
+  color: var(--card-text-color);
+}
+
+.p-white {
+  color: var(--text-color);
+}
+
+.p-gray2 {
+  background-color: var(--profile-bg-color);
 }
 
 .button {
-  @apply bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-700; /*bouton bleu, texte blanc, padding 4, bord arrondi*/
+  background-color: var(--button-bg-color);
+  @apply text-white font-semibold py-2 px-4 rounded;
+}
+
+.button:hover {
+  background-color: var(--button-hover-bg);
 }
 
 .markdown > * {
@@ -31,6 +55,43 @@
   all: revert;
   white-space: pre-wrap; /* Allow code to wrap */
   word-wrap: break-word;
+}
+
+.settings {
+  background-color: var(--input-bg-color);
+  color: var(--card-text-color);
+}
+
+.settings:hover {
+  background-color: var(--settings-hover-bg);
+}
+
+/* Default theme variables (dark theme) */
+:root {
+  --bg-color: #111827;         /* bg-gray-900 */
+  --text-color: #ffffff;       /* text-white */
+  --card-bg-color: #1F2937;    /* bg-gray-800 */
+  --card-text-color: #9CA3AF;  /* text-gray-400 */
+  --button-bg-color: #3B82F6;  /* bg-blue-500 */
+  --button-hover-bg: #374151;  /* bg-blue-700 */
+  --input-bg-color: #374151;   /* bg-gray-700 */
+  --input-text-color: #ffffff; /* text-white */
+  --settings-hover-bg: #1F2937; /* bg-gray-800 */
+  --profile-bg-color: #374151; /* bg-gray-700 */
+}
+
+/* Light theme variables */
+.theme-Light {
+  --bg-color: #ffffff;
+  --text-color: #000000;
+  --card-bg-color: #E5E7EB;    /* bg-gray-200 */
+  --card-text-color: #374151;  /* text-gray-700 */
+  --button-bg-color: #2563EB;  /* bg-blue-600 */
+  --button-hover-bg: #1D4ED8;  /* bg-blue-800 */
+  --input-bg-color: #D1D5D8;   /* bg-gray-300 */
+  --input-text-color: #000000; /* text-black */
+  --settings-hover-bg: #9CA3AF; /* text-gray-400 */
+  --profile-bg-color: #E5E7EB; /* bg-gray-200 */
 }
 
 /*@keyframes fall {
@@ -64,7 +125,7 @@
   }
   
   .hacker-background .character:nth-child(even) {
-    animation-duration: calc(4s + 2s * var(--i));
+    animation-duration: calc(4s + 2s * var (--i));
     color: rgba(0, 255, 0, 0.37); 
   }
   

@@ -26,11 +26,11 @@ const SettingsPage = () => {
   };
 
   return (
-    <div className={`min-h-screen p-8`}>
-      <h1 className="text-2xl font-bold mb-6">{text.title}</h1>
+    <div className={`min-h-screen p-8 max-w-xl mx-auto`}>
+      <h1 className="wt-title mb-6">{text.title}</h1>
 
       {/* Theme */}
-      <div className="mb-6">
+      <div className="mb-6 max-w-md mx-auto">
         <h2 className="text-xl font-semibold mb-2">{text.theme}</h2>
         <div className="flex items-center">
           <button
@@ -57,7 +57,7 @@ const SettingsPage = () => {
       </div>
 
       {/* Language */}
-      <div className="mb-6">
+      <div className="mb-6 max-w-md mx-auto">
         <h2 className="text-xl font-semibold mb-2">{text.language}</h2>
         <button
           className={`bg-[#232936] rounded-lg px-4 py-2 flex items-center justify-between w-full focus:outline-none ${

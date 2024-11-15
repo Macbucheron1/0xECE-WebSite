@@ -7,7 +7,7 @@ const OtherSocialLink = () => {
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
       <a
-        className={`bg-gray-800 p-4 rounded-lg transition-colors ${
+        className={`card transition-colors ${
           !visitedUser.linkedin_url
             ? "opacity-50 cursor-not-allowed"
             : "hover:bg-gray-700"
@@ -26,7 +26,7 @@ const OtherSocialLink = () => {
         />
       </a>
       <a
-        className={`bg-gray-800 p-4 rounded-lg transition-colors ${
+        className={`card transition-colors ${
           !visitedUser.rootme_url
             ? "opacity-50 cursor-not-allowed"
             : "hover:bg-gray-700"
@@ -45,7 +45,7 @@ const OtherSocialLink = () => {
         />
       </a>
       <a
-        className={`bg-gray-800 p-4 rounded-lg transition-colors ${
+        className={`card transition-colors ${
           !visitedUser.htb_url
             ? "opacity-50 cursor-not-allowed"
             : "hover:bg-gray-700"
@@ -64,7 +64,7 @@ const OtherSocialLink = () => {
         />
       </a>
       <a
-        className={`bg-gray-800 p-4 rounded-lg transition-colors ${
+        className={`card transition-colors ${
           !visitedUser.tryhackme_url
             ? "opacity-50 cursor-not-allowed"
             : "hover:bg-gray-700"

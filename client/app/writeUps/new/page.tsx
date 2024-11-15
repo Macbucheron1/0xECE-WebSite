@@ -54,8 +54,8 @@ export default function PublishWriteUp() {
         <h2 className="wt-title mb-6">{text.newTitle}</h2>
         {showConfirmation && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-gray-800 p-6 rounded-lg text-center">
-              <p className="text-white mb-4">{text.newSuccess}</p>
+            <div className="card text-center">
+              <p className="p-gray mb-4">{text.newSuccess}</p>
               <button
                 className="px-4 py-2 bg-blue-500 text-white rounded"
                 onClick={() => router.push("/writeUps")}
@@ -71,7 +71,7 @@ export default function PublishWriteUp() {
               <label className="p-blue mb-2">{text.newUsername}</label>
               <input
                 type="text"
-                className="w-full p-2 rounded bg-gray-700 p-gray"
+                className="input"
                 value={user?.username || ""}
                 readOnly
               />
@@ -80,7 +80,7 @@ export default function PublishWriteUp() {
               <label className="p-blue mb-2">{text.newCTF}</label>
               <input
                 type="text"
-                className="w-full p-2 rounded bg-gray-700 text-white"
+                className="input"
                 value={ctfName}
                 onChange={(e) => setCtfName(e.target.value)}
                 maxLength={30}
@@ -95,7 +95,7 @@ export default function PublishWriteUp() {
               <label className="p-blue mb-2">{text.newChallenge}</label>
               <input
                 type="text"
-                className="w-full p-2 rounded bg-gray-700 text-white"
+                className="input"
                 value={challengeName}
                 onChange={(e) => setChallengeName(e.target.value)}
                 maxLength={30}
@@ -110,7 +110,7 @@ export default function PublishWriteUp() {
               <label className="p-blue mb-2">Type</label>
               <input
                 type="text"
-                className="w-full p-2 rounded bg-gray-700 text-white"
+                className="input"
                 value={type}
                 onChange={(e) => setType(e.target.value)}
                 maxLength={30}
@@ -124,7 +124,7 @@ export default function PublishWriteUp() {
             <div className="mb-4">
               <label className="block p-blue mb-2">Write-up (Markdown)</label>
               <textarea
-                className="w-full p-2 rounded bg-gray-700 text-white"
+                className="input"
                 rows={10}
                 value={writeUp}
                 onChange={(e) => setWriteUp(e.target.value)}

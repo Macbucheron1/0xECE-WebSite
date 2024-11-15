@@ -246,7 +246,7 @@ export default function WriteUp({ params }) {
             {user && !user.id && (
               <input
                 type="email"
-                className="w-full p-2 rounded bg-gray-700 text-white mb-2"
+                className="input mb-2"
                 placeholder={text.particularCommentaryEmailPlaceholder}
                 value={email}
                 required
@@ -260,7 +260,7 @@ export default function WriteUp({ params }) {
               </p>
             )}
             <textarea
-              className="w-full p-2 rounded bg-gray-700 text-white"
+              className="input"
               placeholder={text.particularCommentaryTextPlaceholder}
               value={commentContent}
               onChange={(e) => setCommentContent(e.target.value)}
