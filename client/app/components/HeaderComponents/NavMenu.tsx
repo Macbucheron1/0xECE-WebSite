@@ -29,13 +29,13 @@ const NavMenu = ({ isNavOpen }: NavMenuProps) => {
   }, [user]);
 
   return (
-    <nav className={isNavOpen ? "animate-slideIn" : "animate-slideOut"}>
+    <nav className={`${isNavOpen ? "animate-slideIn" : "animate-slideOut"}`}>
       <ul className="flex flex-col font-medium space-y-2">
         <li className="">
           <Link
             href="/"
-            className={`text-black px-2 py-1 flex items-center ${
-              pathname === "/" ? "text-blue-500" : "hover:text-blue-300"
+            className={`px-2 py-1 flex items-center ${
+              pathname === "/" ? "text-blue-500" : "p-white"
             }`}
           >
             <FontAwesomeIcon icon={faHome} className="mr-2" />
@@ -45,8 +45,8 @@ const NavMenu = ({ isNavOpen }: NavMenuProps) => {
         <li className="">
           <Link
             href="/writeUps"
-            className={`text-black px-2 py-1 flex items-center ${
-              pathname === "/writeUps" ? "text-blue-500" : "hover:text-blue-300"
+            className={`px-2 py-1 flex items-center ${
+              pathname === "/writeUps" ? "text-blue-500" : "p-white"
             }`}
           >
             <FontAwesomeIcon icon={faPen} className="mr-2" />
@@ -56,8 +56,8 @@ const NavMenu = ({ isNavOpen }: NavMenuProps) => {
         <li className="">
           <Link
             href="/about"
-            className={`text-black px-2 py-1 flex items-center ${
-              pathname === "/about" ? "text-blue-500" : "hover:text-blue-300"
+            className={`px-2 py-1 flex items-center ${
+              pathname === "/about" ? "text-blue-500" : "p-white"
             }`}
           >
             <FontAwesomeIcon icon={faInfoCircle} className="mr-2" />
@@ -67,8 +67,8 @@ const NavMenu = ({ isNavOpen }: NavMenuProps) => {
         <li className="">
           <Link
             href="/contacts"
-            className={`text-black px-2 py-1 flex items-center ${
-              pathname === "/contacts" ? "text-blue-500" : "hover:text-blue-300"
+            className={`px-2 py-1 flex items-center ${
+              pathname === "/contacts" ? "text-blue-500" : "p-white"
             }`}
           >
             <FontAwesomeIcon icon={faAddressBook} className="mr-2" />

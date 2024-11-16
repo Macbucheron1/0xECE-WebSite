@@ -61,8 +61,8 @@ const LoginModal = ({ onClose }) => {
         className="absolute inset-0 bg-black opacity-50"
         onClick={onClose}
       ></div>
-      <div className="bg-white p-8 rounded-lg shadow-lg z-10 max-w-sm w-full">
-        <h2 className="text-3xl font-bold mb-6 text-center">Login</h2>
+      <div className="p-gray2 p-8 rounded-lg shadow-lg z-10 max-w-sm w-full">
+        <h2 className="p-white text-3xl font-bold mb-6 text-center">Login</h2>
 
         {/* Discord Login Button */}
         <button

@@ -57,9 +57,7 @@
   background-color: var(--nav-bg);
 }
 
-.nav ul li a {
-  color: var(--text-color); /* Ensure text color is white */
-}
+
 
 .button {
   background-color: var(--button-bg-color);

@@ -119,7 +119,7 @@ const Header = () => {
       </div>
       {isNavOpen ? (
         <div
-          className="fixed pb-2 pl-2 pr-2 rounded-br-xl rounded-bl-xl bg-gray-100"
+          className="fixed pb-2 pl-2 pr-2 rounded-br-xl rounded-bl-xl bg-gray-100 nav"
           style={{ left: navMenuLeft, top: navMenuTop }}
         >
           <NavMenu isNavOpen={isNavOpen} />
