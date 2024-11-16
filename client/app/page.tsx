@@ -6,6 +6,7 @@ import { use, useContext, useEffect, useState } from "react";
 import { supabase } from "../utils/supabaseClient";
 import ContextTest from "./components/contexts/UserContext";
 import home from "../locales/home.json";
+import Testimonials from "./components/Testimonials"; // Import the new Testimonials component
 
 export default function Home() {
   {
@@ -206,107 +207,8 @@ export default function Home() {
       </section>
 
       {/* Témoignages */}
-      <section className="my-32">
-        <h2 className="text-3xl font-bold mb-6 p-blue text-center">
-          {text.Testimonials}
-        </h2>
-        <div className="max-w-6xl mx-auto px-4">
-          {testimonials.length > 0 ? (
-            <Slider {...settings}>
-              {testimonials.map((testimonial) => (
-                <div key={testimonial.user_uid} className="px-4">
-                  <div className="card p-6 rounded-lg shadow h-96 flex flex-col max-w-sm mx-auto">
-                    <img
-                      src={testimonial.image_url}
-                      alt="Témoignage"
-                      className="w-32 h-32 mx-auto rounded-lg mb-4 object-cover"
-                    />
-                    <p className="text-lg italic p-gray flex-grow overflow-y-auto break-words">
-                      "{testimonial.message}"
-                    </p>
-                    <p className="text-right mt-4 p-blue font-bold break-words">
-                      {testimonial.name}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </Slider>
-          ) : (
-            <p className="text-center p-gray">{text.TestimonialsEmpty}</p>
-          )}
+      <Testimonials /> {/* Replace the original testimonials section with the new component */}
 
-          {user && user.id && !hasSubmitted && (
-            <div className="flex justify-center mt-6">
-              {!isFormOpen ? (
-                <button className="button" onClick={() => setIsFormOpen(true)}>
-                  {text.TestimonialsButton}
-                </button>
-              ) : (
-                <div className="mt-4 card max-w-md mx-auto">
-                  <h3 className="text-2xl font-bold mb-4 p-blue">
-                    {text.TestimonialsButton}
-                  </h3>
-                  <form onSubmit={createTestimonial}>
-                    <div className="mb-4">
-                      <label className="block p-blue mb-2">
-                        {text.TestimonialsName}
-                      </label>
-                      <input
-                        type="text"
-                        className="input"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        maxLength={20}
-                        required
-                      />
-                      {name.length === 20 && (
-                        <p className="text-red-500">
-                          {text.TestimonialsNameLimitation}
-                        </p>
-                      )}
-                    </div>
-                    <div className="mb-4">
-                      <label className="block p-blue mb-2">
-                        {text.Testimonial}
-                      </label>
-                      <textarea
-                        className="input"
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        maxLength={150}
-                        required
-                      ></textarea>
-                      {message.length === 150 && (
-                        <p className="text-red-500 text-sm">
-                          {text.TestimonialsTextLimitation}
-                        </p>
-                      )}
-                      <p className="p-gray text-sm">
-                        {150 - message.length} {text.TestimonialsLeftCharacters}
-                      </p>
-                    </div>
-                    <div className="flex justify-end">
-                      <button
-                        type="button"
-                        className="mr-2 bg-red-500 text-white px-4 py-2 rounded"
-                        onClick={() => setIsFormOpen(false)}
-                      >
-                        {text.TestimonialsCancel}
-                      </button>
-                      <button
-                        type="submit"
-                        className="bg-green-500 text-white px-4 py-2 rounded"
-                      >
-                        {text.TestimonialsSubmit}
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-      </section>
     </div>
   );
 }

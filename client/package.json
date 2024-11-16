@@ -29,6 +29,7 @@
     "@tailwindcss/typography": "^0.5.15",
     "@types/react-slick": "^0.23.13",
     "crypto": "^1.0.1",
+    "flowbite": "^2.5.2",
     "lodash.debounce": "^4.0.8",
     "next": "^14.2.15",
     "react": "^18.3.1",
