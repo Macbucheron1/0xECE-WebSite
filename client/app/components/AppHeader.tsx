@@ -76,7 +76,7 @@ const Header = () => {
       ref={headerRef}
       className="flex flex-wrap -mx-3 rounded-lg fixed top-3 left-2 right-2 z-10"
     >
-      <div className="px-2 mx-auto w-11/12 bg-gray-100 rounded-xl">
+      <div className="px-2 mx-auto w-11/12 bg-gray-100 nav rounded-xl">
         <div
           className={`bg-transparent sm:flex items-stretch justify-between grow lg:mb-0 py-4 px-5 ${
             isClient && isBigScreen ? "" : "space-y-3"

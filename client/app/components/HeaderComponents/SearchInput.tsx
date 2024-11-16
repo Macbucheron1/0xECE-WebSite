@@ -23,7 +23,7 @@ const SearchInput = () => {
 
   return (
     <div className="relative flex items-center lg:ml-4 sm:mr-0 mr-2">
-      <span className="absolute ml-4 leading-none -translate-y-1/2 top-1/2 text-muted">
+      <span className="absolute ml-4 leading-none -translate-y-1/2 top-1/2 p-blue ">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -40,7 +40,7 @@ const SearchInput = () => {
         </svg>
       </span>
       <input
-        className="block w-full min-w-[70px] py-3 pl-12 pr-4 text-base font-medium leading-normal bg-white border border-solid outline-none appearance-none placeholder:text-secondary-dark peer text-stone-500 border-stone-200 bg-clip-padding rounded-2xl shadow hover:shadow-lg"
+        className="block w-full min-w-[70px] py-3 pl-12 pr-4 text-base font-medium leading-normal navbar border border-solid outline-none appearance-none placeholder:p-blue peer text-stone-500 border-stone-200 bg-clip-padding rounded-2xl shadow"
         placeholder={text.search}
         type="text"
         value={searchText}
@@ -52,7 +52,7 @@ const SearchInput = () => {
       {searchText && (
         <span
           onClick={handleClearSearch}
-          className="absolute right-0 left-auto mr-4 leading-none -translate-y-1/2 top-1/2 hover:text-primary text-muted cursor-pointer"
+          className="absolute right-0 left-auto mr-4 leading-none -translate-y-1/2 top-1/2 hover:text-primary p-blue cursor-pointer"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

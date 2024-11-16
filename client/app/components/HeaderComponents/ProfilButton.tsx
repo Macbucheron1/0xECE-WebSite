@@ -54,7 +54,7 @@ const ProfileButton = () => {
     return (
       <>
         <button
-          className="flex items-center justify-center w-12 h-12 text-base font-medium leading-normal text-center align-middle transition-colors duration-150 ease-in-out bg-white border border-solid shadow cursor-pointer rounded-2xl text-stone-500 border-stone-200 hover:shadow-lg"
+          className="flex items-center justify-center w-12 h-12 text-base font-medium leading-normal text-center align-middle transition-colors duration-150 ease-in-out navbar border border-solid shadow cursor-pointer rounded-2xl text-stone-500 border-stone-200"
           onClick={handleButtonClick}
         >
           <svg

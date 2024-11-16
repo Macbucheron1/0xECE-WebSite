@@ -41,6 +41,26 @@
   background-color: var(--profile-bg-color);
 }
 
+/*navbar button*/
+.navbar {
+  background-color: var(--nav-bg-color);
+  color: var(--button-bg-color);
+  border: none; /* Remove the white border */
+}
+.navbar:hover {
+  background-color: var(--nav-hover-bg);
+  @apply shadow-xl;
+}
+
+/*navbar*/
+.nav {
+  background-color: var(--nav-bg);
+}
+
+.nav ul li a {
+  color: var(--text-color); /* Ensure text color is white */
+}
+
 .button {
   background-color: var(--button-bg-color);
   @apply text-white font-semibold py-2 px-4 rounded;
@@ -79,6 +99,9 @@
   --settings-hover-bg: #1F2937; /* bg-gray-800 */
   --profile-bg-color: #374151; /* bg-gray-700 */
   --quill-toolbar-bg: #2d3748; /* bg-gray-800 */
+  --nav-bg-color: #374151;     /* bg-gray-700 */
+  --nav-hover-bg: #4a5568;     /* bg-gray-800 */
+  --nav-bg: #1F2937;           /* bg-gray-800 */
 }
 
 /* Light theme variables */
@@ -94,6 +117,9 @@
   --settings-hover-bg: #9CA3AF; /* text-gray-400 */
   --profile-bg-color: #E5E7EB; /* bg-gray-200 */
   --quill-toolbar-bg: #F3F4F6; /* bg-gray-100 */
+  --nav-bg-color: #ffffff;  
+  --nav-hover-bg: #f7fafc;     /* bg-gray-100 */
+  --nav-bg: #F3F4F6;           /* bg-gray-100 */
 }
 
 /*@keyframes fall {

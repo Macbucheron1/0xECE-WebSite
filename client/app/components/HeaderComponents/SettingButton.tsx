@@ -6,7 +6,7 @@ const SettingsButton = () => {
   return (
     <div className="relative flex items-center ml-2 lg:ml-4">
       <button
-        className="flex items-center justify-center w-12 h-12 text-base font-medium leading-normal text-center transition-colors duration-150 ease-in-out bg-white shadow border border-solid rounded-2xl text-stone-500 border-stone-200 hover:shadow-lg"
+        className="flex items-center justify-center w-12 h-12 text-base font-medium leading-normal text-center transition-colors duration-150 ease-in-out navbar shadow border border-solid rounded-2xl text-stone-500 border-stone-200"
         onClick={() => {
           console.log("Reglage");
           router.push("/settings");
