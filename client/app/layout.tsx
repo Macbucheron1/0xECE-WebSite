@@ -27,11 +27,9 @@ function Content({ children }) {
   const { user } = useContext(ContextTest);
 
   useEffect(() => {
-    console.log(user);
     if (user && user.theme) {
       document.documentElement.classList.remove('theme-Light', 'theme-Dark');
       document.documentElement.classList.add(`theme-${user.theme}`);
-      console.log(`theme-${user.theme}`);
     }
   }, [user]);
 

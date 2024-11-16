@@ -84,7 +84,7 @@ const SearchResults = ({ params }) => {
                 </h2>
                 <div className="space-y-4">
                   {results.users.map((user, index) => (
-                    <div key={index} className="p-4 settings rounded">
+                    <div key={index} className="p-4 settings rounded break-words">
                       {/* Render user details */}
                       <a href={`/profil/${user.user_uid}`}>
                         {highlightText(user.username, query)}
@@ -103,7 +103,7 @@ const SearchResults = ({ params }) => {
                 </h2>
                 <div className="space-y-4">
                   {results.writeUps.map((writeUp, index) => (
-                    <div key={index} className="p-4 settings rounded">
+                    <div key={index} className="p-4 settings rounded break-words">
                       {/* Render writeUp details and console.log each */}
                       <a href={`/writeUps/${writeUp.id}`}>
                         {highlightText(writeUp.title, query)}
@@ -122,7 +122,7 @@ const SearchResults = ({ params }) => {
                 </h2>
                 <div className="space-y-4">
                   {results.comments.map((comment, index) => (
-                    <div key={index} className="p-4 settings rounded">
+                    <div key={index} className="p-4 settings rounded break-words">
                       {/* Render comment details */}
                       <a
                         href={`/writeUps/${comment.writeup_id}#comment-${comment.id}`}

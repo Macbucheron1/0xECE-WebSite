@@ -1,8 +1,5 @@
 "use client";
 import { useContext, useEffect, useState } from "react";
-import { Carousel } from 'flowbite';
-import type { CarouselItem, CarouselOptions, CarouselInterface } from 'flowbite';
-import type { InstanceOptions } from 'flowbite';
 import { supabase } from "../../utils/supabaseClient";
 import ContextTest from "./contexts/UserContext";
 import home from "../../locales/home.json";
@@ -16,6 +13,7 @@ const Testimonials = () => {
   const [message, setMessage] = useState("");
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [text, setText] = useState(home.english);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const fetchTestimonials = async () => {
     const { data, error } = await supabase.from("testimonials").select("*");
@@ -79,6 +77,7 @@ const Testimonials = () => {
     }
   };
 
+  {/*Get the user's profile picture*/}
   useEffect(() => {
     if (user) {
       if (user.fav_pp_provider === "gravatar") {
@@ -91,85 +90,79 @@ const Testimonials = () => {
     }
   }, [user]);
 
-  useEffect(() => {
-    if (testimonials.length > 0) {
-      const carouselElement: HTMLElement = document.getElementById('testimonials-carousel');
-      
-      const items: CarouselItem[] = testimonials.map((_, index) => ({
-        position: index,
-        el: document.getElementById(`testimonial-${index}`)
-      }));
-
-      const options: CarouselOptions = {
-        defaultPosition: 0,
-        interval: 3000,
-        indicators: {
-          activeClasses: 'bg-blue-600',
-          inactiveClasses: 'bg-gray-400 hover:bg-blue-400',
-          items: testimonials.map((_, index) => ({
-            position: index,
-            el: document.getElementById(`indicator-${index}`)
-          }))
-        }
-      };
-
-      const instanceOptions: InstanceOptions = {
-        id: 'testimonials-carousel',
-        override: true
-      };
-
-      const carousel: CarouselInterface = new Carousel(carouselElement, items, options, instanceOptions);
-      carousel.cycle();
-
-      return () => {
-        // Cleanup if needed
-      };
+  {/*Get the number of slides to display based on the screen size*/}
+  const getSlideCount = () => {
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth >= 1024) return 3; // lg
+      if (window.innerWidth >= 768) return 2;  // md
+      return 1; // sm
     }
-  }, [testimonials]);
+    return 3; // default
+  };
+
+  const nextSlide = () => {
+    const slideCount = getSlideCount();
+    setCurrentIndex((prevIndex) => 
+      prevIndex === testimonials.length - slideCount ? 0 : prevIndex + 1
+    );
+  };
+
+  const prevSlide = () => {
+    const slideCount = getSlideCount();
+    setCurrentIndex((prevIndex) => 
+      prevIndex === 0 ? testimonials.length - slideCount : prevIndex - 1
+    );
+  };
 
   return (
     <section className="my-32">
       <h2 className="text-3xl font-bold mb-6 p-blue text-center">
         {text.Testimonials}
       </h2>
-      <div className="max-w-6xl mx-auto px-4">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-16"> 
         {testimonials.length > 0 ? (
-          <div id="testimonials-carousel" className="relative w-full">
-            <div className="relative h-96 overflow-hidden rounded-lg">
-              {testimonials.map((testimonial, index) => (
-                <div
-                  key={testimonial.user_uid}
-                  id={`testimonial-${index}`}
-                  className="hidden duration-700 ease-in-out"
-                >
-                  <div className="card p-6 rounded-lg shadow h-full flex flex-col max-w-sm mx-auto">
-                    <img
-                      src={testimonial.image_url}
-                      alt="Témoignage"
-                      className="w-32 h-32 mx-auto rounded-lg mb-4 object-cover"
-                    />
-                    <p className="text-lg italic p-gray flex-grow overflow-y-auto break-words">
-                      "{testimonial.message}"
-                    </p>
-                    <p className="text-right mt-4 p-blue font-bold break-words mb-2">
-                      {testimonial.name}
-                    </p>
+          <div className="relative w-full">
+            <div className="relative overflow-hidden rounded-lg">
+              <div 
+                className="flex transition-transform duration-500 ease-in-out"
+                style={{
+                  transform: `translateX(-${currentIndex * (100 / getSlideCount())}%)`,
+                }}
+              >
+                {testimonials.map((testimonial, index) => (
+                  <div
+                    key={testimonial.user_uid}
+                    className="w-full sm:w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-2"
+                  >
+                    <div className="mx-auto max-w-sm sm:max-w-md md:max-w-md lg:max-w-sm card p-6 rounded-lg shadow flex flex-col h-[350px]">
+                      <img
+                        src={testimonial.image_url}
+                        alt="Témoignage"
+                        className="w-24 h-24 mx-auto rounded-lg mb-4 object-cover"
+                      />
+                      <p className="text-xl italic p-gray flex-grow overflow-y-auto break-words">
+                        "{testimonial.message}"
+                      </p>
+                      <p className="text-2xl text-right mt-4 p-blue font-bold break-words">
+                        {testimonial.name}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-            <div className="absolute z-30 flex -translate-x-1/2 space-x-3 rtl:space-x-reverse bottom-5 left-1/2">
-              {testimonials.map((_, index) => (
-                <button
-                  key={index}
-                  id={`indicator-${index}`}
-                  type="button"
-                  className="w-3 h-3 rounded-full"
-                  aria-current={index === 0}
-                  aria-label={`Slide ${index + 1}`}
-                ></button>
-              ))}
-            </div>
+            <button 
+              className="absolute -left-8 sm:-left-10 md:-left-12 top-1/2 -translate-y-1/2 z-30 navbar p-2 rounded-full shadow"
+              onClick={prevSlide}
+            >
+              ←
+            </button>
+            <button 
+              className="absolute -right-8 sm:-right-10 md:-right-12 top-1/2 -translate-y-1/2 z-30 navbar p-2 rounded-full shadow"
+              onClick={nextSlide}
+            >
+              →
+            </button>
           </div>
         ) : (
           <p className="text-center p-gray">{text.TestimonialsEmpty}</p>

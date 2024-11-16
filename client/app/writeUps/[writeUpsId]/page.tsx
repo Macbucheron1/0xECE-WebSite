@@ -333,7 +333,7 @@ export default function WriteUp({ params }) {
                 disabled={currentPage === 1}
                 className="button disabled:opacity-50 disabled:cursor-not-allowed "
               >
-                &larr; {text.mainNextButton}
+                &larr; {text.mainPreviousButton}
               </button>
               <span>Page {currentPage}</span>
               <button
@@ -341,7 +341,7 @@ export default function WriteUp({ params }) {
                 disabled={!hasMore}
                 className="button disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {text.mainPreviousButton} &rarr;
+                {text.mainNextButton} &rarr;
               </button>
             </div>
           )}
