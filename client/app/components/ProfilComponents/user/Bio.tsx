@@ -59,27 +59,33 @@ const Bio = () => {
         placeholder={text.bioBody}
       />
       <style jsx global>{`
-        .custom-quill .ql-toolbar {
-          background-color: #2d3748; /* bg-gray-800 */
-          border: none;
-          border-top-left-radius: 0.5rem;
-          border-top-right-radius: 0.5rem;
-        }
+
         .custom-quill .ql-container {
           background-color: #1a202c; /* bg-gray-900 */
           color: #f7fafc; /* text-gray-100 */
           border: none;
         }
-        .custom-quill .ql-editor {
+        .custom-quill .ql-editor { // Text area
           min-height: 150px;
-          background-color: #1a202c;
-          color: #f7fafc;
+          background-color: var(--input-bg-color);
+          color: var(--input-text-color );
+          border: none;
+          border-bottom-left-radius: 0.5rem;
+          border-bottom-right-radius: 0.5rem;
         }
-        .custom-quill .ql-toolbar .ql-stroke {
-          stroke: #f7fafc; /* text-gray-100 */
+        
+        .custom-quill .ql-toolbar {
+          background-color: var(--quill-toolbar-bg); /* bg-gray-800 */
+          border: none;
+          border-top-left-radius: 0.5rem;
+          border-top-right-radius: 0.5rem;
         }
+        .custom-quill .ql-toolbar .ql-picker,
+        .custom-quill .ql-toolbar .ql-stroke,
         .custom-quill .ql-toolbar .ql-fill {
-          fill: #f7fafc; /* text-gray-100 */
+          color: var(--text-color);
+          fill: var(--quill-toolbar-bg);
+          stroke: var(--text-color);
         }
       `}</style>
     </div>

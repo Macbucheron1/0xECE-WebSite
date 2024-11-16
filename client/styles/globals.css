@@ -78,6 +78,7 @@
   --input-text-color: #ffffff; /* text-white */
   --settings-hover-bg: #1F2937; /* bg-gray-800 */
   --profile-bg-color: #374151; /* bg-gray-700 */
+  --quill-toolbar-bg: #2d3748; /* bg-gray-800 */
 }
 
 /* Light theme variables */
@@ -92,6 +93,7 @@
   --input-text-color: #000000; /* text-black */
   --settings-hover-bg: #9CA3AF; /* text-gray-400 */
   --profile-bg-color: #E5E7EB; /* bg-gray-200 */
+  --quill-toolbar-bg: #F3F4F6; /* bg-gray-100 */
 }
 
 /*@keyframes fall {
