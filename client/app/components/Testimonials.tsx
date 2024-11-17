@@ -107,7 +107,7 @@ const Testimonials = () => {
     );
   };
 
-  const prevSlide = () => {
+  const prevSlide = () => { 
     const slideCount = getSlideCount();
     setCurrentIndex((prevIndex) => 
       prevIndex === 0 ? testimonials.length - slideCount : prevIndex - 1

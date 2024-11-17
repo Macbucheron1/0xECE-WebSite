@@ -24,7 +24,10 @@
     "TestimonialsTextLimitation": "La limite de 150 caractères est atteinte.",
     "TestimonialsLeftCharacters": "caractères restants",
     "TestimonialsCancel": "Annuler",
-    "TestimonialsSubmit": "Envoyer"
+    "TestimonialsSubmit": "Envoyer",
+    "JoinUsTitle": "Rejoignez nous",
+    "JoinUsBody": "Devenez membre de notre association.",
+    "JoinUsButton": "Rejoignez maintenant"
   },
   "english": {
     "Title": "Welcome to 0xECE",
@@ -51,6 +54,9 @@
     "TestimonialsTextLimitation": "The 150 characters limit has been reached.",
     "TestimonialsLeftCharacters": "characters left",
     "TestimonialsCancel": "Cancel",
-    "TestimonialsSubmit": "Submit"
+    "TestimonialsSubmit": "Submit",
+    "JoinUsTitle": "Join Us",
+    "JoinUsBody": "Become a member of our association.",
+    "JoinUsButton": "Join Now"
   }
 }

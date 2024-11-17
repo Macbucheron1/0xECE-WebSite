@@ -1,57 +1,12 @@
 "use client";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { use, useContext, useEffect, useState } from "react";
-import { supabase } from "../utils/supabaseClient";
+import { useContext, useEffect, useState } from "react";
 import ContextTest from "./components/contexts/UserContext";
 import home from "../locales/home.json";
 import Testimonials from "./components/Testimonials"; // Import the new Testimonials component
 
 export default function Home() {
-  {
-    /* Récupération des témoignages depuis la base de données */
-  }
-  const [testimonials, setTestimonials] = useState([]); //variable d'état pour stocker les témoignages
   const { user } = useContext(ContextTest);
-  const [actualPP, setActualPP] = useState<string>("/img/inconnu.png");
-  const [isFormOpen, setIsFormOpen] = useState(false); //variable d'état pour afficher ou masquer le formulaire
-  const [name, setName] = useState(""); //variable d'état pour stocker le nom de l'utilisateur
-  const [message, setMessage] = useState(""); //variable d'état pour stocker le message du témoignage
-  const [hasSubmitted, setHasSubmitted] = useState(false); //variable d'état pour vérifier si l'utilisateur a déjà soumis un témoignage
   const [text, setText] = useState(home.english);
-
-  const fetchTestimonials = async () => {
-    const { data, error } = await supabase.from("testimonials").select("*"); //SELECT * FROM testimonials
-    if (error) {
-      console.error(error);
-    } else {
-      setTestimonials(data); //stocker les témoignages dans la variable d'état
-    }
-  };
-  useEffect(() => {
-    fetchTestimonials(); //appel de la fonction fetchTestimonials lors du montage du composant
-  }, []);
-
-  /* Vérifier si l'utilisateur a déjà soumis un témoignage */
-  useEffect(() => {
-    const checkUserTestimonial = async () => {
-      if (user && user.id) {
-        const { data, error } = await supabase //SELECT user_uid FROM testimonials WHERE user_uid = user.id
-          .from("testimonials")
-          .select("user_uid")
-          .eq("user_uid", user.id);
-        if (error) {
-          console.error(error);
-        } else if (data.length === 0) {
-          setHasSubmitted(false); //si l'utilisateur a déjà soumis un témoignage, mettre à jour la variable d'état
-        } else {
-          setHasSubmitted(true);
-        }
-      }
-    };
-    checkUserTestimonial();
-  }, [user]);
 
   useEffect(() => {
     if (user.language === "french") {
@@ -61,68 +16,6 @@ export default function Home() {
     }
   }, [user]);
 
-
-  /* Création d'un témoignage */
-  const createTestimonial = async (e: React.FormEvent) => {
-    e.preventDefault(); // Prevent form from reloading the page
-    const { error } = await supabase.from("testimonials").insert([
-      {
-        user_uid: user.id,
-        message: message,
-        image_url: actualPP,
-        name: name,
-      },
-    ]);
-
-    if (error) {
-      console.error(error);
-    } else {
-      setHasSubmitted(true); //mettre à jour la variable d'état pour indiquer que l'utilisateur a soumis un témoignage
-      fetchTestimonials(); //mettre à jour la liste des témoignages
-      setIsFormOpen(false); //masquer le formulaire
-      setName("");
-      setMessage("");
-    }
-  };
-
-  useEffect(() => {
-    if (user) {
-      if (user.fav_pp_provider === "gravatar") {
-        setActualPP(user.pp.gravatar);
-      } else if (user.fav_pp_provider === "discord") {
-        setActualPP(user.pp.discord);
-      } else if (user.fav_pp_provider === "github") {
-        setActualPP(user.pp.github);
-      }
-    }
-  }, [user]);
-
-  // Modifier la configuration du slider
-  const settings = {
-    dots: true,
-    infinite: testimonials.length > 3, // Désactive le défilement infini s'il y a moins de 3 témoignages
-    speed: 500,
-    slidesToShow: Math.min(3, testimonials.length), // Limite le nombre de slides au nombre de témoignages disponibles
-    slidesToScroll: 1,
-    autoplay: testimonials.length > 3, // Désactive l'autoplay s'il y a moins de 3 témoignages
-    autoplaySpeed: 3000,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: Math.min(2, testimonials.length),
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 640,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
-  };
 
   return (
     <div className="p-6">
@@ -207,7 +100,20 @@ export default function Home() {
       </section>
 
       {/* Témoignages */}
-      <Testimonials /> {/* Replace the original testimonials section with the new component */}
+      <Testimonials /> 
+
+      {/* "Rejoignez nous" Section */}
+      <section className="my-32 text-center">
+        <h2 className="text-3xl font-bold p-blue">{text.JoinUsTitle}</h2>
+        <p className="p-gray mb-4 mt-4">{text.JoinUsBody}</p>
+        {/* Bouton "Rejoindre" */}
+        <a
+          href="https://www.helloasso.com/associations/0xece/adhesions/inscription-chez-0xece"
+          className="button"
+        >
+          {text.JoinUsButton}
+        </a>
+      </section>
 
     </div>
   );
@@ -218,11 +124,11 @@ export default function Home() {
 }
 /*
 ON PARCOURT LA LISTE DES TEMOIGNAGES
-  ON LES AFFICHE DANS UN SLIDER
-    CHAQUE TEMOIGNAGE CONTIENT UNE IMAGE, UN MESSAGE ET UN NOM
-SI L'UTILISATEUR EST CONNECTE ET N'A PAS ENCORE SOUMIS DE TEMOIGNAGE
-  ON AFFICHE UN BOUTON "AJOUTER UN TEMOIGNAGE"
-  SI LE BOUTON EST CLIQUE
+    ON LES AFFICHE DANS UN SLIDER
+      CHAQUE TEMOIGNAGE CONTIENT UNE IMAGE, UN MESSAGE ET UN NOM
+  SI L'UTILISATEUR EST CONNECTE ET N'A PAS ENCORE SOUMIS DE TEMOIGNAGE
+    ON AFFICHE UN BOUTON "AJOUTER UN TEMOIGNAGE"
+    SI LE BOUTON EST CLIQUE
     ON AFFICHE UN FORMULAIRE POUR AJOUTER UN TEMOIGNAGE
     LE FORMULAIRE CONTIENT UN CHAMP POUR LE NOM ET UN CHAMP POUR LE MESSAGE
     LE NOM EST LIMITE A 20 CARACTERES ET LE MESSAGE A 150 CARACTERES
