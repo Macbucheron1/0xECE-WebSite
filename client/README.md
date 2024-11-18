@@ -151,9 +151,19 @@ the different page, highlighting the task required by the project. We will also 
 ## To do list:
 
 - [ ] Home page CTA : What shoud be the call to action of the home page ?
-- [ ] Recheck the Search functionnality so that it matches the requirement
+- [x] Recheck the Search functionnality so that it matches the requirement
 - [ ] Check to have good RLS on supabase (every table)
 - [ ] When searching, allow to search through write ups content (as an option), if it is a whole word
+- [ ] Look for better police
+- [ ] Add a favicon
+- [ ] Add a title 
+- [ ] Revise footer
+- [ ] Look further in the home page for a better arrangement between the text and the image
+- [ ] make disapear the header when scrolling down
+- [ ] Make the nav bar disappear when clicking outside
+- [ ] Add more pictures
+- [ ] manage entry of the form as an object
+- [ ] link css to the body css so that if we scroll to far we have the same color
 
 
 
