@@ -57,7 +57,12 @@
   background-color: var(--nav-bg);
 }
 
-
+.navMenu {
+  color: var(--text-color);
+}
+.navMenu:hover {
+  color: var(--navMenu-hover-color);
+}
 
 .button {
   background-color: var(--button-bg-color);
@@ -81,7 +86,7 @@
 }
 
 .settings:hover {
-  background-color: var(--settings-hover-bg);
+  color: var(--settings-hover-bg);
 }
 
 /* Default theme variables (dark theme) */
@@ -100,6 +105,7 @@
   --nav-bg-color: #374151;     /* bg-gray-700 */
   --nav-hover-bg: #4a5568;     /* bg-gray-800 */
   --nav-bg: #1F2937;           /* bg-gray-800 */
+  --navMenu-hover-color: #93C5FD; /* text-white */
 }
 
 
@@ -129,7 +135,7 @@
   --text-color: #2c2c2c;          
   --card-bg-color: #e8e0d1;       
   --card-text-color: #2c2c2c;     
-  --button-bg-color: #a0845d;     
+  --button-bg-color: #8f734d;     
   --button-hover-bg: #9c8765;     
   --input-bg-color: #cec2ac;      
   --input-text-color: #2c2c2c;    
@@ -138,7 +144,8 @@
   --quill-toolbar-bg: #c5b7a4;    
   --nav-bg-color: #d6cbb8;       
   --nav-hover-bg: #cbbfae;        
-  --nav-bg: #cec2ac;              
+  --nav-bg: #cec2ac;
+  --navMenu-hover-color: #9c8765;         
 }
 
 /*@keyframes fall {
