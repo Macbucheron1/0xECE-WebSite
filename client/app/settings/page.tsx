@@ -34,11 +34,7 @@ const SettingsPage = () => {
         <h2 className="text-xl font-semibold mb-2">{text.theme}</h2>
         <div className="flex items-center">
           <button
-            className={`mr-4 focus:outline-none ${
-              user.theme === "Dark"
-                ? "bg-[#232936] text-gray-400 hover:bg-[#2a3241]"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            } rounded-md px-3 py-2 transition-colors`}
+            className={`mr-4 focus:outline-none settings rounded-md px-3 py-2 transition-colors`}
             onClick={toggleTheme}
           >
             <FontAwesomeIcon
@@ -60,11 +56,7 @@ const SettingsPage = () => {
       <div className="mb-6 max-w-md mx-auto">
         <h2 className="text-xl font-semibold mb-2">{text.language}</h2>
         <button
-          className={`bg-[#232936] rounded-lg px-4 py-2 flex items-center justify-between w-full focus:outline-none ${
-            user.theme === "Dark"
-              ? "text-gray-100 hover:bg-[#2a3241]"
-              : "text-gray-800 bg-gray-200 hover:bg-gray-200"
-          } transition-colors`}
+          className={`bg-[#232936] rounded-lg px-4 py-2 flex items-center justify-between w-full focus:outline-none settings transition-colors`}
           onClick={() =>
             handleLanguageChange(
               user.language === "english" ? "french" : "english"

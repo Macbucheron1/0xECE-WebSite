@@ -102,22 +102,43 @@
   --nav-bg: #1F2937;           /* bg-gray-800 */
 }
 
-/* Light theme variables */
+
+/*Theme light classic*/
+/*
 .theme-Light {
-  --bg-color: #ffffff;
+  --bg-color: #ded1be;
   --text-color: #000000;
-  --card-bg-color: #E5E7EB;    /* bg-gray-200 */
-  --card-text-color: #374151;  /* text-gray-700 */
-  --button-bg-color: #2563EB;  /* bg-blue-600 */
-  --button-hover-bg: #1D4ED8;  /* bg-blue-800 */
-  --input-bg-color: #D1D5D8;   /* bg-gray-300 */
-  --input-text-color: #000000; /* text-black */
-  --settings-hover-bg: #9CA3AF; /* text-gray-400 */
-  --profile-bg-color: #E5E7EB; /* bg-gray-200 */
-  --quill-toolbar-bg: #F3F4F6; /* bg-gray-100 */
+  --card-bg-color: #E5E7EB;    
+  --card-text-color: #374151;  
+  --button-bg-color: #2563EB;  
+  --button-hover-bg: #1D4ED8;  
+  --input-bg-color: #D1D5D8;   
+  --input-text-color: #000000; 
+  --settings-hover-bg: #9CA3AF; 
+  --profile-bg-color: #E5E7EB; 
+  --quill-toolbar-bg: #F3F4F6; 
   --nav-bg-color: #ffffff;  
-  --nav-hover-bg: #f7fafc;     /* bg-gray-100 */
-  --nav-bg: #F3F4F6;           /* bg-gray-100 */
+  --nav-hover-bg: #f7fafc;     
+  --nav-bg: #F3F4F6;           
+}
+*/
+
+/* Theme light-jaune */
+.theme-Light {
+  --bg-color: #ded1be;
+  --text-color: #2c2c2c;          
+  --card-bg-color: #e8e0d1;       
+  --card-text-color: #2c2c2c;     
+  --button-bg-color: #b29b7a;     
+  --button-hover-bg: #9c8765;     
+  --input-bg-color: #cec2ac;      
+  --input-text-color: #2c2c2c;    
+  --settings-hover-bg: #c5b7a4;  
+  --profile-bg-color: #e8e0d1;   
+  --quill-toolbar-bg: #c5b7a4;    
+  --nav-bg-color: #d6cbb8;       
+  --nav-hover-bg: #cbbfae;        
+  --nav-bg: #cec2ac;              
 }
 
 /*@keyframes fall {
