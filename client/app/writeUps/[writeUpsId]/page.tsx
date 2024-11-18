@@ -15,8 +15,7 @@ export default function WriteUp({ params }) {
   const [comments, setComments] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const commentsPerPage = 3;
-  const [commentContent, setCommentContent] = useState("");
-  const [email, setEmail] = useState(""); // Add a state for email
+  const [formData, setFormData] = useState({ email: "", commentContent: "" });
   const { user } = useContext(ContextTest);
   const [errorMessage, setErrorMessage] = useState("");
   const [hasMore, setHasMore] = useState(false); //allows to know if there are more comments to display
@@ -163,7 +162,7 @@ export default function WriteUp({ params }) {
   //Publish a comment
   const handlePublish = async (e) => {
     e.preventDefault();
-    if (email.length > 100) {
+    if (formData.email.length > 100) {
       // Validate email length
       setErrorMessage(text.publishSizeError);
       return;
@@ -173,19 +172,18 @@ export default function WriteUp({ params }) {
     let user_uid = user && user.username ? user.id : null;
 
     const { error } = await supabase.from("comments").insert({
-      content: commentContent,
+      content: formData.commentContent,
       username: username,
       date: new Date().toISOString(),
       writeup_id: writeUpsId,
       image_url: image_url,
       user_uid: user_uid,
-      email: email, // Include email for non-logged-in users
+      email: formData.email, // Include email for non-logged-in users
     });
     if (error) {
       console.log(error);
     } else {
-      setCommentContent("");
-      setEmail(""); // Clear the email field
+      setFormData({ email: "", commentContent: "" }); // Clear the form data
       fetchComments(); // Update the comments list
     }
   };
@@ -248,13 +246,15 @@ export default function WriteUp({ params }) {
                 type="email"
                 className="input mb-2"
                 placeholder={text.particularCommentaryEmailPlaceholder}
-                value={email}
+                value={formData.email}
                 required
                 maxLength={100} // Limit email to 100 characters
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
               />
             )}
-            {email.length >= 100 && (
+            {formData.email.length >= 100 && (
               <p className="text-red-500 text-sm mb-4">
                 {text.particularMaxCommentEmailSize}
               </p>
@@ -262,18 +262,20 @@ export default function WriteUp({ params }) {
             <textarea
               className="input"
               placeholder={text.particularCommentaryTextPlaceholder}
-              value={commentContent}
-              onChange={(e) => setCommentContent(e.target.value)}
+              value={formData.commentContent}
+              onChange={(e) =>
+                setFormData({ ...formData, commentContent: e.target.value })
+              }
               required
               maxLength={200}
             ></textarea>
-            {commentContent.length >= 200 && (
+            {formData.commentContent.length >= 200 && (
               <p className="text-red-500 text-sm">
                 {text.paritcularMaxCommentTextSize}
               </p>
             )}
             <p className="p-gray text-sm">
-              {200 - commentContent.length} {text.particularCharaLeft}
+              {200 - formData.commentContent.length} {text.particularCharaLeft}
             </p>
             <button type="submit" className="button float-right">
               {text.particularSubmitButton}

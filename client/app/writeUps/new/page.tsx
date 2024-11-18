@@ -7,11 +7,13 @@ import writeups from "../../../locales/writeups.json";
 
 export default function PublishWriteUp() {
   const router = useRouter();
-  const [ctfName, setCtfName] = useState("");
-  const [challengeName, setChallengeName] = useState("");
   const { user } = useContext(ContextTest);
-  const [type, setType] = useState("");
-  const [writeUp, setWriteUp] = useState("");
+  const [formData, setFormData] = useState({
+    ctfName: "",
+    challengeName: "",
+    type: "",
+    writeUp: "",
+  });
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [text, setText] = useState(writeups.english);
 
@@ -25,6 +27,7 @@ export default function PublishWriteUp() {
 
   const publishWriteUp = async (e) => {
     e.preventDefault();
+    const { ctfName, challengeName, type, writeUp } = formData;
     if (!ctfName || !challengeName || !type || !writeUp) {
       alert(text.newAlert);
       return;
@@ -81,13 +84,15 @@ export default function PublishWriteUp() {
               <input
                 type="text"
                 className="input"
-                value={ctfName}
-                onChange={(e) => setCtfName(e.target.value)}
+                value={formData.ctfName}
+                onChange={(e) =>
+                  setFormData({ ...formData, ctfName: e.target.value })
+                }
                 maxLength={30}
                 placeholder="Hack The Box"
                 required
               />
-              {ctfName.length === 30 && (
+              {formData.ctfName.length === 30 && (
                 <p className="text-red-500">{text.newCTFMaxSize}</p>
               )}
             </div>
@@ -96,13 +101,15 @@ export default function PublishWriteUp() {
               <input
                 type="text"
                 className="input"
-                value={challengeName}
-                onChange={(e) => setChallengeName(e.target.value)}
+                value={formData.challengeName}
+                onChange={(e) =>
+                  setFormData({ ...formData, challengeName: e.target.value })
+                }
                 maxLength={30}
                 placeholder="Eternal Blue"
                 required
               />
-              {challengeName.length === 30 && (
+              {formData.challengeName.length === 30 && (
                 <p className="text-red-500">{text.newChallengeMaxSize}</p>
               )}
             </div>
@@ -111,13 +118,15 @@ export default function PublishWriteUp() {
               <input
                 type="text"
                 className="input"
-                value={type}
-                onChange={(e) => setType(e.target.value)}
+                value={formData.type}
+                onChange={(e) =>
+                  setFormData({ ...formData, type: e.target.value })
+                }
                 maxLength={30}
                 placeholder="Forensic"
                 required
               />
-              {type.length === 30 && (
+              {formData.type.length === 30 && (
                 <p className="text-red-500">{text.newTypeMaxSize}</p>
               )}
             </div>
@@ -126,12 +135,14 @@ export default function PublishWriteUp() {
               <textarea
                 className="input"
                 rows={10}
-                value={writeUp}
-                onChange={(e) => setWriteUp(e.target.value)}
+                value={formData.writeUp}
+                onChange={(e) =>
+                  setFormData({ ...formData, writeUp: e.target.value })
+                }
                 maxLength={7000}
                 required
               ></textarea>
-              {writeUp.length === 7000 && (
+              {formData.writeUp.length === 7000 && (
                 <p className="text-red-500">{text.newTextMaxSize}</p>
               )}
             </div>

@@ -9,11 +9,10 @@ const Testimonials = () => {
   const { user } = useContext(ContextTest);
   const [actualPP, setActualPP] = useState<string>("/img/inconnu.png");
   const [isFormOpen, setIsFormOpen] = useState(false);
-  const [name, setName] = useState("");
-  const [message, setMessage] = useState("");
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [text, setText] = useState(home.english);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [formData, setFormData] = useState({ name: "", message: "" });
 
   const fetchTestimonials = async () => {
     const { data, error } = await supabase.from("testimonials").select("*");
@@ -60,9 +59,9 @@ const Testimonials = () => {
     const { error } = await supabase.from("testimonials").insert([
       {
         user_uid: user.id,
-        message: message,
+        message: formData.message,
         image_url: actualPP,
-        name: name,
+        name: formData.name,
       },
     ]);
 
@@ -72,8 +71,7 @@ const Testimonials = () => {
       setHasSubmitted(true);
       fetchTestimonials();
       setIsFormOpen(false);
-      setName("");
-      setMessage("");
+      setFormData({ name: "", message: "" });
     }
   };
 
@@ -187,12 +185,14 @@ const Testimonials = () => {
                     <input
                       type="text"
                       className="input"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
+                      value={formData.name}
+                      onChange={(e) =>
+                        setFormData({ ...formData, name: e.target.value })
+                      }
                       maxLength={20}
                       required
                     />
-                    {name.length === 20 && (
+                    {formData.name.length === 20 && (
                       <p className="text-red-500">
                         {text.TestimonialsNameLimitation}
                       </p>
@@ -204,18 +204,20 @@ const Testimonials = () => {
                     </label>
                     <textarea
                       className="input"
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
+                      value={formData.message}
+                      onChange={(e) =>
+                        setFormData({ ...formData, message: e.target.value })
+                      }
                       maxLength={150}
                       required
                     ></textarea>
-                    {message.length === 150 && (
+                    {formData.message.length === 150 && (
                       <p className="text-red-500 text-sm">
                         {text.TestimonialsTextLimitation}
                       </p>
                     )}
                     <p className="p-gray text-sm">
-                      {150 - message.length} {text.TestimonialsLeftCharacters}
+                      {150 - formData.message.length} {text.TestimonialsLeftCharacters}
                     </p>
                   </div>
                   <div className="flex justify-end">

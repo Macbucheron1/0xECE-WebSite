@@ -9,9 +9,11 @@ export default function EditWriteUp({ params }) {
   const [writeUp, setWriteUp] = useState(null);
   const [notFound, setNotFound] = useState(false);
   const { user } = useContext(ContextTest);
-  const [ctfName, setCtfName] = useState("");
-  const [challengeName, setChallengeName] = useState("");
-  const [content, setContent] = useState("");
+  const [formData, setFormData] = useState({
+    ctfName: "",
+    challengeName: "",
+    content: "",
+  });
   const [errorMessage, setErrorMessage] = useState("");
   const [isAuthor, setIsAuthor] = useState(false);
 
@@ -30,9 +32,11 @@ export default function EditWriteUp({ params }) {
     } else {
       setWriteUp(data);
       const [ctf, challenge] = data.title.split(":");
-      setCtfName(ctf.trim());
-      setChallengeName(challenge.trim());
-      setContent(data.content);
+      setFormData({
+        ctfName: ctf.trim(),
+        challengeName: challenge.trim(),
+        content: data.content,
+      });
     }
   };
 
@@ -66,6 +70,7 @@ export default function EditWriteUp({ params }) {
 
   // Fonction pour mettre à jour le write-up
   const handleUpdate = async () => {
+    const { ctfName, challengeName, content } = formData;
     const title = `${ctfName}: ${challengeName}`;
     const { error } = await supabase
       .from("writeups")
@@ -96,57 +101,63 @@ export default function EditWriteUp({ params }) {
           <label className="block mb-2">Nom du CTF</label>
           <input
             type="text"
-            value={ctfName}
-            onChange={(e) => setCtfName(e.target.value)}
+            value={formData.ctfName}
+            onChange={(e) =>
+              setFormData({ ...formData, ctfName: e.target.value })
+            }
             maxLength={30}
             className="input"
             placeholder="Hack The Box"
             required
           />
-          {ctfName.length === 30 && (
+          {formData.ctfName.length === 30 && (
             <p className="text-red-500">
               La limite de 30 caractères est atteinte.
             </p>
           )}
           <p className="p-gray text-sm mb-4">
-            {30 - ctfName.length} caractères restants.
+            {30 - formData.ctfName.length} caractères restants.
           </p>
 
           <label className="block mb-2">Nom du Challenge</label>
           <input
             type="text"
-            value={challengeName}
-            onChange={(e) => setChallengeName(e.target.value)}
+            value={formData.challengeName}
+            onChange={(e) =>
+              setFormData({ ...formData, challengeName: e.target.value })
+            }
             maxLength={30}
             className="input"
             placeholder="Eternal Blue"
             required
           />
-          {challengeName.length === 30 && (
+          {formData.challengeName.length === 30 && (
             <p className="text-red-500">
               La limite de 30 caractères est atteinte.
             </p>
           )}
           <p className="p-gray text-sm mb-4">
-            {30 - challengeName.length} caractères restants.
+            {30 - formData.challengeName.length} caractères restants.
           </p>
 
           <label className="block mb-2">Contenu</label>
           <textarea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
+            value={formData.content}
+            onChange={(e) =>
+              setFormData({ ...formData, content: e.target.value })
+            }
             maxLength={7000}
             className="input"
             rows={10}
             required
           ></textarea>
-          {content.length === 7000 && (
+          {formData.content.length === 7000 && (
             <p className="text-red-500">
               La limite de 7000 caractères est atteinte.
             </p>
           )}
           <p className="p-gray text-sm mb-4">
-            {7000 - content.length} caractères restants.
+            {7000 - formData.content.length} caractères restants.
           </p>
 
           {errorMessage && <p className="text-red-500">{errorMessage}</p>}
