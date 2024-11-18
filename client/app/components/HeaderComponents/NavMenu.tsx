@@ -35,7 +35,7 @@ const NavMenu = ({ isNavOpen }: NavMenuProps) => {
           <Link
             href="/"
             className={`px-2 py-1 flex items-center ${
-              pathname === "/" ? "text-blue-500" : "p-white hover:text-blue-300"
+              pathname === "/" ? "p-blue" : "navMenu"
             }`}
           >
             <FontAwesomeIcon icon={faHome} className="mr-2" />
@@ -46,7 +46,7 @@ const NavMenu = ({ isNavOpen }: NavMenuProps) => {
           <Link
             href="/writeUps"
             className={`px-2 py-1 flex items-center ${
-              pathname === "/writeUps" ? "text-blue-500" : "p-white hover:text-blue-300"
+              pathname === "/writeUps" ? "p-blue" : "navMenu"
             }`}
           >
             <FontAwesomeIcon icon={faPen} className="mr-2" />
@@ -57,7 +57,7 @@ const NavMenu = ({ isNavOpen }: NavMenuProps) => {
           <Link
             href="/about"
             className={`px-2 py-1 flex items-center ${
-              pathname === "/about" ? "text-blue-500" : "p-white hover:text-blue-300"
+              pathname === "/about" ? "p-blue" : "navMenu"
             }`}
           >
             <FontAwesomeIcon icon={faInfoCircle} className="mr-2" />
@@ -68,7 +68,7 @@ const NavMenu = ({ isNavOpen }: NavMenuProps) => {
           <Link
             href="/contacts"
             className={`px-2 py-1 flex items-center ${
-              pathname === "/contacts" ? "text-blue-500" : "p-white hover:text-blue-300"
+              pathname === "/contacts" ? "p-blue" : "navMenu"
             }`}
           >
             <FontAwesomeIcon icon={faAddressBook} className="mr-2" />
