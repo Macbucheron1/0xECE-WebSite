@@ -10,6 +10,8 @@ import ContextTest from "./components/contexts/UserContext";
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <title>0xECE</title>
+      <link rel="icon" href="/img/logo_0xECE.png" />
       <meta
         name="viewport"
         content="width=device-width, initial-scale=1, viewport-fit=cover"
