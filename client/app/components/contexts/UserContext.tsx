@@ -186,6 +186,8 @@ export const ContextProvider = ({ children }) => {
           .from("user_personalization_info")
           .insert([
             {
+              username: getUsername(session),
+              email: getEmail(session),
               user_uid: getID(session),
               pp_fav_provider: "gravatar",
               bio: null,
