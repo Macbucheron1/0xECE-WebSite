@@ -7,6 +7,7 @@ import "react-quill/dist/quill.snow.css";
 import { useContext } from "react";
 import ContextTest from "../../contexts/UserContext";
 import userProfil from "../../../../locales/userProfil.json";
+import DOMPurify from "dompurify";
 
 // Dynamically import ReactQuill to avoid SSR issues
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
@@ -26,6 +27,7 @@ const Bio = () => {
 
   const updateBioInDatabase = async (value: string) => {
     // Replace this with your actual API call to update the bio in Supabase
+
     updateBio(value);
   };
 
@@ -36,21 +38,22 @@ const Bio = () => {
   );
 
   const handleChange = (value: string) => {
-    setBio(value);
-    debouncedUpdateBio(value);
+    const sanitizedValue = DOMPurify.sanitize(value);
+    setBio(sanitizedValue);
+    debouncedUpdateBio(sanitizedValue);
   };
 
+  // When setting the initial bio
   useEffect(() => {
     if (user) {
-      setBio(user.bio);
+      const sanitizedBio = DOMPurify.sanitize(user.bio);
+      setBio(sanitizedBio);
     }
-  }, []);
+  }, [user]);
 
   return (
     <div className="card mb-4">
-      <h2 className="text-xl font-semibold mb-4 p-blue">
-        {text.biotTitle}
-      </h2>
+      <h2 className="text-xl font-semibold mb-4 p-blue">{text.biotTitle}</h2>
       <ReactQuill
         className="custom-quill"
         theme="snow"
@@ -59,21 +62,21 @@ const Bio = () => {
         placeholder={text.bioBody}
       />
       <style jsx global>{`
-
         .custom-quill .ql-container {
           background-color: #1a202c; /* bg-gray-900 */
           color: #f7fafc; /* text-gray-100 */
           border: none;
         }
-        .custom-quill .ql-editor { // Text area
+        .custom-quill .ql-editor {
+          // Text area
           min-height: 150px;
           background-color: var(--input-bg-color);
-          color: var(--input-text-color );
+          color: var(--input-text-color);
           border: none;
           border-bottom-left-radius: 0.5rem;
           border-bottom-right-radius: 0.5rem;
         }
-        
+
         .custom-quill .ql-toolbar {
           background-color: var(--quill-toolbar-bg); /* bg-gray-800 */
           border: none;
