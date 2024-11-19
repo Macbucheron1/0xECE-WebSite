@@ -1,5 +1,4 @@
 import { useEffect, useState, useCallback, useContext, use } from "react";
-import { useRouter } from "next/navigation";
 import LoginModal from "./LoginModal";
 import ContextTest from "../contexts/UserContext";
 import Link from "next/link";
@@ -22,7 +21,6 @@ import Link from "next/link";
  */
 const ProfileButton = () => {
   const { user, login } = useContext(ContextTest);
-  const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [actualPP, setActualPP] = useState<string>("/img/inconnu.png");
 
@@ -68,7 +66,7 @@ const ProfileButton = () => {
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth="2"
-              d="M5 12h14M12 5l7 7-7 7"
+              d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
             />
           </svg>
         </button>
