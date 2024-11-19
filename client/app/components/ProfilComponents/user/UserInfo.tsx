@@ -7,9 +7,13 @@ interface UserInfoProps {
 }
 
 const UserInfo = ({ promoOptions }: UserInfoProps) => {
-  const { user, updatePromo } = useContext(ContextTest);
+  const { user, updatePromo, updateEmailVisibility } = useContext(ContextTest);
   const [promo, setPromo] = useState(null);
   const [text, setText] = useState(userProfil.english);
+
+  const toggleEmailVisibility = () => {
+    updateEmailVisibility(!user.email_visible);
+  };
 
   useEffect(() => {
     if (user.language === "french") {
@@ -19,11 +23,13 @@ const UserInfo = ({ promoOptions }: UserInfoProps) => {
     }
   }, [user]);
 
+
   useEffect(() => {
     if (user) {
       if (user.promo) setPromo(user.promo);
       else setPromo(promoOptions[0]);
     }
+    console.log(user.email_visible)
   }, [user]);
 
   const handlePromoChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -33,14 +39,22 @@ const UserInfo = ({ promoOptions }: UserInfoProps) => {
 
   return (
     <div className="card mb-4">
-      <h2 className="text-xl font-semibold mb-4 p-blue">
-        {text.infoTitle}
-      </h2>
+      <h2 className="text-xl font-semibold mb-4 p-blue">{text.infoTitle}</h2>
 
       <div className="space-y-4">
         <div>
           <label className="block mb-1">{text.infoEmail}</label>
-          <p className="p-white">{user.email}</p>
+          <div className="flex items-center">
+            <p className="p-white mr-4">
+              {user.email_visible ? user.email : "*****"}
+            </p>
+            <button
+              onClick={toggleEmailVisibility}
+              className="p-gray2 rounded px-3 py-2"
+            >
+              {user.email_visible ? "Hide Email" : "Show Email"}
+            </button>
+          </div>
         </div>
 
         <div>

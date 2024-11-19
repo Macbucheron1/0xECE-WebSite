@@ -23,6 +23,7 @@ type CustomUser = {
   rootme_url: string | null;
   tryhackme_url: string | null;
   htb_url: string | null;
+  email_visible: boolean | null;
 };
 
 const roleNames = {
@@ -61,6 +62,7 @@ const Context = createContext<{
   updateLink: (newLink: string, website: string) => void;
   updateTheme: (newTheme: string) => void;
   udpateLanguage: (newLanguage: string) => void;
+  updateEmailVisibility: (visibility: boolean) => void;
   logout: () => void;
 }>({
   user: null,
@@ -78,6 +80,7 @@ const Context = createContext<{
   updateLink: () => null,
   updateTheme: () => null,
   udpateLanguage: () => null,
+  updateEmailVisibility: () => null,
   logout: () => null,
 });
 
@@ -100,6 +103,7 @@ export const ContextProvider = ({ children }) => {
     rootme_url: null,
     tryhackme_url: null,
     htb_url: null,
+    email_visible: false,
   });
 
   const getID = (session: Session) => {
@@ -152,7 +156,7 @@ export const ContextProvider = ({ children }) => {
       const { data, error } = await supabase // Fetch user personalization data from the database
         .from("user_personalization_info")
         .select(
-          "pp_fav_provider, bio, theme, language, role, promo, linkedin_url, rootme_url, tryhackme_url, htb_url"
+          "pp_fav_provider, bio, theme, language, role, promo, linkedin_url, rootme_url, tryhackme_url, htb_url, email_visible"
         )
         .eq("user_uid", getID(session))
         .single();
@@ -199,6 +203,7 @@ export const ContextProvider = ({ children }) => {
               rootme_url: null,
               tryhackme_url: null,
               htb_url: null,
+              email_visible: false,
             },
           ]);
 
@@ -225,6 +230,7 @@ export const ContextProvider = ({ children }) => {
         rootme_url: null,
         tryhackme_url: null,
         htb_url: null,
+        email_visible: false,
       };
     }
   };
@@ -291,6 +297,7 @@ export const ContextProvider = ({ children }) => {
         let new_rootme_url = null;
         let new_tryhackme_url = null;
         let new_htb_url = null;
+        var new_email_visible = false;
         getUserPersonalization(session, new_connected_with_discord).then(
           (data) => {
             new_fav_pp_provider = data.pp_fav_provider;
@@ -303,6 +310,7 @@ export const ContextProvider = ({ children }) => {
             new_rootme_url = data.rootme_url;
             new_tryhackme_url = data.tryhackme_url;
             new_htb_url = data.htb_url;
+            new_email_visible = data.email_visible;
             setUser({
               id: new_id,
               email: new_email,
@@ -319,6 +327,7 @@ export const ContextProvider = ({ children }) => {
               rootme_url: new_rootme_url,
               tryhackme_url: new_tryhackme_url,
               htb_url: new_htb_url,
+              email_visible: new_email_visible,
             });
           }
         );
@@ -339,6 +348,7 @@ export const ContextProvider = ({ children }) => {
           rootme_url: null,
           tryhackme_url: null,
           htb_url: null,
+          email_visible: false,
         });
       }
     });
@@ -451,6 +461,17 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
+  const updateEmailVisibility = async (visibility: boolean) => {
+    const { error } = await supabase
+      .from("user_personalization_info")
+      .update({ email_visible: visibility })
+      .eq("user_uid", user.id);
+
+    if (error) {
+      console.error("Error updating email visibility:", error);
+    }
+  };
+
   const Logout = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
@@ -472,6 +493,7 @@ export const ContextProvider = ({ children }) => {
       rootme_url: null,
       tryhackme_url: null,
       htb_url: null,
+      email_visible: false,
     });
   };
 
@@ -493,6 +515,7 @@ export const ContextProvider = ({ children }) => {
         updateFavPPProvider: updateFavPPProvider,
         updateTheme: updateTheme,
         udpateLanguage: udpateLanguage,
+        updateEmailVisibility: updateEmailVisibility,
         logout: Logout,
       }}
     >

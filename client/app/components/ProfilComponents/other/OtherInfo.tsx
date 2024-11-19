@@ -19,14 +19,12 @@ const OtherInfo = () => {
 
   return (
     <div className="card mb-4">
-      <h2 className="text-xl font-semibold mb-4 p-blue">
-        {text.infoTitle}
-      </h2>
+      <h2 className="text-xl font-semibold mb-4 p-blue">{text.infoTitle}</h2>
 
       <div className="space-y-4">
         <div>
           <label className="block mb-1">{text.infoEmail}</label>
-          <p className="p-white">{visitedUser.email}</p>
+          <p className="p-white">{user.email_visible ? user.email : "*****"}</p>
         </div>
 
         <div>
