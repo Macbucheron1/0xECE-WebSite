@@ -150,7 +150,7 @@ the different page, highlighting the task required by the project. We will also 
 
 ## To do list:
 
-- [ ] Home page CTA : What shoud be the call to action of the home page ?
+- [x] Home page CTA : What shoud be the call to action of the home page ?
 - [x] Recheck the Search functionnality so that it matches the requirement
 - [ ] Check to have good RLS on supabase (every table)
 - [ ] When searching, allow to search through write ups content (as an option), if it is a whole word
@@ -163,7 +163,10 @@ the different page, highlighting the task required by the project. We will also 
 - [ ] Make the nav bar disappear when clicking outside
 - [ ] Add more pictures
 - [ ] manage entry of the form as an object
-- [ ] link css to the body css so that if we scroll to far we have the same color
-
+- [ ] make body css so that if we scroll to far we have the same color
+- [ ] edge case: when clicking multiple times on a button
+- [ ] add like on post
+- [ ] add digital resume
+- [ ] in the search bar invert between url and text in the search result : "d%C3%A9" and dé
 
 
