@@ -168,5 +168,8 @@ the different page, highlighting the task required by the project. We will also 
 - [ ] add like on post
 - [ ] add digital resume
 - [ ] in the search bar invert between url and text in the search result : "d%C3%A9" and dé
+- [ ] color of the link inside a write up in md
+- [ ] In the search bar make sur that the button is clickable and not just the text
+
 
 
