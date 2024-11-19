@@ -6,7 +6,7 @@ import Context from "../../components/contexts/UserContext";
 import search from "../../../locales/search.json";
 
 const SearchResults = ({ params }) => {
-  const query = params.contentSearched;
+  const query = decodeURI(params.contentSearched);
   const { user } = useContext(Context);
   const [text, setText] = useState(search.english);
 

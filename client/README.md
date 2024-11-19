@@ -155,8 +155,8 @@ the different page, highlighting the task required by the project. We will also 
 - [ ] Check to have good RLS on supabase (every table)
 - [ ] When searching, allow to search through write ups content (as an option), if it is a whole word
 - [ ] Look for better police
-- [ ] Add a favicon
-- [ ] Add a title 
+- [x] Add a favicon
+- [x] Add a title 
 - [ ] Revise footer
 - [ ] Look further in the home page for a better arrangement between the text and the image
 - [ ] make disapear the header when scrolling down
@@ -167,7 +167,7 @@ the different page, highlighting the task required by the project. We will also 
 - [ ] edge case: when clicking multiple times on a button
 - [ ] add like on post
 - [ ] add digital resume
-- [ ] in the search bar invert between url and text in the search result : "d%C3%A9" and dé
+- [x] in the search bar invert between url and text in the search result : "d%C3%A9" and dé
 - [ ] color of the link inside a write up in md
 - [ ] In the search bar make sur that the button is clickable and not just the text
 
