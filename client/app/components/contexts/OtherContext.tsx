@@ -13,6 +13,7 @@ type visitedUser = {
   rootme_url: string | null;
   tryhackme_url: string | null;
   htb_url: string | null;
+  email_visible: boolean;
 };
 
 const Context = createContext<{

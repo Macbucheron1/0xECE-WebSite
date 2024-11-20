@@ -24,7 +24,7 @@ const OtherInfo = () => {
       <div className="space-y-4">
         <div>
           <label className="block mb-1">{text.infoEmail}</label>
-          <p className="p-white">{user.email_visible ? user.email : "*****"}</p>
+          <p className="p-white">{visitedUser.email_visible ? visitedUser.email : "*****"}</p>
         </div>
 
         <div>
