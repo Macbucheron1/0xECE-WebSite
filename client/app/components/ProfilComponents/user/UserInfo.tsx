@@ -10,9 +10,11 @@ const UserInfo = ({ promoOptions }: UserInfoProps) => {
   const { user, updatePromo, updateEmailVisibility } = useContext(ContextTest);
   const [promo, setPromo] = useState(null);
   const [text, setText] = useState(userProfil.english);
+  const [emailVisible, setEmailVisible] = useState(user.email_visible);
 
   const toggleEmailVisibility = () => {
     updateEmailVisibility(!user.email_visible);
+    setEmailVisible(!emailVisible);
   };
 
   useEffect(() => {
@@ -23,13 +25,11 @@ const UserInfo = ({ promoOptions }: UserInfoProps) => {
     }
   }, [user]);
 
-
   useEffect(() => {
     if (user) {
       if (user.promo) setPromo(user.promo);
       else setPromo(promoOptions[0]);
     }
-    console.log(user.email_visible)
   }, [user]);
 
   const handlePromoChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -46,13 +46,13 @@ const UserInfo = ({ promoOptions }: UserInfoProps) => {
           <label className="block mb-1">{text.infoEmail}</label>
           <div className="flex items-center">
             <p className="p-white mr-4">
-              {user.email_visible ? user.email : "*****"}
+              {emailVisible ? user.email : "*****"}
             </p>
             <button
               onClick={toggleEmailVisibility}
-              className="p-gray2 rounded px-3 py-2"
+              className="button"
             >
-              {user.email_visible ? "Hide Email" : "Show Email"}
+              {emailVisible ? "Hide Email" : "Show Email"}
             </button>
           </div>
         </div>

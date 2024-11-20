@@ -170,6 +170,7 @@ the different page, highlighting the task required by the project. We will also 
 - [x] in the search bar invert between url and text in the search result : "d%C3%A9" and dé
 - [ ] color of the link inside a write up in md
 - [ ] In the search bar make sur that the button is clickable and not just the text
+- [ ] Make a proper hide/show email button
 
 
 
