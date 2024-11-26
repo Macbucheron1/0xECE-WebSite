@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import OtherContext from "../../contexts/OtherContext";
 
 const OtherSocialLink = () => {
@@ -14,6 +14,7 @@ const OtherSocialLink = () => {
         }`}
         href={visitedUser.linkedin_url || "#"}
         target={visitedUser.linkedin_url ? "_blank" : "_self"}
+        rel={visitedUser.linkedin_url ? "noreferrer" : undefined}
         aria-disabled={!visitedUser.linkedin_url}
         title={
           !visitedUser.linkedin_url ? "The user has not set this link yet!" : ""
@@ -33,6 +34,7 @@ const OtherSocialLink = () => {
         }`}
         href={visitedUser.rootme_url || "#"}
         target={visitedUser.rootme_url ? "_blank" : "_self"}
+        rel={visitedUser.rootme_url ? "noreferrer" : undefined}
         aria-disabled={!visitedUser.rootme_url}
         title={
           !visitedUser.rootme_url ? "The user has not set this link yet!" : ""
@@ -52,6 +54,7 @@ const OtherSocialLink = () => {
         }`}
         href={visitedUser.htb_url || "#"}
         target={visitedUser.htb_url ? "_blank" : "_self"}
+        rel={visitedUser.htb_url ? "noreferrer" : undefined}
         aria-disabled={!visitedUser.htb_url}
         title={
           !visitedUser.htb_url ? "The user has not set this link yet!" : ""
@@ -71,6 +74,7 @@ const OtherSocialLink = () => {
         }`}
         href={visitedUser.tryhackme_url || "#"}
         target={visitedUser.tryhackme_url ? "_blank" : "_self"}
+        rel={visitedUser.tryhackme_url ? "noreferrer" : undefined}
         aria-disabled={!visitedUser.tryhackme_url}
         title={
           !visitedUser.tryhackme_url
