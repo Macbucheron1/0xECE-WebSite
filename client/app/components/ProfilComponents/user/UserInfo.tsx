@@ -8,7 +8,7 @@ interface UserInfoProps {
 
 const UserInfo = ({ promoOptions }: UserInfoProps) => {
   const { user, updatePromo, updateEmailVisibility } = useContext(ContextTest);
-  const [promo, setPromo] = useState(null);
+  const [promo, setPromo] = useState(''); // Initialize with empty string instead of null
   const [text, setText] = useState(userProfil.english);
   const [emailVisible, setEmailVisible] = useState(user.email_visible);
 
@@ -27,10 +27,9 @@ const UserInfo = ({ promoOptions }: UserInfoProps) => {
 
   useEffect(() => {
     if (user) {
-      if (user.promo) setPromo(user.promo);
-      else setPromo(promoOptions[0]);
+      setPromo(user.promo || promoOptions[0] || ''); // Provide empty string as fallback
     }
-  }, [user]);
+  }, [user, promoOptions]);
 
   const handlePromoChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     setPromo(e.target.value);

@@ -125,8 +125,10 @@ const User = () => {
 
             {/* Provider Label */}
             <div className="text-sm text-gray-400 mb-4">
-              {availablePPs[currentPPIndex]?.provider.charAt(0).toUpperCase() +
-                availablePPs[currentPPIndex]?.provider.slice(1)}
+              {availablePPs[currentPPIndex]?.provider ? 
+                (availablePPs[currentPPIndex].provider.charAt(0).toUpperCase() +
+                availablePPs[currentPPIndex].provider.slice(1))
+                : ''}
             </div>
 
             {/* Username */}
