@@ -167,17 +167,17 @@ export default function WriteUp({ params }) {
       setErrorMessage(text.publishSizeError);
       return;
     }
-    let username = user && user.username ? user.username : "Anonyme";
-    let image_url = user && user.username ? actualPP : "/img/inconnu.png";
-    let user_uid = user && user.username ? user.id : null;
+    const username = user && user.username ? user.username : "Anonyme";
+    const imageUrl = user && user.username ? actualPP : "/img/inconnu.png";
+    const userUid = user && user.username ? user.id : null;
 
     const { error } = await supabase.from("comments").insert({
       content: formData.commentContent,
       username: username,
       date: new Date().toISOString(),
       writeup_id: writeUpsId,
-      image_url: image_url,
-      user_uid: user_uid,
+      image_url: imageUrl,
+      user_uid: userUid,
       email: formData.email, // Include email for non-logged-in users
     });
     if (error) {

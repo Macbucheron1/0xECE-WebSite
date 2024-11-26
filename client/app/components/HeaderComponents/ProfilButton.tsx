@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useContext, use } from "react";
+import { useEffect, useState, useCallback, useContext} from "react";
 import LoginModal from "./LoginModal";
 import ContextTest from "../contexts/UserContext";
 import Link from "next/link";

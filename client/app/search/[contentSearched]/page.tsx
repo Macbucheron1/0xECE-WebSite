@@ -60,10 +60,10 @@ const SearchResults = ({ params }) => {
             {loading
               ? text.searching
               : `${text.resultFound1} ${
-                  results.users.length +
-                  results.writeUps.length +
-                  results.comments.length
-                } ${text.resultFound2} "${query}"`}
+                results.users.length +
+                results.writeUps.length +
+                results.comments.length
+              } ${text.resultFound2} "${query}"`}
           </p>
         </div>
       </div>

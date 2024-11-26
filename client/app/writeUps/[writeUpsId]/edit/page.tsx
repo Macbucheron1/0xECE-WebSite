@@ -7,7 +7,6 @@ import ContextTest from "../../../components/contexts/UserContext";
 export default function EditWriteUp({ params }) {
   const { writeUpsId } = params;
   const [writeUp, setWriteUp] = useState(null);
-  const [notFound, setNotFound] = useState(false);
   const { user } = useContext(ContextTest);
   const [formData, setFormData] = useState({
     ctfName: "",
@@ -26,9 +25,6 @@ export default function EditWriteUp({ params }) {
       .single(); //SELECT * FROM writeups WHERE id = writeUpsId
     if (error || !data) {
       console.log(error);
-      setTimeout(() => {
-        setNotFound(true);
-      }, 3000);
     } else {
       setWriteUp(data);
       const [ctf, challenge] = data.title.split(":");
@@ -59,7 +55,7 @@ export default function EditWriteUp({ params }) {
     return (
       <div className="p-6 flex items-center justify-center">
         <div className="text-center">
-          <p>Vous n'êtes pas autorisé à modifier ce write-up.</p>
+          <p>Vous n&apos;êtes pas autorisé à modifier ce write-up.</p>
           <Link href="/writeUps">
             <button className="button my-8">Retour</button>
           </Link>

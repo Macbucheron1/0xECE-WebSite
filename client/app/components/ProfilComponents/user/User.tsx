@@ -40,7 +40,7 @@ const User = () => {
     if (user && user.pp) {
       // Filter out null profile pictures and create an array of available ones
       const availablePPs = Object.entries(user.pp)
-        .filter(([_, value]) => value !== null)
+        .filter(([, value]) => value !== null)
         .map(([provider, url]) => ({ provider, url }));
 
       setAvailablePPs(availablePPs);

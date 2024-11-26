@@ -127,7 +127,7 @@ const Testimonials = () => {
                   transform: `translateX(-${currentIndex * (100 / getSlideCount())}%)`,
                 }}
               >
-                {testimonials.map((testimonial, index) => (
+                {testimonials.map((testimonial) => (
                   <div
                     key={testimonial.user_uid}
                     className="w-full sm:w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-2"
@@ -139,7 +139,7 @@ const Testimonials = () => {
                         className="w-24 h-24 mx-auto rounded-lg mb-4 object-cover"
                       />
                       <p className="text-xl italic p-gray flex-grow overflow-y-auto break-words">
-                        "{testimonial.message}"
+                        &quot;{testimonial.message}&quot;
                       </p>
                       <p className="text-2xl text-right mt-4 p-blue font-bold break-words">
                         {testimonial.name}
