@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, use } from "react";
+import { useState, useEffect, useCallback } from "react";
 import dynamic from "next/dynamic";
 import debounce from "lodash.debounce";
 import "react-quill/dist/quill.snow.css";
@@ -61,14 +61,13 @@ const Bio = () => {
         onChange={handleChange}
         placeholder={text.bioBody}
       />
-      <style jsx global>{`
+      <style>{`
         .custom-quill .ql-container {
-          background-color: #1a202c; /* bg-gray-900 */
-          color: #f7fafc; /* text-gray-100 */
+          background-color: #1a202c;
+          color: #f7fafc;
           border: none;
         }
         .custom-quill .ql-editor {
-          // Text area
           min-height: 150px;
           background-color: var(--input-bg-color);
           color: var(--input-text-color);
@@ -78,7 +77,7 @@ const Bio = () => {
         }
 
         .custom-quill .ql-toolbar {
-          background-color: var(--quill-toolbar-bg); /* bg-gray-800 */
+          background-color: var(--quill-toolbar-bg);
           border: none;
           border-top-left-radius: 0.5rem;
           border-top-right-radius: 0.5rem;

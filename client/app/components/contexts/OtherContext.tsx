@@ -20,11 +20,11 @@ const Context = createContext<{
   visitedUser: visitedUser | null;
   setVisitedUser: (newVisitedUser: visitedUser) => void;
   fetchUser: () => void;
-}>({
-  visitedUser: null,
-  setVisitedUser: () => {},
-  fetchUser: () => {},
-});
+    }>({
+      visitedUser: null,
+      setVisitedUser: () => {},
+      fetchUser: () => {},
+    });
 
 export default Context;
 
