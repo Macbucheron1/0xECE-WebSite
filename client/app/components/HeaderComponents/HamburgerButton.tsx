@@ -1,6 +1,7 @@
 interface HamburgerButtonProps {
   isNavOpen: boolean;
   setIsNavOpen: (isOpen: boolean) => void;
+  onClose?: () => void;  // Added optional onClose prop
 }
 
 const HamburgerButton = ({ isNavOpen, setIsNavOpen }: HamburgerButtonProps) => {

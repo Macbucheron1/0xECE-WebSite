@@ -5,10 +5,6 @@ import { supabase } from "../../../utils/supabaseClient";
 import ContextUser from "../contexts/UserContext";
 import { useContext } from "react";
 
-interface LoginModalProps {
-  onClose: () => void;
-}
-
 /**
  * A modal component for user login using OAuth providers (Discord and GitHub).
  *
@@ -22,7 +18,7 @@ interface LoginModalProps {
  * @returns {JSX.Element} The rendered LoginModal component.
  */
 const LoginModal = ({ onClose }) => {
-  const { user } = useContext(ContextUser);
+  useContext(ContextUser);
   /**
    * Handles the login process using OAuth with the specified provider.
    *
@@ -32,7 +28,7 @@ const LoginModal = ({ onClose }) => {
    */
   const handleLogin = async (provider: "discord" | "github") => {
     if (provider === "discord") {
-      const { data, error } = await supabase.auth.signInWithOAuth({
+      const { error } = await supabase.auth.signInWithOAuth({
         provider: provider,
         options: {
           scopes: "identify email guilds guilds.members.read",
@@ -43,7 +39,7 @@ const LoginModal = ({ onClose }) => {
       }
     } else if (provider === "github") {
       try {
-        const { data, error } = await supabase.auth.signInWithOAuth({
+        const { error } = await supabase.auth.signInWithOAuth({
           provider,
         });
         if (error) {
