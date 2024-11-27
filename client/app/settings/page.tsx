@@ -5,11 +5,25 @@ import ContextTest from "../components/contexts/UserContext";
 import { useContext, useEffect, useState } from "react";
 import settings from "../../locales/settings.json";
 
+/**
+ * SettingsPage component renders the user settings page,
+ * allowing users to toggle theme and language preferences.
+ *
+ * @returns {JSX.Element} The settings page component.
+ */
 const SettingsPage = () => {
+  /**
+   * Context providing user data and functions to update theme and language.
+   */
   const { user, updateTheme, udpateLanguage } = useContext(ContextTest);
+
+  /**
+   * State holding localized text based on user's language preference.
+   */
   const [text, setText] = useState(settings.english);
 
   useEffect(() => {
+    // Update the text state when the user's language changes
     if (user.language === "french") {
       setText(settings.french);
     } else {
@@ -17,10 +31,18 @@ const SettingsPage = () => {
     }
   }, [user]);
 
+  /**
+   * Toggles the theme between 'Dark' and 'Light' modes.
+   */
   const toggleTheme = () => {
     updateTheme(user.theme === "Dark" ? "Light" : "Dark");
   };
 
+  /**
+   * Updates the user's language preference.
+   *
+   * @param {string} lang - The new language to set ('english' or 'french').
+   */
   const handleLanguageChange = (lang) => {
     udpateLanguage(lang);
   };

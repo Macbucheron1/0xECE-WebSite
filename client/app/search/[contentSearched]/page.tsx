@@ -5,12 +5,31 @@ import getSearchInfo from "../../../utils/getSearchInfo";
 import Context from "../../components/contexts/UserContext";
 import search from "../../../locales/search.json";
 
+/**
+ * SearchResults component displays the results of a search query.
+ *
+ * @param {object} params - The parameters object containing route parameters.
+ * @param {string} params.contentSearched - The search query from the URL.
+ * @returns {JSX.Element} The search results page.
+ */
 const SearchResults = ({ params }) => {
+  /**
+   * Decoded search query from URL parameters.
+   */
   const query = decodeURI(params.contentSearched);
+
+  /**
+   * User context providing user data.
+   */
   const { user } = useContext(Context);
+
+  /**
+   * State holding localized text based on user's language preference.
+   */
   const [text, setText] = useState(search.english);
 
   useEffect(() => {
+    // Update the text state when the user's language changes
     if (user.language === "french") {
       setText(search.french);
     } else {
@@ -18,25 +37,38 @@ const SearchResults = ({ params }) => {
     }
   }, [user]);
 
-  // This is a placeholder for your actual search logic
+  /**
+   * State holding search results grouped into users, write-ups, and comments.
+   */
   const [results, setResults] = useState({
     users: [],
     writeUps: [],
     comments: [],
   });
+
+  /**
+   * Loading state to indicate if results are being fetched.
+   */
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);
+    // Simulate fetching search results
     setTimeout(() => {
-      // Simulate fetching grouped results
       getSearchInfo(query).then((data) => {
         setResults(data);
+        setLoading(false);
       });
-      setLoading(false);
     }, 500);
   }, [query]);
 
+  /**
+   * Highlights the search query within the provided text.
+   *
+   * @param {string} text - The text to highlight within.
+   * @param {string} query - The search query to highlight.
+   * @returns {Array} An array of JSX elements with highlighted query.
+   */
   const highlightText = (text, query) => {
     const regex = new RegExp(`(${query})`, "gi");
     return text.split(regex).map((part, index) =>

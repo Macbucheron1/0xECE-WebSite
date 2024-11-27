@@ -7,13 +7,32 @@ import OtherUser from "../../components/ProfilComponents/other/OtherUser";
 import { ContextProvider } from "../../components/contexts/OtherContext";
 import Loader from "../../components/Loader";
 
+/**
+ * UserProfile component displays a user's profile page.
+ * Determines if the profile is the user's own or another user's and renders accordingly.
+ *
+ * @param {object} params - The parameters object containing route parameters.
+ * @param {string} params.profilID - The ID of the profile being visited.
+ * @returns {JSX.Element} The profile page component.
+ */
 export default function UserProfile({
   params,
 }: {
   params: { profilID: string };
 }) {
+  /**
+   * State to determine if the page is editable by the current user.
+   */
   const [isPageEditable, setIsPageEditable] = useState(false);
+
+  /**
+   * User context providing current user data.
+   */
   const { user } = useContext(ContextTest);
+
+  /**
+   * State holding data of the visited user.
+   */
   const [visitedUser, setVisitedUser] = useState(null);
 
   useEffect(() => {
@@ -29,8 +48,10 @@ export default function UserProfile({
 
   if (visitedUser) {
     if (isPageEditable) {
+      // Render the user's own profile with edit capabilities
       return <User />;
     } else {
+      // Render another user's profile
       return (
         <ContextProvider id={params.profilID}>
           <OtherUser />
@@ -38,7 +59,7 @@ export default function UserProfile({
       );
     }
   } else {
-    // loading page
+    // Display a loading indicator while fetching data
     return <Loader />;
   }
 }
