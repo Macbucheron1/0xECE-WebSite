@@ -203,9 +203,7 @@ export const ContextProvider = ({ children }) => {
         if (connected_with_discord) {
           //  If the user is connected with Discord, we fetch the role and promo from Discord
           const { role, promo } = await getInfoFromDiscord(
-            session.provider_token,
-            session.provider_refresh_token,
-            getID(session)
+            session.provider_token
           );
           newRole = role;
           newPromo = promo;
@@ -263,9 +261,7 @@ export const ContextProvider = ({ children }) => {
   };
 
   const getInfoFromDiscord = async (
-    token: string,
-    refresh_token: string,
-    id: string
+    token: string
   ) => {
     // Check if the user is part of the 0xECE guild on Discord with the guild ID : 1225485887463227525
     let role = null;

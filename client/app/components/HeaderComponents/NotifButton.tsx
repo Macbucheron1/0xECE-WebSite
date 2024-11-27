@@ -1,9 +1,10 @@
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+//import { useState } from "react";
 
 const NotificationButton = () => {
   const router = useRouter();
-  const [newNotif, setNewNotif] = useState(true);
+  //const [newNotif, setNewNotif] = useState(true);
+  const newNotif = true;
 
   return (
     <div className="relative flex items-center ml-2 lg:ml-4">

@@ -14,12 +14,12 @@ async function getUserPersonalization(user: User) {
     return;
   }
 
-  const pp_provider = data.pp_fav_provider;
+  const ppProvider = data.pp_fav_provider;
   const bio = data.bio;
   const theme = data.theme;
   const language = data.Language;
 
-  var pp = {
+  const pp = {
     gravatar: generateGravatarUrl(user.email),
   };
   for (let i = 0; i < user.app_metadata.providers.length; i++) {
@@ -27,7 +27,7 @@ async function getUserPersonalization(user: User) {
       user.identities[i].identity_data.avatar_url;
   }
 
-  return { pp: pp[pp_provider], bio: bio, theme: theme, language: language };
+  return { pp: pp[ppProvider], bio: bio, theme: theme, language: language };
 }
 
 export default getUserPersonalization;

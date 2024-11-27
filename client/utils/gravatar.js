@@ -6,9 +6,4 @@ function generateGravatarUrl(email, size = 80) {
   return `https://www.gravatar.com/avatar/${hash}?s=${size}&d=identicon`;
 }
 
-// Example usage
-const email = "nathan.deprat@edu.ece.fr";
-const size = 200; // Optional size parameter
-const gravatarUrl = generateGravatarUrl(email, size);
-
 export { generateGravatarUrl };
