@@ -15,11 +15,18 @@ interface NavMenuProps {
   isNavOpen: boolean;
 }
 
+/**
+ * NavMenu component renders a navigation menu with localized text based on user language.
+ * @param {NavMenuProps} props - The properties object.
+ * @param {boolean} props.isNavOpen - Indicates if the navigation menu is open.
+ * @returns {JSX.Element} The rendered navigation menu.
+ */
 const NavMenu = ({ isNavOpen }: NavMenuProps) => {
   const pathname = usePathname();
   const [text, setText] = useState(header.english);
   const { user } = useContext(Context);
 
+  // Effect to update text content when user language changes
   useEffect(() => {
     if (user.language === "french") {
       setText(header.french);

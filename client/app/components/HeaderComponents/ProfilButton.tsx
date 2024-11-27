@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useContext} from "react";
+import { useEffect, useState, useCallback, useContext } from "react";
 import LoginModal from "./LoginModal";
 import ContextTest from "../contexts/UserContext";
 import Link from "next/link";
@@ -9,34 +9,27 @@ import Link from "next/link";
  *
  * The component uses Supabase for authentication and listens for authentication state changes.
  *
- *
  * @returns {JSX.Element} A button element that either shows the user's profile or a sign-in button.
- *
- * @dependencies
- * - `useRouter` from 'next/router'
- * - `useState` and `useEffect` from 'react'
- * - `supabase` for authentication
- * - `LoginModal` component
- *
  */
 const ProfileButton = () => {
   const { user, login } = useContext(ContextTest);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [actualPP, setActualPP] = useState<string>("/img/inconnu.png");
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to manage the login modal visibility.
+  const [actualPP, setActualPP] = useState<string>("/img/inconnu.png"); // State to store the user's profile picture URL.
 
   const handleButtonClick = useCallback(() => {
-    setIsModalOpen(true);
+    setIsModalOpen(true); // Open the login modal.
   }, []);
 
   const handleModalClose = useCallback(() => {
-    setIsModalOpen(false);
+    setIsModalOpen(false); // Close the login modal.
   }, []);
 
   useEffect(() => {
-    login();
+    login(); // Trigger the login function when the component mounts.
   }, []);
 
   useEffect(() => {
+    // Update the profile picture URL based on the user's preferred provider.
     if (user) {
       if (user.fav_pp_provider === "gravatar") {
         setActualPP(user.pp.gravatar);
@@ -49,6 +42,7 @@ const ProfileButton = () => {
   }, [user]);
 
   if (!user.id) {
+    // Render the sign-in button if the user is not logged in.
     return (
       <>
         <button
@@ -62,6 +56,7 @@ const ProfileButton = () => {
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
+            {/* SVG path for the sign-in icon */}
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -70,11 +65,12 @@ const ProfileButton = () => {
             />
           </svg>
         </button>
-        {isModalOpen && <LoginModal onClose={handleModalClose} />}
+        {isModalOpen && <LoginModal onClose={handleModalClose} />} {/* Render the login modal if it is open. */}
       </>
     );
   }
 
+  // Render the user's profile button if the user is logged in.
   return (
     <Link
       className="navbar flex items-center mr-3 shadow-md rounded-2xl p-2 hover:shadow-lg"

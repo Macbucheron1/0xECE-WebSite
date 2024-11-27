@@ -3,13 +3,19 @@ import { useRouter } from "next/navigation";
 import header from "../../../locales/header.json";
 import Context from "../contexts/UserContext";
 
+/**
+ * SearchInput component renders a search input field that updates the URL with the search query.
+ *
+ * @returns {JSX.Element} A search input element with a clear button.
+ */
 const SearchInput = () => {
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState(""); // State to store the search text.
   const router = useRouter();
-  const [text, setText] = useState(header.english);
+  const [text, setText] = useState(header.english); // State to store the localized text.
   const { user } = useContext(Context);
 
   useEffect(() => {
+    // Update the localized text based on the user's language preference.
     if (user.language === "french") {
       setText(header.french);
     } else {
@@ -18,7 +24,7 @@ const SearchInput = () => {
   }, [user]);
 
   const handleClearSearch = () => {
-    setSearchText("");
+    setSearchText(""); // Clear the search text.
   };
 
   return (
@@ -32,6 +38,7 @@ const SearchInput = () => {
           stroke="currentColor"
           className="w-6 h-6"
         >
+          {/* SVG path for the search icon */}
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -41,17 +48,17 @@ const SearchInput = () => {
       </span>
       <input
         className="block w-full min-w-[70px] py-3 pl-12 pr-4 text-base font-medium leading-normal navbar border border-solid outline-none appearance-none placeholder:p-blue peer text-stone-500 border-stone-200 bg-clip-padding rounded-2xl shadow"
-        placeholder={text.search}
+        placeholder={text.search} // Placeholder text based on the user's language.
         type="text"
         value={searchText}
         onChange={(e) => {
-          setSearchText(e.target.value);
-          router.push(`/search/${encodeURIComponent(e.target.value)}`);
+          setSearchText(e.target.value); // Update the search text state.
+          router.push(`/search/${encodeURIComponent(e.target.value)}`); // Navigate to the search results page.
         }}
       />
       {searchText && (
         <span
-          onClick={handleClearSearch}
+          onClick={handleClearSearch} // Clear the search text when the clear button is clicked.
           className="absolute right-0 left-auto mr-4 leading-none -translate-y-1/2 top-1/2 hover:text-primary p-blue cursor-pointer"
         >
           <svg
@@ -62,6 +69,7 @@ const SearchInput = () => {
             stroke="currentColor"
             className="w-6 h-6"
           >
+            {/* SVG path for the clear icon */}
             <path
               strokeLinecap="round"
               strokeLinejoin="round"

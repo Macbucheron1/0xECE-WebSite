@@ -109,27 +109,7 @@
 }
 
 
-/*Theme light classic*/
-/*
-.theme-Light {
-  --bg-color: #ded1be;
-  --text-color: #000000;
-  --card-bg-color: #E5E7EB;    
-  --card-text-color: #374151;  
-  --button-bg-color: #2563EB;  
-  --button-hover-bg: #1D4ED8;  
-  --input-bg-color: #D1D5D8;   
-  --input-text-color: #000000; 
-  --settings-hover-bg: #9CA3AF; 
-  --profile-bg-color: #E5E7EB; 
-  --quill-toolbar-bg: #F3F4F6; 
-  --nav-bg-color: #ffffff;  
-  --nav-hover-bg: #f7fafc;     
-  --nav-bg: #F3F4F6;           
-}
-*/
-
-/* Theme light-jaune */
+/* Theme light-yellow */
 .theme-Light {
   --bg-color: #ded1be;
   --text-color: #2c2c2c;          
@@ -148,39 +128,3 @@
   --navMenu-hover-color: #9c8765;         
 }
 
-/*@keyframes fall {
-    0% {
-      transform: translateY(-100%);
-      opacity: 1;
-    }
-    100% {
-      transform: translateY(100vh);
-      opacity: 0;
-    }
-  }*/
-
-/*  
-  .hacker-background .character {
-    position: absolute;
-    z-index: -1;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    font-family: monospace;
-    font-size: 20px;
-    color: #0f0; //Matrix-style green 
-    animation: fall linear infinite;
-    animation-duration: calc(3s + 2s * var(--i));
-  }
-  
-  .hacker-background .character:nth-child(odd) {
-    animation-duration: calc(2s + 2s * var(--i));
-    color: rgba(0, 255, 0, 0.37); 
-  }
-  
-  .hacker-background .character:nth-child(even) {
-    animation-duration: calc(4s + 2s * var (--i));
-    color: rgba(0, 255, 0, 0.37); 
-  }
-  
-*/

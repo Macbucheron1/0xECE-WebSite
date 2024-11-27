@@ -1,6 +1,11 @@
 import { useRouter } from "next/navigation";
 //import { useState } from "react";
 
+/**
+ * NotificationButton component renders a button with a notification badge.
+ * When clicked, it navigates to the notification page.
+ * @returns {JSX.Element} The rendered notification button.
+ */
 const NotificationButton = () => {
   const router = useRouter();
   //const [newNotif, setNewNotif] = useState(true);

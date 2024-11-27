@@ -1,5 +1,10 @@
 import { useRouter } from "next/navigation";
 
+/**
+ * SettingsButton component renders a button that navigates to the settings page when clicked.
+ *
+ * @returns {JSX.Element} A button element with an SVG icon.
+ */
 const SettingsButton = () => {
   const router = useRouter();
 
@@ -8,8 +13,8 @@ const SettingsButton = () => {
       <button
         className="flex items-center justify-center w-12 h-12 text-base font-medium leading-normal text-center transition-colors duration-150 ease-in-out navbar shadow border border-solid rounded-2xl text-stone-500 border-stone-200"
         onClick={() => {
-          console.log("Reglage");
-          router.push("/settings");
+          console.log("Reglage"); // Log a message to the console when the button is clicked.
+          router.push("/settings"); // Navigate to the settings page.
         }}
       >
         <svg
@@ -20,6 +25,7 @@ const SettingsButton = () => {
           stroke="currentColor"
           className="w-6 h-6"
         >
+          {/* SVG path for the settings icon */}
           <path
             strokeLinecap="round"
             strokeLinejoin="round"

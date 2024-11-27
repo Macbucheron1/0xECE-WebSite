@@ -4,10 +4,17 @@ import contact from "../../locales/contact.json";
 import { useState, useContext, useEffect } from "react";
 import ContextTest from "../components/contexts/UserContext";
 
+/**
+ * Contacts component renders a contact form with localized text based on user language.
+ * @returns {JSX.Element} The rendered contact form.
+ */
 export default function Contacts() {
+  // Extract user context
   const { user } = useContext(ContextTest);
+  // State to manage the text content based on language
   const [text, setText] = useState(contact.english);
 
+  // Effect to update text content when user language changes
   useEffect(() => {
     if (user.language === "french") {
       setText(contact.french);
