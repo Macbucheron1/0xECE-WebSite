@@ -7,6 +7,12 @@ import { ContextProvider } from "./components/contexts/UserContext";
 import { useEffect, useContext } from "react";
 import ContextTest from "./components/contexts/UserContext";
 
+/**
+ * The root layout component that wraps around all pages.
+ * @param {Object} props - The component props.
+ * @param {React.ReactNode} props.children - The nested content to render.
+ * @returns {JSX.Element} The root layout with header, content, and footer.
+ */
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
@@ -24,11 +30,19 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
-//useContext need to be called within a component that's wrapped by the ContextProvider
+
+/**
+ * The content component that includes the main content, header, and footer.
+ * Uses user context to set the theme dynamically.
+ * @param {Object} props - The component props.
+ * @param {React.ReactNode} props.children - The nested content to render.
+ * @returns {JSX.Element} The content component.
+ */
 function Content({ children }) {
   const { user } = useContext(ContextTest);
 
   useEffect(() => {
+    // Update the document's theme class based on the user's theme preference.
     if (user && user.theme) {
       document.documentElement.classList.remove('theme-Light', 'theme-Dark');
       document.documentElement.classList.add(`theme-${user.theme}`);

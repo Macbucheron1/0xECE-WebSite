@@ -4,6 +4,10 @@ import { supabase } from "../../utils/supabaseClient";
 import ContextTest from "./contexts/UserContext";
 import home from "../../locales/home.json";
 
+/**
+ * Testimonials component that displays user testimonials and allows authenticated users to submit one.
+ * @returns {JSX.Element} The rendered testimonials section.
+ */
 const Testimonials = () => {
   const [testimonials, setTestimonials] = useState([]);
   const { user } = useContext(ContextTest);
@@ -14,6 +18,9 @@ const Testimonials = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [formData, setFormData] = useState({ name: "", message: "" });
 
+  /**
+   * Fetches testimonials from the database.
+   */
   const fetchTestimonials = async () => {
     const { data, error } = await supabase.from("testimonials").select("*");
     if (error) {
@@ -23,10 +30,12 @@ const Testimonials = () => {
     }
   };
 
+  // Fetch testimonials on component mount
   useEffect(() => {
     fetchTestimonials();
   }, []);
 
+  // Check if the user has already submitted a testimonial
   useEffect(() => {
     const checkUserTestimonial = async () => {
       if (user && user.id) {
@@ -46,6 +55,7 @@ const Testimonials = () => {
     checkUserTestimonial();
   }, [user]);
 
+  // Update text based on user's language preference
   useEffect(() => {
     if (user.language === "french") {
       setText(home.french);
@@ -54,6 +64,10 @@ const Testimonials = () => {
     }
   }, [user]);
 
+  /**
+   * Handles the creation of a new testimonial.
+   * @param {React.FormEvent} e - The form submission event.
+   */
   const createTestimonial = async (e: React.FormEvent) => {
     e.preventDefault();
     const { error } = await supabase.from("testimonials").insert([
@@ -75,7 +89,7 @@ const Testimonials = () => {
     }
   };
 
-  {/*Get the user's profile picture*/}
+  // Get the user's profile picture
   useEffect(() => {
     if (user) {
       if (user.fav_pp_provider === "gravatar") {
@@ -88,16 +102,22 @@ const Testimonials = () => {
     }
   }, [user]);
 
-  {/*Get the number of slides to display based on the screen size*/}
+  /**
+   * Determines the number of slides to display based on the screen size.
+   * @returns {number} The number of slides to display.
+   */
   const getSlideCount = () => {
     if (typeof window !== 'undefined') {
-      if (window.innerWidth >= 1024) return 3; // lg
-      if (window.innerWidth >= 768) return 2;  // md
-      return 1; // sm
+      if (window.innerWidth >= 1024) return 3; // Large screens
+      if (window.innerWidth >= 768) return 2;  // Medium screens
+      return 1; // Small screens
     }
-    return 3; // default
+    return 3; // Default to 3
   };
 
+  /**
+   * Moves to the next slide in the testimonials carousel.
+   */
   const nextSlide = () => {
     const slideCount = getSlideCount();
     setCurrentIndex((prevIndex) => 
@@ -105,6 +125,9 @@ const Testimonials = () => {
     );
   };
 
+  /**
+   * Moves to the previous slide in the testimonials carousel.
+   */
   const prevSlide = () => { 
     const slideCount = getSlideCount();
     setCurrentIndex((prevIndex) => 
@@ -119,6 +142,7 @@ const Testimonials = () => {
       </h2>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-16"> 
         {testimonials.length > 0 ? (
+          // Testimonials Carousel
           <div className="relative w-full">
             <div className="relative overflow-hidden rounded-lg">
               <div 
@@ -163,16 +187,19 @@ const Testimonials = () => {
             </button>
           </div>
         ) : (
+          // Message when no testimonials are available
           <p className="text-center p-gray">{text.TestimonialsEmpty}</p>
         )}
 
         {user && user.id && !hasSubmitted && (
           <div className="flex justify-center mt-6">
             {!isFormOpen ? (
+              // Button to open the testimonial submission form
               <button className="button" onClick={() => setIsFormOpen(true)}>
                 {text.TestimonialsButton}
               </button>
             ) : (
+              // Testimonial submission form
               <div className="mt-4 card max-w-md mx-auto">
                 <h3 className="text-2xl font-bold mb-4 p-blue">
                   {text.TestimonialsButton}

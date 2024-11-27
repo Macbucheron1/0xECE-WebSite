@@ -1,8 +1,12 @@
+// Import necessary modules and components from React and Supabase
 import { createContext, useState } from "react";
 import { supabase } from "../../../utils/supabaseClient";
 import { Session } from "@supabase/supabase-js";
 import { generateGravatarUrl } from "../../../utils/gravatar";
 
+/**
+ * Defines the structure of a custom user object with all user-related properties.
+ */
 type CustomUser = {
   id: string | null;
   email: string | null;
@@ -26,12 +30,18 @@ type CustomUser = {
   email_visible: boolean | null;
 };
 
+/**
+ * Mapping of Discord role IDs to role names.
+ */
 const roleNames = {
   "1227192380118138901": "Membre",
   "1225487330228310126": "Bureau",
   "1227564151946084363": "President",
 };
 
+/**
+ * Mapping of Discord promo IDs to promo names.
+ */
 const promoNames = {
   "1296446288614789162": "ing1",
   "1296446375768096768": "ing2",
@@ -43,6 +53,9 @@ const promoNames = {
   "1296807400501673994": "Bachelor3",
 };
 
+/**
+ * Interface for user personalization settings stored in the database.
+ */
 interface UserPersonalization {
   user_uid?: string;
   pp_fav_provider: string;
@@ -58,6 +71,9 @@ interface UserPersonalization {
   email_visible: boolean;
 }
 
+/**
+ * Creates a React context for user authentication and personalization.
+ */
 const Context = createContext<{
   user: CustomUser | null;
   setUser: (newUser: CustomUser) => void;
@@ -80,6 +96,7 @@ const Context = createContext<{
   updateEmailVisibility: (visibility: boolean) => void;
   logout: () => void;
     }>({
+      // Default context values
       user: null,
       setUser: () => {},
       getID: () => null,
@@ -113,7 +130,14 @@ const Context = createContext<{
 
 export default Context;
 
+/**
+ * ContextProvider component that provides user context to its child components.
+ *
+ * @param {React.ReactNode} children - The child components that require user context.
+ * @returns {JSX.Element} The provider component wrapping the children.
+ */
 export const ContextProvider = ({ children }) => {
+  // State to store the current user information
   const [user, setUser] = useState<CustomUser | null>({
     id: null,
     email: null,
@@ -133,19 +157,44 @@ export const ContextProvider = ({ children }) => {
     email_visible: false,
   });
 
+  /**
+   * Retrieves the user ID from the session.
+   *
+   * @param {Session} session - The current user session.
+   * @returns {string} The user's unique identifier.
+   */
   const getID = (session: Session) => {
     return session.user.id;
   };
 
+  /**
+   * Checks if the user is connected with a specific service (e.g., Discord, GitHub).
+   *
+   * @param {Session} session - The current user session.
+   * @param {string} service - The name of the service to check.
+   * @returns {boolean} True if connected with the service, false otherwise.
+   */
   const getConnectedWith = (session: Session, service: string) => {
     if (!session?.user?.identities) return false;
     return session.user.identities.some(identity => identity.provider === service);
   };
 
+  /**
+   * Retrieves the user's email from the session.
+   *
+   * @param {Session} session - The current user session.
+   * @returns {string} The user's email address.
+   */
   const getEmail = (session: Session) => {
     return session.user.email;
   };
 
+  /**
+   * Retrieves the user's username from the session metadata.
+   *
+   * @param {Session} session - The current user session.
+   * @returns {string} The user's username.
+   */
   const getUsername = (session: Session) => {
     return (
       session.user.user_metadata.full_name ||
@@ -153,6 +202,12 @@ export const ContextProvider = ({ children }) => {
     );
   };
 
+  /**
+   * Retrieves the user's profile pictures from various providers.
+   *
+   * @param {Session} session - The current user session.
+   * @returns {CustomUser["pp"]} An object containing URLs to profile pictures.
+   */
   const getPP = (session: Session) => {
     const gravatarUrl = generateGravatarUrl(getEmail(session));
     let discordUrl = null;
@@ -175,6 +230,13 @@ export const ContextProvider = ({ children }) => {
     };
   };
 
+  /**
+   * Fetches or initializes the user's personalization settings from the database.
+   *
+   * @param {Session} session - The current user session.
+   * @param {boolean} connected_with_discord - Indicates if the user is connected with Discord.
+   * @returns {Promise<UserPersonalization>} The user's personalization data.
+   */
   const getUserPersonalization = async (
     session: Session,
     connected_with_discord: boolean
@@ -260,6 +322,12 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
+  /**
+   * Retrieves the user's role and promo information from Discord.
+   *
+   * @param {string} token - The user's Discord token.
+   * @returns {Promise<{ role: string; promo: string }>} The user's role and promo.
+   */
   const getInfoFromDiscord = async (
     token: string
   ) => {
@@ -299,6 +367,11 @@ export const ContextProvider = ({ children }) => {
     return { role: role, promo: promo };
   };
 
+  /**
+   * Sets up authentication state change listener and updates user state accordingly.
+   *
+   * @async
+   */
   const login = async () => {
     supabase.auth.onAuthStateChange((event, session) => {
       if (session) {
@@ -377,6 +450,11 @@ export const ContextProvider = ({ children }) => {
     });
   };
 
+  /**
+   * Updates the user's preferred profile picture provider in the database and state.
+   *
+   * @param {string} newProvider - The new preferred profile picture provider.
+   */
   const updateFavPPProvider = async (newProvider: string) => {
     let newPP = null;
     if (newProvider === "gravatar") {
@@ -396,6 +474,11 @@ export const ContextProvider = ({ children }) => {
     setUser({ ...user, fav_pp_provider: newProvider });
   };
 
+  /**
+   * Updates the user's promo information in the database and state.
+   *
+   * @param {string} newPromo - The new promo value.
+   */
   const updatePromo = async (newPromo: string) => {
     setUser({ ...user, promo: newPromo });
     const { error } = await supabase
@@ -407,6 +490,11 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
+  /**
+   * Updates the user's bio in the database and state.
+   *
+   * @param {string} newBio - The new bio content.
+   */
   const updateBio = async (newBio: string) => {
     setUser({ ...user, bio: newBio });
     const { error } = await supabase
@@ -418,6 +506,12 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
+  /**
+   * Updates the user's social or platform link in the database and state.
+   *
+   * @param {string} newLink - The new link URL.
+   * @param {string} website - The identifier of the website (e.g., 'linkedin', 'rootme').
+   */
   const updateLink = async (newLink: string, website: string) => {
     if (website === "linkedin") {
       setUser({ ...user, linkedin_url: newLink });
@@ -458,6 +552,11 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
+  /**
+   * Updates the user's theme preference in the database and state.
+   *
+   * @param {string} newTheme - The new theme preference.
+   */
   const updateTheme = async (newTheme: string) => {
     setUser({ ...user, theme: newTheme });
     if (user.id) {
@@ -471,6 +570,11 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
+  /**
+   * Updates the user's language preference in the database and state.
+   *
+   * @param {string} newLanguage - The new language preference.
+   */
   const udpateLanguage = async (newLanguage: string) => {
     setUser({ ...user, language: newLanguage });
     if (user.id) {
@@ -484,6 +588,11 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
+  /**
+   * Updates the visibility of the user's email in their profile.
+   *
+   * @param {boolean} visibility - True to make email visible, false to hide.
+   */
   const updateEmailVisibility = async (visibility: boolean) => {
     const { error } = await supabase
       .from("user_personalization_info")
@@ -495,6 +604,9 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
+  /**
+   * Logs out the current user and resets the user state.
+   */
   const Logout = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
@@ -520,6 +632,7 @@ export const ContextProvider = ({ children }) => {
     });
   };
 
+  // Provide the context value to child components
   return (
     <Context.Provider
       value={{

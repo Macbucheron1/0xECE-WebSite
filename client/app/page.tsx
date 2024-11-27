@@ -4,11 +4,19 @@ import ContextTest from "./components/contexts/UserContext";
 import home from "../locales/home.json";
 import Testimonials from "./components/Testimonials"; // Import the new Testimonials component
 
+/** 
+ * The main Home component that renders the homepage.
+ * @returns {JSX.Element} The rendered homepage component.
+ */
 export default function Home() {
   const { user } = useContext(ContextTest);
   const [text, setText] = useState(home.english);
 
+  /**
+   * Effect hook to update the displayed text based on the user's language preference.
+   */
   useEffect(() => {
+    // Check user's language preference and update text accordingly
     if (user.language === "french") {
       setText(home.french);
     } else {
@@ -16,10 +24,9 @@ export default function Home() {
     }
   }, [user]);
 
-
   return (
     <div className="p-6">
-      {/* Logo et Titre */}
+      {/* Logo and Title */}
       <header className="flex flex-col items-center my-0 md:flex-row md:justify-between relative">
         <img
           src="/img/logo_0xECE.png"
@@ -32,7 +39,7 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Présentation de l'Association */}
+      {/* Association Presentation Section */}
       <section className="my-32 flex flex-col lg:flex-row mx-4 md:mx-8 lg:mx-16">
         <div className="w-full lg:w-2/5 p-4">
           <h2 className="text-3xl font-bold mb-4 text-center p-blue">
@@ -49,7 +56,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Valeurs (Cybersécurité, Apprentissage, Collaboration) */}
+      {/* Values Section (Cybersecurity, Learning, Collaboration) */}
       <section className="my-32 grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="text-center">
           <img
@@ -80,7 +87,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* En Chiffres */}
+      {/* In Numbers Section */}
       <section className="my-32 text-center">
         <h2 className="text-3xl font-bold mb-4 p-blue">{text.NumbersTitle}</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -99,14 +106,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Témoignages */}
+      {/* Testimonials Section */}
       <Testimonials /> 
 
-      {/* "Rejoignez nous" Section */}
+      {/* "Join Us" Section */}
       <section className="my-32 text-center">
         <h2 className="text-3xl font-bold p-blue">{text.JoinUsTitle}</h2>
         <p className="p-gray mb-4 mt-4">{text.JoinUsBody}</p>
-        {/* Bouton "Rejoindre" */}
+        {/* "Join" Button */}
         <a
           href="https://www.helloasso.com/associations/0xece/adhesions/inscription-chez-0xece"
           className="button"
@@ -114,7 +121,6 @@ export default function Home() {
           {text.JoinUsButton}
         </a>
       </section>
-
     </div>
   );
 }
