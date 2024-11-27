@@ -43,18 +43,33 @@ const promoNames = {
   "1296807400501673994": "Bachelor3",
 };
 
+interface UserPersonalization {
+  user_uid?: string;
+  pp_fav_provider: string;
+  bio: string | null;
+  theme: string;
+  language: string;
+  role: string;
+  promo: string;
+  linkedin_url: string | null;
+  rootme_url: string | null;
+  tryhackme_url: string | null;
+  htb_url: string | null;
+  email_visible: boolean;
+}
+
 const Context = createContext<{
   user: CustomUser | null;
   setUser: (newUser: CustomUser) => void;
   getID: (session: Session) => string;
-  getConnected_With: (session: Session, service: string) => boolean;
+  getConnectedWith: (session: Session, service: string) => boolean;
   getEmail: (session: Session) => string;
   getUsername: (session: Session) => string;
   getPP: (session: Session) => CustomUser["pp"];
   getUserPersonalization: (
     session: Session,
     connected_with_discord: boolean
-  ) => Promise<any>;
+  ) => Promise<UserPersonalization>;
   login: () => Promise<void>;
   updateFavPPProvider: (newProvider: string) => void;
   updatePromo: (newPromo: string) => void;
@@ -64,25 +79,37 @@ const Context = createContext<{
   udpateLanguage: (newLanguage: string) => void;
   updateEmailVisibility: (visibility: boolean) => void;
   logout: () => void;
-}>({
-  user: null,
-  setUser: () => {},
-  getID: () => null,
-  getConnected_With: () => false,
-  getEmail: () => null,
-  getUsername: () => null,
-  getPP: () => null,
-  getUserPersonalization: async () => null,
-  login: async () => null,
-  updateFavPPProvider: () => null,
-  updatePromo: () => null,
-  updateBio: () => null,
-  updateLink: () => null,
-  updateTheme: () => null,
-  udpateLanguage: () => null,
-  updateEmailVisibility: () => null,
-  logout: () => null,
-});
+    }>({
+      user: null,
+      setUser: () => {},
+      getID: () => null,
+      getConnectedWith: () => false,
+      getEmail: () => null,
+      getUsername: () => null,
+      getPP: () => null,
+      getUserPersonalization: async () => ({
+        pp_fav_provider: "gravatar",
+        bio: null,
+        theme: "Dark",
+        language: "english",
+        role: "non membre",
+        promo: "undefined",
+        linkedin_url: null,
+        rootme_url: null,
+        tryhackme_url: null,
+        htb_url: null,
+        email_visible: false
+      }),
+      login: async () => null,
+      updateFavPPProvider: () => null,
+      updatePromo: () => null,
+      updateBio: () => null,
+      updateLink: () => null,
+      updateTheme: () => null,
+      udpateLanguage: () => null,
+      updateEmailVisibility: () => null,
+      logout: () => null,
+    });
 
 export default Context;
 
@@ -110,13 +137,9 @@ export const ContextProvider = ({ children }) => {
     return session.user.id;
   };
 
-  const getConnected_With = (session: Session, service: string) => {
-    for (let identitie of session?.user?.identities) {
-      if (identitie.provider === service) {
-        return true;
-      }
-    }
-    return false;
+  const getConnectedWith = (session: Session, service: string) => {
+    if (!session?.user?.identities) return false;
+    return session.user.identities.some(identity => identity.provider === service);
   };
 
   const getEmail = (session: Session) => {
@@ -134,13 +157,17 @@ export const ContextProvider = ({ children }) => {
     const gravatarUrl = generateGravatarUrl(getEmail(session));
     let discordUrl = null;
     let githubUrl = null;
-    for (let identitie of session?.user?.identities) {
-      if (identitie.provider === "discord") {
-        discordUrl = identitie.identity_data.avatar_url;
-      } else if (identitie.provider === "github") {
-        githubUrl = identitie.identity_data.avatar_url;
+    
+    if (session?.user?.identities) {
+      for (const identitie of session.user.identities) {
+        if (identitie.provider === "discord") {
+          discordUrl = identitie.identity_data.avatar_url;
+        } else if (identitie.provider === "github") {
+          githubUrl = identitie.identity_data.avatar_url;
+        }
       }
     }
+    
     return {
       gravatar: gravatarUrl,
       discord: discordUrl,
@@ -151,7 +178,7 @@ export const ContextProvider = ({ children }) => {
   const getUserPersonalization = async (
     session: Session,
     connected_with_discord: boolean
-  ) => {
+  ): Promise<UserPersonalization> => {
     try {
       const { data, error } = await supabase // Fetch user personalization data from the database
         .from("user_personalization_info")
@@ -170,8 +197,8 @@ export const ContextProvider = ({ children }) => {
       if (error.code === "PGRST116") {
         // No personalization data found for user, we need to insert
 
-        let new_role = "non membre";
-        let new_promo = "undefined";
+        let newRole = "non membre";
+        let newPromo = "undefined";
 
         if (connected_with_discord) {
           //  If the user is connected with Discord, we fetch the role and promo from Discord
@@ -180,8 +207,8 @@ export const ContextProvider = ({ children }) => {
             session.provider_refresh_token,
             getID(session)
           );
-          new_role = role;
-          new_promo = promo;
+          newRole = role;
+          newPromo = promo;
         } // If the user is not connected with Discord, we set the role and promo to default values
 
         // Insert personalization data
@@ -197,8 +224,8 @@ export const ContextProvider = ({ children }) => {
               bio: null,
               theme: "Dark",
               language: "english",
-              role: new_role,
-              promo: new_promo,
+              role: newRole,
+              promo: newPromo,
               linkedin_url: null,
               rootme_url: null,
               tryhackme_url: null,
@@ -277,57 +304,57 @@ export const ContextProvider = ({ children }) => {
   };
 
   const login = async () => {
-    const { data } = supabase.auth.onAuthStateChange((event, session) => {
+    supabase.auth.onAuthStateChange((event, session) => {
       if (session) {
-        const new_id = getID(session);
-        const new_connected_with_discord = getConnected_With(
+        const newId = getID(session);
+        const newConnectedWithDiscord = getConnectedWith(
           session,
           "discord"
         );
-        const new_email = getEmail(session);
-        const new_username = getUsername(session);
-        const new_pp = getPP(session);
-        let new_fav_pp_provider = null;
-        let new_bio = null;
-        let new_theme = null;
-        let new_language = null;
-        let new_role = "non membre";
-        let new_promo = "undefined";
-        let new_linkedin_url = null;
-        let new_rootme_url = null;
-        let new_tryhackme_url = null;
-        let new_htb_url = null;
-        var new_email_visible = false;
-        getUserPersonalization(session, new_connected_with_discord).then(
+        const newEmail = getEmail(session);
+        const newUsername = getUsername(session);
+        const newPp = getPP(session);
+        let newFavPpProvider = null;
+        let newBio = null;
+        let newTheme = null;
+        let newLanguage = null;
+        let newRole = "non membre";
+        let newPromo = "undefined";
+        let newLinkedinUrl = null;
+        let newRootmeUrl = null;
+        let newTryhackmeUrl = null;
+        let newHtbUrl = null;
+        let newEmailVisible = false;
+        getUserPersonalization(session, newConnectedWithDiscord).then(
           (data) => {
-            new_fav_pp_provider = data.pp_fav_provider;
-            new_bio = data.bio;
-            new_theme = data.theme;
-            new_language = data.language;
-            new_role = data.role;
-            new_promo = data.promo;
-            new_linkedin_url = data.linkedin_url;
-            new_rootme_url = data.rootme_url;
-            new_tryhackme_url = data.tryhackme_url;
-            new_htb_url = data.htb_url;
-            new_email_visible = data.email_visible;
+            newFavPpProvider = data.pp_fav_provider;
+            newBio = data.bio;
+            newTheme = data.theme;
+            newLanguage = data.language;
+            newRole = data.role;
+            newPromo = data.promo;
+            newLinkedinUrl = data.linkedin_url;
+            newRootmeUrl = data.rootme_url;
+            newTryhackmeUrl = data.tryhackme_url;
+            newHtbUrl = data.htb_url;
+            newEmailVisible = data.email_visible;
             setUser({
-              id: new_id,
-              email: new_email,
-              username: new_username,
-              connected_with_discord: new_connected_with_discord,
-              pp: new_pp,
-              fav_pp_provider: new_fav_pp_provider,
-              bio: new_bio,
-              theme: new_theme,
-              language: new_language,
-              role: new_role,
-              promo: new_promo,
-              linkedin_url: new_linkedin_url,
-              rootme_url: new_rootme_url,
-              tryhackme_url: new_tryhackme_url,
-              htb_url: new_htb_url,
-              email_visible: new_email_visible,
+              id: newId,
+              email: newEmail,
+              username: newUsername,
+              connected_with_discord: newConnectedWithDiscord,
+              pp: newPp,
+              fav_pp_provider: newFavPpProvider,
+              bio: newBio,
+              theme: newTheme,
+              language: newLanguage,
+              role: newRole,
+              promo: newPromo,
+              linkedin_url: newLinkedinUrl,
+              rootme_url: newRootmeUrl,
+              tryhackme_url: newTryhackmeUrl,
+              htb_url: newHtbUrl,
+              email_visible: newEmailVisible,
             });
           }
         );
@@ -503,7 +530,7 @@ export const ContextProvider = ({ children }) => {
         user: user,
         setUser: setUser,
         getID: getID,
-        getConnected_With: getConnected_With,
+        getConnectedWith: getConnectedWith,
         getEmail: getEmail,
         getUsername: getUsername,
         getPP: getPP,
