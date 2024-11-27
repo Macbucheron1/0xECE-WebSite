@@ -38,7 +38,7 @@ export default function About() {
         <p className="text-lg p-gray">{text.firstCardText2}</p>
       </li>
       <li className="mt-4">
-        <ul className="flex gap-6">
+        <ul className="flex flex-col md:flex-row gap-6">
           {/* Second card with additional information */}
           <li className="card flex-grow">
             <h1 className="p-blue text-xl font-bold mb-4">
