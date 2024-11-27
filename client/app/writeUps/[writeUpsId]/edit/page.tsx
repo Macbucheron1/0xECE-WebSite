@@ -1,32 +1,44 @@
 "use client";
+
 import { useEffect, useState, useContext } from "react";
 import { supabase } from "../../../../utils/supabaseClient";
 import Link from "next/link";
 import ContextTest from "../../../components/contexts/UserContext";
 
+/**
+ * React component for editing an existing write-up.
+ * Allows the author to modify the write-up's content and title.
+ * @param {Object} params - The parameters passed to the component.
+ * @param {string} params.writeUpsId - The ID of the write-up to edit.
+ */
 export default function EditWriteUp({ params }) {
   const { writeUpsId } = params;
+  // State to store the current write-up data
   const [writeUp, setWriteUp] = useState(null);
   const { user } = useContext(ContextTest);
+  // State to manage form inputs
   const [formData, setFormData] = useState({
     ctfName: "",
     challengeName: "",
     content: "",
   });
+  // State for error messages
   const [errorMessage, setErrorMessage] = useState("");
+  // State to determine if the current user is the author
   const [isAuthor, setIsAuthor] = useState(false);
 
-  // Fonction pour récupérer le write-up
+  // Fetch the write-up data from the database
   const fetchWriteUp = async () => {
     const { data, error } = await supabase
       .from("writeups")
       .select("*")
       .eq("id", writeUpsId)
-      .single(); //SELECT * FROM writeups WHERE id = writeUpsId
+      .single();
     if (error || !data) {
       console.log(error);
     } else {
       setWriteUp(data);
+      // Split the title into CTF name and challenge name
       const [ctf, challenge] = data.title.split(":");
       setFormData({
         ctfName: ctf.trim(),
@@ -36,13 +48,14 @@ export default function EditWriteUp({ params }) {
     }
   };
 
-  // Vérifier si l'utilisateur est l'auteur
+  // Check if the current user is the author of the write-up
   const checkAuthor = () => {
     if (user && writeUp) {
       setIsAuthor(user.id === writeUp.user_uid);
     }
   };
 
+  // Use effects to fetch write-up and check author status
   useEffect(() => {
     fetchWriteUp();
   }, [writeUpsId]);
@@ -64,7 +77,7 @@ export default function EditWriteUp({ params }) {
     );
   }
 
-  // Fonction pour mettre à jour le write-up
+  // Handle the update of the write-up in the database
   const handleUpdate = async () => {
     const { ctfName, challengeName, content } = formData;
     const title = `${ctfName}: ${challengeName}`;
@@ -74,7 +87,7 @@ export default function EditWriteUp({ params }) {
         title: title,
         content: content,
         date: new Date().toISOString(),
-      }) // UPDATE writeups SET title = title, content = content, date = NOW() WHERE id = writeUpsId
+      })
       .eq("id", writeUpsId);
     if (error) {
       console.log(error);

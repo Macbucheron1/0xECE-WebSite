@@ -1,22 +1,31 @@
 "use client";
+
 import { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "../../../utils/supabaseClient";
 import ContextTest from "../../components/contexts/UserContext";
 import writeups from "../../../locales/writeups.json";
 
+/**
+ * React component for publishing a new write-up.
+ * Allows users to input write-up details and submit them to the database.
+ */
 export default function PublishWriteUp() {
   const router = useRouter();
   const { user } = useContext(ContextTest);
+  // State to manage form inputs
   const [formData, setFormData] = useState({
     ctfName: "",
     challengeName: "",
     type: "",
     writeUp: "",
   });
+  // State to control the display of the confirmation modal
   const [showConfirmation, setShowConfirmation] = useState(false);
+  // State to handle localized text based on user language
   const [text, setText] = useState(writeups.english);
 
+  // Update localized text when user language changes
   useEffect(() => {
     if (user.language === "french") {
       setText(writeups.french);
@@ -25,13 +34,20 @@ export default function PublishWriteUp() {
     }
   }, [user]);
 
+  /**
+   * Handles the submission of the write-up form.
+   * Validates input and inserts new write-up into the database.
+   * @param {React.FormEvent<HTMLFormElement>} e - The form submission event.
+   */
   const publishWriteUp = async (e) => {
     e.preventDefault();
     const { ctfName, challengeName, type, writeUp } = formData;
+    // Validate that all required fields are filled
     if (!ctfName || !challengeName || !type || !writeUp) {
       alert(text.newAlert);
       return;
     }
+    // Combine CTF name and challenge name to create the title
     const title = ctfName + ": " + challengeName;
     const { data, error } = await supabase.from("writeups").insert([
       {
@@ -46,6 +62,7 @@ export default function PublishWriteUp() {
     if (error) {
       console.log(error);
     } else {
+      // Show confirmation message upon successful submission
       setShowConfirmation(true);
       console.log(data);
     }

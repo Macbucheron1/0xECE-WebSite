@@ -5,13 +5,23 @@ import Link from "next/link";
 import ContextTest from "../components/contexts/UserContext";
 import writeups from "../../locales/writeups.json";
 
+/**
+ * React component that displays a paginated list of write-ups.
+ * Allows users to navigate between pages and create new write-ups if authenticated.
+ */
 export default function writeUps() {
-  const [writeUps, setWriteUps] = useState([]); //initialise state
+  // State to store the list of write-ups
+  const [writeUps, setWriteUps] = useState([]);
+  // State to manage the current page number
   const [currentPage, setCurrentPage] = useState(1);
+  // Number of write-ups displayed per page
   const writeUpsPerPage = 15;
+  // Get the user object from context
   const { user } = useContext(ContextTest);
+  // State to handle localized text based on user language
   const [text, setText] = useState(writeups.english);
 
+  // Update localized text when user language changes
   useEffect(() => {
     if (user.language === "french") {
       setText(writeups.french);
@@ -20,6 +30,11 @@ export default function writeUps() {
     }
   }, [user]);
 
+  /**
+   * Fetches write-ups from the database based on the current page.
+   * Uses Supabase to query the 'writeups' table.
+   * Updates the 'writeUps' state with the fetched data.
+   */
   const fetchWriteUps = async () => {
     const start = (currentPage - 1) * writeUpsPerPage;
     const end = start + writeUpsPerPage - 1;
@@ -31,10 +46,17 @@ export default function writeUps() {
     if (error) console.log(error);
     else setWriteUps(data);
   };
+
+  // Fetch write-ups when the component mounts or when currentPage changes
   useEffect(() => {
     fetchWriteUps();
-  }, [currentPage]); // Refetch when currentPage changes
+  }, [currentPage]);
 
+  /**
+   * Formats a date string from ISO format to 'DD/MM/YYYY'.
+   * @param {string} dateString - The ISO date string to format.
+   * @returns {string} - The formatted date string.
+   */
   const formatDate = (dateString) => {
     const [year, month, day] = dateString.split("T")[0].split("-");
     return `${day}/${month}/${year}`;
@@ -43,7 +65,6 @@ export default function writeUps() {
   return (
     <div className="p-6 min-h-full flex flex-col">
       {" "}
-      {/* Added 'flex flex-col' */}
       <h2 className="wt-title mb-6">Write-ups</h2>
       {user && user.id && (
         <div className="flex justify-end">

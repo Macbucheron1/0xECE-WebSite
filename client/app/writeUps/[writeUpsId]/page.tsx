@@ -8,22 +8,39 @@ import { useRouter } from "next/navigation"; // Import useRouter
 import Loader from "../../components/Loader";
 import writeups from "../../../locales/writeups.json";
 
+/**
+ * React component to display a specific write-up and its comments.
+ * Allows users to read, comment, and if authorized, edit or delete the write-up.
+ * @param {Object} params - The parameters passed to the component.
+ * @param {string} params.writeUpsId - The ID of the write-up to display.
+ */
 export default function WriteUp({ params }) {
   const { writeUpsId } = params;
+  // State to store the write-up data
   const [writeUp, setWriteUp] = useState(null);
+  // State to handle not found write-up
   const [notFound, setNotFound] = useState(false);
+  // State to store comments
   const [comments, setComments] = useState([]);
+  // State to manage pagination of comments
   const [currentPage, setCurrentPage] = useState(1);
   const commentsPerPage = 3;
+  // State for the comment form data
   const [formData, setFormData] = useState({ email: "", commentContent: "" });
   const { user } = useContext(ContextTest);
+  // State for error messages in the comment form
   const [errorMessage, setErrorMessage] = useState("");
-  const [hasMore, setHasMore] = useState(false); //allows to know if there are more comments to display
-  const [isAuthor, setIsAuthor] = useState(false); // Add a state to store the author status
+  // State to check if there are more comments to load
+  const [hasMore, setHasMore] = useState(false);
+  // State to determine if the current user is the author of the write-up
+  const [isAuthor, setIsAuthor] = useState(false);
   const router = useRouter(); // Initialize useRouter
+  // State to store the actual profile picture URL
   const [actualPP, setActualPP] = useState<string>("/img/inconnu.png");
+  // State to handle localized text
   const [text, setText] = useState(writeups.english);
 
+  // Update localized text when user language changes
   useEffect(() => {
     if (user.language === "french") {
       setText(writeups.french);
@@ -42,6 +59,7 @@ export default function WriteUp({ params }) {
     }
   });
 
+  // Fetch write-up data from the database
   const fetchWriteUp = async () => {
     const { data, error } = await supabase
       .from("writeups")
@@ -52,12 +70,13 @@ export default function WriteUp({ params }) {
       console.log(error);
       setTimeout(() => {
         setNotFound(true);
-      }, 3000); // Après 3 secondes, on affiche un message d'erreur
+      }, 3000); //After 3 seconds, display the not found message
     } else {
       setWriteUp(data);
     }
   };
 
+  // Fetch comments for the write-up from the database
   const fetchComments = async () => {
     const start = (currentPage - 1) * commentsPerPage;
     const end = start + commentsPerPage; // Fetch one extra comment
@@ -100,7 +119,7 @@ export default function WriteUp({ params }) {
     fetchComments();
   }, [writeUpsId, currentPage]); // Include currentPage as a dependency
 
-  /*Check if the current user is the author */
+  // Check if the current user is the author of the write-up
   const checkAuthor = async () => {
     if (user && user.id) {
       const { data, error } = await supabase
@@ -117,6 +136,7 @@ export default function WriteUp({ params }) {
     return false;
   };
 
+  // Update the 'isAuthor' state based on the current user
   useEffect(() => {
     const fetchAuthorStatus = async () => {
       const result = await checkAuthor();
@@ -142,6 +162,7 @@ export default function WriteUp({ params }) {
     return <Loader />;
   }
 
+  // Format date strings from ISO format to 'DD/MM/YYYY'
   const formatDate = (dateString) => {
     const [year, month, day] = dateString.split("T")[0].split("-");
     return `${day}/${month}/${year}`;
@@ -159,7 +180,7 @@ export default function WriteUp({ params }) {
     }
   };
 
-  //Publish a comment
+  // Handle the submission of a new comment
   const handlePublish = async (e) => {
     e.preventDefault();
     if (formData.email.length > 100) {
@@ -188,6 +209,7 @@ export default function WriteUp({ params }) {
     }
   };
 
+  // Handle the deletion of the write-up by the author
   const handleDelete = async () => {
     const { error } = await supabase
       .from("writeups")
