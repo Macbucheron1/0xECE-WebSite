@@ -111,12 +111,17 @@ Follow these steps to install the client locally:
             2. When displayed, those element can be clicked to access the ressources
             3. Work with partial word and highlight where they are in a ressource.
 
+## Bonus features
+
+- **Responsive Design**: The website is responsive and can be used on different devices.
+- **Language Switch**: Users can change the language of the website.
+
 ## Walkthrough
 
 In order to test all of the application features, you can follow this walkthrough. We will go through
 the different page, highlighting the task required by the project. We will also see the different bonus
 
-> [!IMPORTANT]
+> [!WARNING]
 > In progress
 
 ## Grading
@@ -139,13 +144,13 @@ the different page, highlighting the task required by the project. We will also 
 | Post creation and display                                       |     6      |    ✔     |
 | Comment creation and display                                    |     4      |    ✔     |
 | Post modification and removal                                   |     4      |    ✔     |
-| Search functionality                                            |     6      |    ~     |
+| Search functionality                                            |     6      |    ✔     |
 | Use of an external API                                          |     2      |    ✔     |
-| Resource access control                                         |     6      |    ~     |
+| Resource access control                                         |     6      |    ✔     |
 | Account settings dashboard                                      |     4      |    ✔     |
 | WYSIWYG integration for posts                                   |     2      |    ✔     |
 | Gravatar integration                                            |     2      |    ✔     |
-| Light/dark mode                                                 |     2      |    ~     |
+| Light/dark mode                                                 |     2      |    ✔     |
 
 
 ## To do list:
@@ -170,7 +175,8 @@ the different page, highlighting the task required by the project. We will also 
 - [x] in the search bar invert between url and text in the search result : "d%C3%A9" and dé
 - [ ] color of the link inside a write up in md
 - [ ] In the search bar make sur that the button is clickable and not just the text
-- [ ] Make a proper hide/show email button
+- [x] Make a proper hide/show email button
+- [ ] Change the nav bar to have a home button and put the profil button on the left side (make notif disappear or put it in the hamburger menu)
 
 
 
