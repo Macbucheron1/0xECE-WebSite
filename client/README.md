@@ -9,7 +9,6 @@ Before trying to install and run the client, make sure to install the following 
 - **[npm](https://docs.npmjs.com/cli/v10/commands/npm-install)** (v10.8.2 +)
 - **[Node.js](https://nodejs.org/en/download/package-manager)** (v20.17.0 +)
 
-
 ## Install
 
 Follow these steps to install the client locally:
