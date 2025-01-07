@@ -1,6 +1,7 @@
 # 0xECE Web Tech Project
 
-This is the repository for the Web tech course at ECE Paris. It contains the Client side in which you can basically find all of the project. There is also Api file containing the lab we have done in class.
+This is the repository for the 0xECE WebSite, we made it as part of the Web Tech course at ECE Paris. The project was to build a website that allows users to create an account, login, and post messages. The website is built using Node.js, Express, and MongoDB.
+
 
 Here are the steps to contribute to the project:
 

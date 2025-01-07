@@ -16,13 +16,13 @@ Follow these steps to install the client locally:
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/Macbucheron1/fall2024-webtech-101.git
+    git clone https://github.com/Macbucheron1/0xECE-WebSite
     ```
 
 2. Access the client directory:
 
     ```bash
-    cd fall2024-webtech-101/client
+    cd 0xECE-WebSite/client
     ```
 
 3. Install dependencies:
