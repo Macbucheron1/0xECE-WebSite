@@ -16,7 +16,7 @@ Follow these steps to install the API locally:
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/Macbucheron1/fall2024-webtech-101.git
+    git clone https://github.com/Macbucheron1/0xECE-WebSite
     ```
 
 2. Access the API directory:
