@@ -27,7 +27,8 @@
     "TestimonialsSubmit": "Envoyer",
     "JoinUsTitle": "Rejoignez nous",
     "JoinUsBody": "Devenez membre de notre association.",
-    "JoinUsButton": "Rejoignez maintenant"
+    "JoinUsButton": "Rejoignez maintenant",
+    "db":"La base de donnée n'est plus maintenue donc de nombreuse fonctionnalité ne sont plus disponible :("
   },
   "english": {
     "Title": "Welcome to 0xECE",
@@ -57,6 +58,7 @@
     "TestimonialsSubmit": "Submit",
     "JoinUsTitle": "Join Us",
     "JoinUsBody": "Become a member of our association.",
-    "JoinUsButton": "Join Now"
+    "JoinUsButton": "Join Now",
+    "db": "The database is not maintained anymore so many feature are not available :("
   }
 }

@@ -2,6 +2,8 @@
 
 This is the repository for the 0xECE WebSite, we made it as part of the Web Tech course at ECE Paris. The project was to build a website that allows users to create an account, login, and post messages. The website is built using Node.js, Express, and MongoDB.
 
+> [!IMPORTANT]
+> The database is not maintained anymore so many feature are not available :(
 
 Here are the steps to contribute to the project:
 

@@ -36,6 +36,7 @@ export default function Home() {
         <div className="text-center md:absolute md:left-1/2 md:-translate-x-1/2 md:w-full">
           <h1 className="text-5xl font-bold">{text.Title}</h1>
           <p className="text-xl p-gray">{text.SubTitle}</p>
+          <p className="text-xl p-gray">{text.db}</p>
         </div>
       </header>
 
