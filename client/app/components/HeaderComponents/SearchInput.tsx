@@ -54,6 +54,7 @@ const SearchInput = () => {
         onChange={(e) => {
           setSearchText(e.target.value); // Update the search text state.
           router.push(`/search/${encodeURIComponent(e.target.value)}`); // Navigate to the search results page.
+          router.push(`/search/${e.target.value}`);
         }}
       />
       {searchText && (

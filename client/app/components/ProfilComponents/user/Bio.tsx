@@ -38,16 +38,16 @@ const Bio = () => {
   );
 
   const handleChange = (value: string) => {
-    const sanitizedValue = DOMPurify.sanitize(value);
-    setBio(sanitizedValue);
-    debouncedUpdateBio(sanitizedValue);
+    // const sanitizedValue = DOMPurify.sanitize(value);
+    setBio(value);
+    debouncedUpdateBio(value);
   };
 
   // When setting the initial bio
   useEffect(() => {
     if (user) {
-      const sanitizedBio = DOMPurify.sanitize(user.bio);
-      setBio(sanitizedBio);
+      //const sanitizedBio = DOMPurify.sanitize(user.bio);
+      setBio(user.bio);
     }
   }, [user]);
 
